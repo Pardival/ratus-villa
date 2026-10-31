@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ratus Villa — Kuta, Lombok</title>
+  <meta name="description" content="Ratus Villa : deux villas avec piscine privée à Kuta, Lombok. Surf, plages, soirées, scooter — tout pour un séjour parfait au sud de Lombok.">
+  <meta name="theme-color" content="#0f3b44">
+
+  <!-- Partage Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ratus Villa — Kuta, Lombok">
+  <meta property="og:description" content="Deux villas avec piscine privée au cœur de Kuta Lombok. Surf, plages, sunsets & slow living.">
+  <meta property="og:image" content="assets/hero/hero.jpg">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230f3b44'/><text x='50' y='66' font-size='48' text-anchor='middle' fill='%23f4ede2' font-family='Georgia'>R</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="is-loading">
+
+  <!-- ============ LOADER ============ -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader__inner">
+      <span class="loader__word">Ratus</span>
+      <span class="loader__line"></span>
+      <span class="loader__sub">Kuta · Lombok</span>
+    </div>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__logo" aria-label="Ratus Villa">
+      <span class="nav__logo-mark">R</span>
+      <span class="nav__logo-text">Ratus Villa</span>
+    </a>
+    <nav class="nav__links" id="navLinks">
+      <a href="#villas" data-i18n="nav.villas">Les villas</a>
+      <a href="#gallery" data-i18n="nav.gallery">Galerie</a>
+      <a href="#services" data-i18n="nav.services">Services</a>
+      <a href="#guide" data-i18n="nav.guide">Guide Kuta</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+    </nav>
+    <div class="nav__actions">
+      <button class="lang" id="langToggle" aria-label="Changer de langue">
+        <span data-lang="fr">FR</span><span class="lang__sep">/</span><span data-lang="en">EN</span>
+      </button>
+      <a class="btn btn--small btn--light nav__cta js-wa-booking" href="#" target="_blank" rel="noopener" data-i18n="nav.book">Réserver</a>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <div class="hero__media" data-parallax="0.35">
+        <!-- Scène animée affichée tant qu'il n'y a pas de vidéo/photo -->
+        <div class="hero__scene" aria-hidden="true">
+          <div class="scene__sky"></div>
+          <div class="scene__sun"></div>
+          <svg class="scene__hills" viewBox="0 0 1440 400" preserveAspectRatio="none"><path d="M0 140 C 180 70 320 80 470 120 C 620 160 760 50 960 70 C 1140 90 1280 140 1440 110 L1440 400 L0 400 Z"/></svg>
+          <svg class="scene__wave scene__wave--1" viewBox="0 0 2880 200" preserveAspectRatio="none"><path d="M0 100 Q 180 40 360 100 T 720 100 T 1080 100 T 1440 100 T 1800 100 T 2160 100 T 2520 100 T 2880 100 V200 H0Z"/></svg>
+          <svg class="scene__wave scene__wave--2" viewBox="0 0 2880 200" preserveAspectRatio="none"><path d="M0 110 Q 240 60 480 110 T 960 110 T 1440 110 T 1920 110 T 2400 110 T 2880 110 V200 H0Z"/></svg>
+          <svg class="scene__wave scene__wave--3" viewBox="0 0 2880 200" preserveAspectRatio="none"><path d="M0 120 Q 120 90 240 120 T 480 120 T 720 120 T 960 120 T 1200 120 T 1440 120 T 1680 120 T 1920 120 T 2160 120 T 2400 120 T 2640 120 T 2880 120 V200 H0Z"/></svg>
+        </div>
+        <img class="hero__poster" id="heroPoster" alt="" hidden>
+        <video class="hero__video" id="heroVideo" muted loop playsinline autoplay preload="metadata" hidden></video>
+        <div class="hero__shade"></div>
+      </div>
+
+      <div class="hero__content">
+        <p class="eyebrow eyebrow--light reveal" data-i18n="hero.eyebrow">Kuta · Lombok · Indonésie</p>
+        <h1 class="hero__title">
+          <span class="split" data-split>Ratus</span>
+          <em class="split" data-split>Villa</em>
+        </h1>
+        <p class="hero__lead reveal" data-delay="3" data-i18n="hero.lead">Deux villas avec piscine privée, à quelques minutes des plus beaux spots de surf du sud de Lombok.</p>
+        <div class="hero__ctas reveal" data-delay="4">
+          <a href="#villas" class="btn btn--light" data-i18n="hero.discover">Découvrir les villas</a>
+          <a href="#" class="btn btn--ghost js-wa-booking" target="_blank" rel="noopener">
+            <svg class="ico"><use href="#i-whatsapp"/></svg><span data-i18n="hero.whatsapp">Disponibilités</span>
+          </a>
+        </div>
+      </div>
+
+      <a href="#intro" class="hero__scroll" aria-label="Défiler">
+        <span data-i18n="hero.scroll">Défiler</span>
+        <i></i>
+      </a>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Surf</span><b>✦</b><span>Sunset</span><b>✦</b><span>Private pool</span><b>✦</b><span>Slow living</span><b>✦</b><span>Kuta Lombok</span><b>✦</b>
+        <span>Surf</span><b>✦</b><span>Sunset</span><b>✦</b><span>Private pool</span><b>✦</b><span>Slow living</span><b>✦</b><span>Kuta Lombok</span><b>✦</b>
+      </div>
+    </div>
+
+    <!-- ============ INTRO ============ -->
+    <section class="intro section" id="intro">
+      <div class="container intro__grid">
+        <div class="intro__text">
+          <p class="eyebrow reveal" data-i18n="intro.eyebrow">Bienvenue</p>
+          <h2 class="h2 reveal" data-delay="1" data-i18n-html="intro.title">Un refuge tropical,<br><em>entre océan et collines.</em></h2>
+          <p class="reveal" data-delay="2" data-i18n="intro.p1">Ratus Villa, ce sont deux villas indépendantes réunies dans un coin calme de Kuta, au sud de Lombok. Des espaces ouverts, une piscine pour se rafraîchir après le surf, et toute la région à portée de scooter.</p>
+          <p class="reveal" data-delay="3" data-i18n="intro.p2">On vous accompagne aussi sur place : cours de surf, location de scooter, soirées, bonnes adresses… tout est sur cette page.</p>
+        </div>
+        <div class="intro__media reveal reveal--zoom" data-delay="1">
+          <div class="media media--tall" data-src="assets/gallery/1.jpg" data-label="Photo à venir"></div>
+          <div class="intro__badge">
+            <svg viewBox="0 0 100 100" class="badge__ring"><defs><path id="circ" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#circ">RATUS VILLA · KUTA LOMBOK · RATUS VILLA · KUTA LOMBOK ·</textPath></text></svg>
+            <svg class="ico badge__ico"><use href="#i-wave"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="container stats">
+        <div class="stat reveal" data-delay="0"><strong data-count="2">0</strong><span data-i18n="stats.villas">Villas privées</span></div>
+        <div class="stat reveal" data-delay="1"><strong data-count="4">0</strong><span data-i18n="stats.bedrooms">Chambres</span></div>
+        <div class="stat reveal" data-delay="2"><strong data-count="10">0</strong><span data-i18n="stats.beach">De la plage</span></div>
+        <div class="stat reveal" data-delay="3"><strong data-count="30">0</strong><span data-i18n="stats.airport">De l'aéroport</span></div>
+      </div>
+    </section>
+
+    <!-- ============ VILLAS ============ -->
+    <section class="villas section section--sand" id="villas">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow reveal" data-i18n="villas.eyebrow">Les villas</p>
+          <h2 class="h2 reveal" data-delay="1" data-i18n-html="villas.title">Deux villas, <em>une même douceur de vivre.</em></h2>
+        </div>
+
+        <div class="tabs reveal" data-delay="2" role="tablist" id="villaTabs"></div>
+        <div class="villa-stage" id="villaStage"></div>
+      </div>
+    </section>
+
+    <!-- ============ GALLERY ============ -->
+    <section class="gallery section" id="gallery">
+      <div class="container">
+        <div class="section__head section__head--row">
+          <div>
+            <p class="eyebrow reveal" data-i18n="gallery.eyebrow">Galerie</p>
+            <h2 class="h2 reveal" data-delay="1" data-i18n-html="gallery.title">Instants <em>Ratus.</em></h2>
+          </div>
+          <p class="section__aside reveal" data-delay="2" data-i18n="gallery.aside">Touchez une photo pour l'agrandir.</p>
+        </div>
+      </div>
+      <div class="gallery__rail" id="galleryRail"></div>
+    </section>
+
+    <!-- ============ SERVICES ============ -->
+    <section class="services section section--ocean" id="services">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow eyebrow--light reveal" data-i18n="services.eyebrow">Services & contacts</p>
+          <h2 class="h2 reveal" data-delay="1" data-i18n-html="services.title">Tout à portée <em>d'un message.</em></h2>
+          <p class="section__lead reveal" data-delay="2" data-i18n="services.lead">Nos contacts de confiance sur place. Un clic pour écrire sur WhatsApp, ou scannez le QR code avec votre téléphone.</p>
+        </div>
+        <div class="services__grid" id="servicesGrid"></div>
+      </div>
+    </section>
+
+    <!-- ============ GUIDE ============ -->
+    <section class="guide section" id="guide">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow reveal" data-i18n="guide.eyebrow">Guide local</p>
+          <h2 class="h2 reveal" data-delay="1" data-i18n-html="guide.title">Vivre Kuta <em>comme un local.</em></h2>
+        </div>
+
+        <div class="guide__nav reveal" data-delay="2" id="guideNav">
+          <button class="chip is-active" data-target="g-surf"><svg class="ico"><use href="#i-wave"/></svg><span data-i18n="guide.surf">Surf & plages</span></button>
+          <button class="chip" data-target="g-night"><svg class="ico"><use href="#i-music"/></svg><span data-i18n="guide.night">Soirées</span></button>
+          <button class="chip" data-target="g-move"><svg class="ico"><use href="#i-scooter"/></svg><span data-i18n="guide.move">Se déplacer</span></button>
+          <button class="chip" data-target="g-food"><svg class="ico"><use href="#i-basket"/></svg><span data-i18n="guide.food">Courses</span></button>
+        </div>
+
+        <div class="guide__panels">
+          <!-- SURF -->
+          <div class="panel is-active" id="g-surf">
+            <div class="panel__intro">
+              <div class="media media--wide" data-src="assets/guide/surf.jpg" data-label="Photo surf"></div>
+              <div>
+                <h3 class="h3" data-i18n="guide.surf.title">Le paradis des surfeurs</h3>
+                <p data-i18n="guide.surf.text">La côte sud de Lombok aligne des dizaines de spots, des baies abritées pour débuter aux récifs mythiques. La saison des vagues va d'avril à octobre, mais on surfe toute l'année.</p>
+              </div>
+            </div>
+            <div class="spots" id="spotList"></div>
+          </div>
+
+          <!-- NIGHT -->
+          <div class="panel" id="g-night">
+            <div class="panel__intro">
+              <div class="media media--wide" data-src="assets/guide/party.jpg" data-label="Photo soirée"></div>
+              <div>
+                <h3 class="h3" data-i18n="guide.night.title">Sunsets & soirées</h3>
+                <p data-i18n="guide.night.text">Kuta s'anime au coucher du soleil : beach bars, live music, DJ sets et soirées tournantes selon les jours. Voici le programme de la semaine.</p>
+                <a href="#" class="btn btn--dark js-wa-service" data-service="party" target="_blank" rel="noopener"><svg class="ico"><use href="#i-whatsapp"/></svg><span data-i18n="guide.night.cta">Programme de la semaine</span></a>
+              </div>
+            </div>
+            <ul class="agenda" id="agendaList"></ul>
+          </div>
+
+          <!-- MOVE -->
+          <div class="panel" id="g-move">
+            <div class="panel__intro">
+              <div class="media media--wide" data-src="assets/guide/scooter.jpg" data-label="Photo scooter"></div>
+              <div>
+                <h3 class="h3" data-i18n="guide.move.title">Le scooter, la liberté</h3>
+                <p data-i18n="guide.move.text">À Kuta, tout se fait en scooter. Comptez quelques euros par jour, livraison à la villa possible. Permis international recommandé, casque obligatoire.</p>
+                <ul class="ticks">
+                  <li data-i18n="guide.move.t1">Livraison & récupération à la villa</li>
+                  <li data-i18n="guide.move.t2">Porte-planche de surf disponible</li>
+                  <li data-i18n="guide.move.t3">Chauffeur privé pour les longues distances</li>
+                </ul>
+                <a href="#" class="btn btn--dark js-wa-service" data-service="scooter" target="_blank" rel="noopener"><svg class="ico"><use href="#i-whatsapp"/></svg><span data-i18n="guide.move.cta">Louer un scooter</span></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- FOOD -->
+          <div class="panel" id="g-food">
+            <div class="panel__intro">
+              <div class="media media--wide" data-src="assets/guide/food.jpg" data-label="Photo marché"></div>
+              <div>
+                <h3 class="h3" data-i18n="guide.food.title">Faire ses courses</h3>
+                <p data-i18n="guide.food.text">Toutes les villas sont équipées d'une cuisine. Voici où trouver de quoi la remplir — des produits locaux aux produits importés.</p>
+              </div>
+            </div>
+            <div class="spots" id="groceryList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MAP ============ -->
+    <section class="location section section--sand" id="location">
+      <div class="container location__grid">
+        <div>
+          <p class="eyebrow reveal" data-i18n="location.eyebrow">Localisation</p>
+          <h2 class="h2 reveal" data-delay="1" data-i18n-html="location.title">Au cœur du <em>sud de Lombok.</em></h2>
+          <ul class="distances reveal" data-delay="2">
+            <li><span data-i18n="location.d1">Plage de Kuta</span><b>~ 10 min</b></li>
+            <li><span>Tanjung Aan</span><b>~ 15 min</b></li>
+            <li><span>Gerupuk</span><b>~ 20 min</b></li>
+            <li><span>Selong Belanak</span><b>~ 30 min</b></li>
+            <li><span data-i18n="location.d5">Aéroport international</span><b>~ 30 min</b></li>
+          </ul>
+          <a class="btn btn--dark reveal" data-delay="3" id="mapsLink" href="#" target="_blank" rel="noopener"><svg class="ico"><use href="#i-pin"/></svg><span data-i18n="location.cta">Ouvrir dans Google Maps</span></a>
+        </div>
+        <div class="map reveal reveal--zoom" data-delay="1">
+          <iframe id="mapFrame" title="Carte Ratus Villa" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT / CTA ============ -->
+    <section class="cta section" id="contact">
+      <div class="cta__bg" data-parallax="0.15"></div>
+      <div class="container cta__inner">
+        <p class="eyebrow eyebrow--light reveal" data-i18n="cta.eyebrow">Réservation</p>
+        <h2 class="cta__title reveal" data-delay="1" data-i18n-html="cta.title">Votre séjour à Lombok<br><em>commence ici.</em></h2>
+        <p class="cta__lead reveal" data-delay="2" data-i18n="cta.lead">Écrivez-nous sur WhatsApp pour les disponibilités, les tarifs et toutes vos questions. Réponse rapide.</p>
+        <div class="cta__row reveal" data-delay="3">
+          <div class="qr-card">
+            <div class="qr" id="bookingQr"></div>
+            <span data-i18n="cta.scan">Scannez pour nous écrire</span>
+          </div>
+          <div class="cta__buttons">
+            <a href="#" class="btn btn--light btn--big js-wa-booking" target="_blank" rel="noopener"><svg class="ico"><use href="#i-whatsapp"/></svg><span data-i18n="cta.whatsapp">Écrire sur WhatsApp</span></a>
+            <a href="#" class="btn btn--ghost" id="emailLink"><svg class="ico"><use href="#i-mail"/></svg><span id="emailText"></span></a>
+            <button class="btn btn--ghost" id="shareBtn"><svg class="ico"><use href="#i-share"/></svg><span data-i18n="cta.share">Partager le site</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="nav__logo-mark">R</span>
+        <div><strong>Ratus Villa</strong><small>Kuta, Lombok — Indonesia</small></div>
+      </div>
+      <p class="footer__copy">© <span id="year"></span> Ratus Villa · <span data-i18n="footer.made">Fait avec amour sous le soleil de Lombok.</span></p>
+    </div>
+  </footer>
+
+  <!-- Bouton WhatsApp flottant -->
+  <a href="#" class="fab js-wa-booking" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg class="ico"><use href="#i-whatsapp"/></svg>
+  </a>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox__close" aria-label="Fermer">×</button>
+    <button class="lightbox__nav lightbox__prev" aria-label="Précédent">‹</button>
+    <div class="lightbox__stage"><div class="lightbox__img" id="lightboxImg"></div></div>
+    <button class="lightbox__nav lightbox__next" aria-label="Suivant">›</button>
+    <div class="lightbox__count" id="lightboxCount"></div>
+  </div>
+
+  <!-- Modal QR -->
+  <div class="modal" id="qrModal" aria-hidden="true">
+    <div class="modal__card">
+      <button class="modal__close" aria-label="Fermer">×</button>
+      <p class="eyebrow" id="qrModalEyebrow">WhatsApp</p>
+      <h3 class="h3" id="qrModalTitle"></h3>
+      <div class="qr qr--big" id="qrModalCode"></div>
+      <p class="modal__hint" data-i18n="qr.hint">Scannez avec l'appareil photo de votre téléphone.</p>
+      <a href="#" class="btn btn--dark" id="qrModalLink" target="_blank" rel="noopener"><svg class="ico"><use href="#i-whatsapp"/></svg><span data-i18n="qr.open">Ouvrir WhatsApp</span></a>
+    </div>
+  </div>
+
+  <!-- ============ ICONS ============ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-whatsapp" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm5.8 14.08c-.24.68-1.42 1.3-1.95 1.35-.5.05-.97.23-3.27-.68-2.77-1.09-4.52-3.92-4.66-4.1-.13-.18-1.1-1.47-1.1-2.8 0-1.33.7-1.99.95-2.26.24-.27.53-.34.71-.34l.51.01c.16.01.38-.06.6.46.23.54.77 1.87.84 2.01.07.14.11.3.02.48-.09.18-.14.29-.27.45-.14.16-.29.35-.41.47-.14.14-.28.28-.12.55.16.27.7 1.16 1.51 1.88 1.04.93 1.91 1.21 2.18 1.35.27.14.43.11.59-.07.16-.18.68-.79.86-1.06.18-.27.36-.23.6-.14.25.09 1.57.74 1.84.88.27.14.45.2.52.32.07.11.07.66-.17 1.33z"/></symbol>
+    <symbol id="i-wave" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M2 16c2 0 2-1.5 4-1.5S8 16 10 16s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M2 20c2 0 2-1.5 4-1.5S8 20 10 20s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M5 12c0-4 3-7.5 7.5-7.5 2.5 0 4.5 1.5 4.5 3.5 0 1.6-1.2 2.6-2.7 2.6-1.3 0-2.1-.9-2.1-1.9"/></symbol>
+    <symbol id="i-scooter" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17" r="2.5"/><circle cx="18.5" cy="17" r="2.5"/><path d="M8 17h7l2-6h-3M14 5h2l1.5 6M3 13h6l1 4"/></g></symbol>
+    <symbol id="i-music" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></g></symbol>
+    <symbol id="i-car" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16v-3l2-5h14l2 5v3H3z"/><circle cx="7" cy="16.5" r="1.8"/><circle cx="17" cy="16.5" r="1.8"/><path d="M3 13h18"/></g></symbol>
+    <symbol id="i-lotus" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20c-4 0-8-2.5-9-6 3 0 6 1.5 9 6 3-4.5 6-6 9-6-1 3.5-5 6-9 6z"/><path d="M12 20c-2-2.5-3-5-3-8 0-2.5 1.2-5 3-7 1.8 2 3 4.5 3 7 0 3-1 5.5-3 8z"/></g></symbol>
+    <symbol id="i-basket" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18l-2 10H5L3 10zM8 10l3-6M16 10l-3-6M9 14v3M15 14v3M12 14v3"/></g></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></g></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></g></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/></g></symbol>
+    <symbol id="i-qr" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM14 20h2M20 14v2"/></g></symbol>
+    <symbol id="i-bed" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19V6M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-7v6"/><circle cx="7" cy="11" r="2"/></g></symbol>
+    <symbol id="i-bath" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18v2a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5v-2zM6 12V5a2 2 0 0 1 4 0M7 19l-1 2M17 19l1 2"/></g></symbol>
+    <symbol id="i-guests" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.3"/><path d="M16 14.2c2.8.3 5 2.6 5 5.8"/></g></symbol>
+    <symbol id="i-size" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 16l8-8M12 8h4v4"/></g></symbol>
+    <symbol id="i-pool" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 18c1.7 0 1.7-1.2 3.3-1.2S7 18 8.7 18s1.6-1.2 3.3-1.2 1.6 1.2 3.3 1.2 1.6-1.2 3.3-1.2S20.3 18 22 18M8 15V5a2 2 0 0 1 4 0M16 15V5a2 2 0 0 1 4 0M8 9h8M8 13h8"/></g></symbol>
+    <symbol id="i-ac" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 2v20M4 6l16 12M20 6L4 18M9 3l3 2 3-2M9 21l3-2 3 2"/></g></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.3" r="1" fill="currentColor"/></g></symbol>
+    <symbol id="i-kitchen" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 4-3 7h3"/></g></symbol>
+    <symbol id="i-parking" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></g></symbol>
+    <symbol id="i-garden" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V11M12 11C12 6 8 3 3 3c0 5 4 8 9 8zM12 14c0-4 3-7 9-7 0 4-3 7-9 7z"/></g></symbol>
+    <symbol id="i-clean" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4L18 8.5 13.5 10 12 14l-1.5-4L6 8.5 10.5 7z"/><path d="M18 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></g></symbol>
+    <symbol id="i-towel" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18H6zM6 8h12M10 13h4"/></g></symbol>
+    <symbol id="i-terrace" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-6 9 6M5 10v10M19 10v10M3 20h18M9 20v-5h6v5"/></g></symbol>
+    <symbol id="i-surfrack" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 2c3 3 4 8 4 12s-1.8 8-4 8-4-4-4-8 1-9 4-12zM12 6v13"/></g></symbol>
+  </svg>
+
+  <script src="js/vendor/qrcode.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
