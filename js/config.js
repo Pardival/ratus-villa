@@ -36,8 +36,10 @@ window.RATUS = {
     // Si renseignées, elles sont prioritaires sur la recherche ci-dessus.
     lat: null,
     lng: null,
-    // Carte intégrée officielle Google Maps (Partager > Intégrer une carte > copier le lien "src")
-    embed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14263.750229242929!2d116.26466493009977!3d-8.884611764073984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dcda9000f83c567%3A0x2b5aae675413cf86!2sRatus%20villa!5e1!3m2!1sfr!2sid!4v1793509560123!5m2!1sfr!2sid"
+    // Carte Google interactive (optionnelle). Laisser vide "" pour afficher l'image assets/villa/plan-acces.webp.
+    // Pour la réactiver, coller ici le lien "src" de Google Maps > Partager > Intégrer une carte.
+    embed: "",
+    embedDisabled: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14263.750229242929!2d116.26466493009977!3d-8.884611764073984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dcda9000f83c567%3A0x2b5aae675413cf86!2sRatus%20villa!5e1!3m2!1sfr!2sid!4v1793509560123!5m2!1sfr!2sid"
   },
 
   /* ---------- Les villas (2 villas identiques) ---------- */

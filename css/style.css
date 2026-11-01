@@ -747,3 +747,10 @@ body:not(.is-loaded) .hero .reveal { opacity: 0; transform: translateY(40px); }
 .map .map__frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 1; }
 .map__cta { z-index: 2; }
 @media (max-width: 860px) { .map { aspect-ratio: 1 / 1 !important; } }
+
+/* Plan d'accès fourni (image non recadrée) */
+.map, .map { aspect-ratio: 1448 / 1126 !important; }
+@media (max-width: 860px) { .map { aspect-ratio: 1448 / 1126 !important; } }
+.map__plan img { object-fit: contain; }
+.map .map__credit { top: auto; right: auto; left: 10px; bottom: 8px; }
+[hidden] { display: none !important; }
