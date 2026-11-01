@@ -301,6 +301,8 @@
 
   function renderMap() {
     const dest = villaDest();
+    const frame = $("#mapFrame");
+    if (frame && C.map.embed) frame.src = C.map.embed; else if (frame) frame.remove();
     $$(".js-directions").forEach((a) => (a.href = gDir(dest)));
     const apple = $(".js-apple-villa");
     if (apple && IS_IOS) { apple.href = aDir(dest); apple.hidden = false; }
