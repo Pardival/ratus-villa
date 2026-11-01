@@ -110,8 +110,8 @@ window.RATUS = {
       icon: "scooter",
       title: { fr: "Location de scooter", en: "Scooter rental" },
       text: {
-        fr: "Livraison du scooter directement à la villa, avec casques et porte-planche. Le moyen idéal pour explorer la côte.",
-        en: "Scooter delivered straight to the villa, with helmets and surf rack. The best way to explore the coast."
+        fr: "Location de scooter avec casques et porte-planche. Le moyen idéal pour explorer la côte.",
+        en: "Scooter rental with helmets and surf rack. The best way to explore the coast."
       },
       contact: "Contact scooter",
       whatsapp: "620000000002",
@@ -132,10 +132,10 @@ window.RATUS = {
     {
       id: "massage",
       icon: "lotus",
-      title: { fr: "Massage à la villa", en: "In-villa massage" },
+      title: { fr: "Massage", en: "Massage" },
       text: {
-        fr: "Massages balinais et soins relaxants directement à la villa, après une session de surf.",
-        en: "Balinese massage and relaxing treatments right at the villa, after a surf session."
+        fr: "Massages et soins relaxants, à votre disposition.",
+        en: "Massages and relaxing treatments, at your disposal."
       },
       contact: "Massage",
       whatsapp: "620000000005",
