@@ -44,7 +44,7 @@
       "guide.food.title": "Faire ses courses",
       "guide.food.text": "Toutes les villas sont équipées d'une cuisine. Voici où trouver de quoi la remplir — des produits locaux aux produits importés.",
       "location.eyebrow": "Localisation", "location.title": "Au cœur du <em>sud de Lombok.</em>",
-      "location.d1": "Plage de Kuta", "location.d5": "Aéroport international", "location.cta": "Itinéraire vers la villa", "location.apple": "Ouvrir dans Plans", "location.open": "Voir sur Google Maps",
+      "location.d1": "Plage de Kuta", "location.d5": "Aéroport international", "location.cta": "Itinéraire vers la villa", "location.apple": "Ouvrir dans Plans", "location.open": "Voir l'itinéraire",
       "mbar.book": "Réserver", "mbar.guide": "Guide", "mbar.go": "Y aller",
       "cta.eyebrow": "Réservation", "cta.title": "Votre séjour à Lombok<br><em>commence ici.</em>",
       "cta.lead": "Écrivez-nous sur WhatsApp pour les disponibilités, les tarifs et toutes vos questions. Réponse rapide.",
@@ -88,7 +88,7 @@
       "guide.food.title": "Grocery shopping",
       "guide.food.text": "Every villa has a fully equipped kitchen. Here's where to fill it up — from local produce to imported goods.",
       "location.eyebrow": "Location", "location.title": "In the heart of <em>South Lombok.</em>",
-      "location.d1": "Kuta beach", "location.d5": "International airport", "location.cta": "Directions to the villa", "location.apple": "Open in Apple Maps", "location.open": "View on Google Maps",
+      "location.d1": "Kuta beach", "location.d5": "International airport", "location.cta": "Directions to the villa", "location.apple": "Open in Apple Maps", "location.open": "Get directions",
       "mbar.book": "Book", "mbar.guide": "Guide", "mbar.go": "Directions",
       "cta.eyebrow": "Booking", "cta.title": "Your Lombok stay<br><em>starts here.</em>",
       "cta.lead": "Message us on WhatsApp for availability, rates and any question. Quick reply.",
@@ -166,9 +166,6 @@
     const href = waLink(b.whatsapp, L(b.message));
     $$(".js-wa-booking").forEach((a) => (a.href = href));
     $("#bookingQr").innerHTML = qrSvg(href);
-    const mail = $("#emailLink");
-    if (b.email) { mail.href = "mailto:" + b.email; $("#emailText").textContent = b.email; mail.hidden = false; }
-    else mail.hidden = true;
 
     const st = $$(".stat [data-count]");
     if (st.length >= 2) { st[0].dataset.count = C.villa.count; st[1].dataset.count = C.villa.count * C.villa.stats.bedrooms; }
@@ -304,7 +301,6 @@
 
   function renderMap() {
     const dest = villaDest();
-    $("#mapFrame").src = `https://www.google.com/maps?q=${encodeURIComponent(dest)}&z=14&output=embed`;
     $$(".js-directions").forEach((a) => (a.href = gDir(dest)));
     const apple = $(".js-apple-villa");
     if (apple && IS_IOS) { apple.href = aDir(dest); apple.hidden = false; }
@@ -503,13 +499,7 @@
   }
 
   /* ---------------- Partage ---------------- */
-  function setupShare() {
-    $("#shareBtn").addEventListener("click", async () => {
-      const data = { title: "Ratus Villa — Kuta, Lombok", url: location.href.split("#")[0] };
-      if (navigator.share) { try { await navigator.share(data); } catch (e) {} return; }
-      try { await navigator.clipboard.writeText(data.url); const s = $("#shareBtn span"); s.textContent = t("cta.copied"); setTimeout(() => (s.textContent = t("cta.share")), 2000); } catch (e) {}
-    });
-  }
+
 
   /* ---------------- Init ---------------- */
   function init() {
@@ -527,7 +517,6 @@
     setupRail();
     setupLightbox();
     setupQr();
-    setupShare();
 
     const finish = () => {
       document.body.classList.add("is-loaded");

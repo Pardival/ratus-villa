@@ -209,13 +209,11 @@
           </div>
         </div>
         <div class="map reveal reveal--zoom" data-delay="1">
-          <a class="map__fallback js-directions" href="#" target="_blank" rel="noopener">
-            <span class="map__pin"><svg class="ico"><use href="#i-pin"/></svg></span>
-            <strong>Ratus Villa</strong>
-            <span>Kuta · Lombok</span>
-            <em data-i18n="location.open">Voir sur Google Maps</em>
+          <a class="map__plan js-directions" href="#" target="_blank" rel="noopener" aria-label="Itinéraire vers Ratus Villa">
+            <img src="assets/villa/plan-acces.webp" alt="Plan d'accès : Ratus Villa, Jl. Mawun, au nord de la plage de Kuta" width="920" height="793" loading="lazy">
+            <span class="map__cta"><svg class="ico"><use href="#i-route"/></svg><span data-i18n="location.open">Voir l'itinéraire</span></span>
+            <small class="map__credit">Carte © Google</small>
           </a>
-          <iframe id="mapFrame" title="Carte Ratus Villa" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
     </section>
@@ -234,8 +232,6 @@
           </div>
           <div class="cta__buttons">
             <a href="#" class="btn btn--light btn--big js-wa-booking" target="_blank" rel="noopener"><svg class="ico"><use href="#i-whatsapp"/></svg><span data-i18n="cta.whatsapp">Écrire sur WhatsApp</span></a>
-            <a href="#" class="btn btn--ghost" id="emailLink"><svg class="ico"><use href="#i-mail"/></svg><span id="emailText"></span></a>
-            <button class="btn btn--ghost" id="shareBtn"><svg class="ico"><use href="#i-share"/></svg><span data-i18n="cta.share">Partager le site</span></button>
           </div>
         </div>
       </div>
