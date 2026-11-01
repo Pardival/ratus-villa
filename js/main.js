@@ -44,7 +44,7 @@
       "guide.food.title": "Faire ses courses",
       "guide.food.text": "Toutes les villas sont équipées d'une cuisine. Voici où trouver de quoi la remplir — des produits locaux aux produits importés.",
       "location.eyebrow": "Localisation", "location.title": "Au cœur du <em>sud de Lombok.</em>",
-      "location.d1": "Plage de Kuta", "location.d5": "Aéroport international", "location.cta": "Itinéraire vers la villa", "location.apple": "Ouvrir dans Plans",
+      "location.d1": "Plage de Kuta", "location.d5": "Aéroport international", "location.cta": "Itinéraire vers la villa", "location.apple": "Ouvrir dans Plans", "location.open": "Voir sur Google Maps",
       "mbar.book": "Réserver", "mbar.guide": "Guide", "mbar.go": "Y aller",
       "cta.eyebrow": "Réservation", "cta.title": "Votre séjour à Lombok<br><em>commence ici.</em>",
       "cta.lead": "Écrivez-nous sur WhatsApp pour les disponibilités, les tarifs et toutes vos questions. Réponse rapide.",
@@ -88,7 +88,7 @@
       "guide.food.title": "Grocery shopping",
       "guide.food.text": "Every villa has a fully equipped kitchen. Here's where to fill it up — from local produce to imported goods.",
       "location.eyebrow": "Location", "location.title": "In the heart of <em>South Lombok.</em>",
-      "location.d1": "Kuta beach", "location.d5": "International airport", "location.cta": "Directions to the villa", "location.apple": "Open in Apple Maps",
+      "location.d1": "Kuta beach", "location.d5": "International airport", "location.cta": "Directions to the villa", "location.apple": "Open in Apple Maps", "location.open": "View on Google Maps",
       "mbar.book": "Book", "mbar.guide": "Guide", "mbar.go": "Directions",
       "cta.eyebrow": "Booking", "cta.title": "Your Lombok stay<br><em>starts here.</em>",
       "cta.lead": "Message us on WhatsApp for availability, rates and any question. Quick reply.",
@@ -215,7 +215,6 @@
           </div>
           <p class="villa__note">${L(v.groupNote)}</p>
           <div class="villa__foot">
-            <span class="villa__price">${L(v.price)}</span>
             <a class="btn btn--dark js-wa-booking" href="#" target="_blank" rel="noopener">${icon("i-whatsapp")}<span>${t("villa.book")}</span></a>
           </div>
         </div>

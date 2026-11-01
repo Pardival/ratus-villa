@@ -93,13 +93,6 @@
       </a>
     </section>
 
-    <!-- ============ MARQUEE ============ -->
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee__track">
-        <span>Surf</span><b>✦</b><span>Sunset</span><b>✦</b><span>Private pool</span><b>✦</b><span>Slow living</span><b>✦</b><span>Kuta Lombok</span><b>✦</b>
-        <span>Surf</span><b>✦</b><span>Sunset</span><b>✦</b><span>Private pool</span><b>✦</b><span>Slow living</span><b>✦</b><span>Kuta Lombok</span><b>✦</b>
-      </div>
-    </div>
 
     <!-- ============ INTRO ============ -->
     <section class="intro section" id="intro">
@@ -175,61 +168,22 @@
         <div class="guide__nav reveal" data-delay="2" id="guideNav">
           <button class="chip is-active" data-target="g-surf"><svg class="ico"><use href="#i-wave"/></svg><span data-i18n="guide.surf">Surf & plages</span></button>
           <button class="chip" data-target="g-night"><svg class="ico"><use href="#i-music"/></svg><span data-i18n="guide.night">Soirées</span></button>
-          <button class="chip" data-target="g-move"><svg class="ico"><use href="#i-scooter"/></svg><span data-i18n="guide.move">Se déplacer</span></button>
           <button class="chip" data-target="g-food"><svg class="ico"><use href="#i-basket"/></svg><span data-i18n="guide.food">Courses</span></button>
         </div>
 
         <div class="guide__panels">
           <!-- SURF -->
           <div class="panel is-active" id="g-surf">
-            <div class="panel__intro">
-              <div class="media media--wide" data-src="assets/guide/surf.jpg" data-label="Photo surf"></div>
-              <div>
-                <h3 class="h3" data-i18n="guide.surf.title">Le paradis des surfeurs</h3>
-                <p data-i18n="guide.surf.text">La côte sud de Lombok aligne des dizaines de spots, des baies abritées pour débuter aux récifs mythiques. La saison des vagues va d'avril à octobre, mais on surfe toute l'année.</p>
-              </div>
-            </div>
             <div class="spots" id="spotList"></div>
           </div>
 
           <!-- NIGHT -->
           <div class="panel" id="g-night">
-            <div class="panel__intro">
-              <div class="media media--wide" data-src="assets/guide/party.jpg" data-label="Photo soirée"></div>
-              <div>
-                <h3 class="h3" data-i18n="guide.night.title">Sunsets & soirées</h3>
-                <p data-i18n="guide.night.text">Kuta s'anime au coucher du soleil : beach bars, live music, DJ sets et soirées tournantes selon les jours. Voici le programme de la semaine.</p>
-              </div>
-            </div>
             <ul class="agenda" id="agendaList"></ul>
-          </div>
-
-          <!-- MOVE -->
-          <div class="panel" id="g-move">
-            <div class="panel__intro">
-              <div class="media media--wide" data-src="assets/guide/scooter.jpg" data-label="Photo scooter"></div>
-              <div>
-                <h3 class="h3" data-i18n="guide.move.title">Le scooter, la liberté</h3>
-                <p data-i18n="guide.move.text">À Kuta, tout se fait en scooter. Comptez quelques euros par jour, livraison à la villa possible. Permis international recommandé, casque obligatoire.</p>
-                <ul class="ticks">
-                  <li data-i18n="guide.move.t1">Livraison & récupération à la villa</li>
-                  <li data-i18n="guide.move.t2">Porte-planche de surf disponible</li>
-                  <li data-i18n="guide.move.t3">Chauffeur privé pour les longues distances</li>
-                </ul>
-                <a href="#" class="btn btn--dark js-wa-service" data-service="scooter" target="_blank" rel="noopener"><svg class="ico"><use href="#i-whatsapp"/></svg><span data-i18n="guide.move.cta">Louer un scooter</span></a>
-              </div>
-            </div>
           </div>
 
           <!-- FOOD -->
           <div class="panel" id="g-food">
-            <div class="panel__intro">
-              <div class="media media--wide" data-src="assets/guide/food.jpg" data-label="Photo marché"></div>
-              <div>
-                <h3 class="h3" data-i18n="guide.food.title">Faire ses courses</h3>
-                <p data-i18n="guide.food.text">Toutes les villas sont équipées d'une cuisine. Voici où trouver de quoi la remplir — des produits locaux aux produits importés.</p>
-              </div>
-            </div>
             <div class="spots" id="groceryList"></div>
           </div>
         </div>
@@ -255,6 +209,12 @@
           </div>
         </div>
         <div class="map reveal reveal--zoom" data-delay="1">
+          <a class="map__fallback js-directions" href="#" target="_blank" rel="noopener">
+            <span class="map__pin"><svg class="ico"><use href="#i-pin"/></svg></span>
+            <strong>Ratus Villa</strong>
+            <span>Kuta · Lombok</span>
+            <em data-i18n="location.open">Voir sur Google Maps</em>
+          </a>
           <iframe id="mapFrame" title="Carte Ratus Villa" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
@@ -288,7 +248,7 @@
         <span class="nav__logo-mark">R</span>
         <div><strong>Ratus Villa</strong><small>Kuta, Lombok — Indonesia</small></div>
       </div>
-      <p class="footer__copy">© <span id="year"></span> Ratus Villa · <span data-i18n="footer.made">Fait avec amour sous le soleil de Lombok.</span></p>
+      <p class="footer__copy">© <span id="year"></span> Ratus Villa</p>
     </div>
   </footer>
 

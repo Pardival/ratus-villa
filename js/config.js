@@ -53,7 +53,6 @@ window.RATUS = {
     },
     // Caractéristiques PAR villa
     stats: { bedrooms: 2, bathrooms: 2, guests: 4, size: "— m²" },
-    price: { fr: "Prix sur demande", en: "Price on request" },
     amenities: ["pool", "bathtub", "ac", "wifi", "tv", "kitchen", "balcony", "parking", "garden", "cleaning", "towels", "surfrack"],
     photos: [
       { src: "assets/villa/piscine-cascade.webp", alt: { fr: "Piscine privée et sa cascade", en: "Private pool and waterfall" } },
@@ -160,9 +159,9 @@ window.RATUS = {
       { day: 7, venue: "The Local",    place: "The Local, Kuta, Lombok",    time: { fr: "Dès 21 h", en: "Busy from 9 pm" } }
     ],
     groceries: [
-      { name: { fr: "Supérettes Indomaret / Alfamart", en: "Indomaret / Alfamart mini-markets" }, place: "Indomaret Kuta Lombok", text: { fr: "Eau, snacks, produits du quotidien — ouvertes tard.", en: "Water, snacks, everyday essentials — open late." } },
-      { name: { fr: "Supermarchés & épiceries", en: "Supermarkets & grocery stores" }, place: "supermarket Kuta Lombok", text: { fr: "Produits importés, frais, vins, fromages.", en: "Imported goods, fresh produce, wine, cheese." } },
-      { name: { fr: "Marché local", en: "Local market" }, place: "Pasar Kuta Lombok", text: { fr: "Fruits tropicaux, poisson et légumes frais, à petits prix.", en: "Tropical fruit, fresh fish and vegetables at local prices." } }
+      { name: { fr: "Pepito Market", en: "Pepito Market" }, place: "Pepito Market Kuta Lombok",
+        text: { fr: "Le supermarché de Kuta pour faire toutes vos courses : produits frais, fruits et légumes, viande, boissons, épicerie et produits du quotidien, locaux comme importés.",
+                en: "Kuta's supermarket for all your grocery shopping: fresh produce, fruit and veg, meat, drinks, pantry and everyday essentials, both local and imported." } }
     ]
   }
 };
