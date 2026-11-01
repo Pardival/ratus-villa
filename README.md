@@ -34,7 +34,7 @@ Il suffit de déposer les fichiers avec ces noms — tant qu'une photo est absen
 ```
 assets/
 ├── hero/      hero.mp4 (vidéo d'accueil, muette, 10-20 s, < 10 Mo) · hero.jpg (image de secours + partage Facebook)
-├── villa/     piscine · chambre-elephant · chambre-lanternes · chambre-rhinoceros · salon · salon-tv · salon-escalier · mezzanine-nuit (.webp) (+ piscine-partage.jpg pour Facebook)
+├── villa/     photos de la villa en .webp (noms descriptifs : piscine-surf, chambre-mezzanine-vue…) · plan-acces.webp (carte) (+ piscine-partage.jpg pour Facebook)
 ├── gallery/   1.jpg … 8.jpg
 └── guide/     surf.jpg · party.jpg · scooter.jpg · food.jpg
 ```

@@ -186,7 +186,7 @@
             ${mediaHTML(v.photos[0] || "", `data-tone="1" data-label="${t("photo")}"`, "villa__main")}
             <button class="villa__count" type="button">${icon("i-size")}<span>1 / ${photosK}</span></button>
           </div>
-          <div class="villa__thumbs" style="--n:${Math.min(photosK, 7)}">
+          <div class="villa__thumbs" style="--n:${Math.min(photosK, 8)}">
             ${v.photos.map((p, k) => mediaHTML(p, `data-k="${k}" data-tone="${k % 5}"`, k === 0 ? "is-active" : "")).join("")}
           </div>
         </div>

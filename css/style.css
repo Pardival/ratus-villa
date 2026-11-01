@@ -754,3 +754,7 @@ body:not(.is-loaded) .hero .reveal { opacity: 0; transform: translateY(40px); }
 .map__plan img { object-fit: contain; }
 .map .map__credit { top: auto; right: auto; left: 10px; bottom: 8px; }
 [hidden] { display: none !important; }
+/* Lisibilité du texte sur la photo d'accueil */
+.hero__content { text-shadow: 0 2px 22px rgba(0,0,0,.35); }
+.hero .eyebrow { color: #f3d29c; }
+.hero__shade { background: linear-gradient(180deg, rgba(10,30,34,.5) 0%, rgba(10,30,34,.3) 28%, rgba(10,30,34,.55) 55%, rgba(10,30,34,.88) 100%); }

@@ -25,7 +25,7 @@ window.RATUS = {
   /* ---------- Médias du hero (vidéo d'accueil) ---------- */
   hero: {
     video: "assets/hero/hero.mp4",       // vidéo de fond (mp4, muette, ~10-20 s) — à ajouter
-    poster: "assets/villa/piscine-cascade.webp"  // image affichée avant/à la place de la vidéo
+    poster: "assets/villa/piscine-surf.webp"  // image affichée avant/à la place de la vidéo
   },
 
   /* ---------- Localisation (carte) ---------- */
@@ -59,34 +59,36 @@ window.RATUS = {
     stats: { bedrooms: 2, bathrooms: 2, guests: 4, size: "— m²" },
     amenities: ["pool", "bathtub", "ac", "wifi", "tv", "kitchen", "balcony", "parking", "towels"],
     photos: [
-      { src: "assets/villa/piscine-cascade.webp", alt: { fr: "Piscine privée et sa cascade", en: "Private pool and waterfall" } },
-      { src: "assets/villa/chambre-elephant.webp", alt: { fr: "Chambre sous charpente en bois", en: "Bedroom under the wooden roof" } },
+      { src: "assets/villa/piscine-surf.webp", alt: { fr: "Piscine privée, planche de surf et skate", en: "Private pool with surfboard and skateboard" } },
+      { src: "assets/villa/chambre-mezzanine-vue.webp", alt: { fr: "Chambre en mezzanine avec vue sur le balcon", en: "Mezzanine bedroom opening onto the balcony" } },
       { src: "assets/villa/salle-de-bain-baignoire.webp", alt: { fr: "Salle de bain en marbre avec baignoire", en: "Marble bathroom with bathtub" } },
       { src: "assets/villa/salon-cuisine.webp", alt: { fr: "Salon ouvert sur la cuisine équipée", en: "Living room opening onto the kitchen" } },
+      { src: "assets/villa/piscine-cascade.webp", alt: { fr: "Piscine privée et sa cascade", en: "Private pool and waterfall" } },
+      { src: "assets/villa/chambre-elephant.webp", alt: { fr: "Chambre sous charpente en bois", en: "Bedroom under the wooden roof" } },
       { src: "assets/villa/balcon.webp", alt: { fr: "Balcon en bois à l'étage", en: "Upstairs wooden balcony" } },
       { src: "assets/villa/salle-de-bain-douche.webp", alt: { fr: "Douche à l'italienne, robinetterie dorée", en: "Walk-in shower with gold fittings" } },
+      { src: "assets/villa/piscine-nuit.webp", alt: { fr: "La piscine éclairée, de nuit", en: "The pool lit up at night" } },
       { src: "assets/villa/salon-tv.webp", alt: { fr: "Salon avec TV et escalier en teck", en: "Living room with TV and teak staircase" } },
       { src: "assets/villa/chambre-lanternes.webp", alt: { fr: "Chambre climatisée aux lampes en rotin", en: "Air-conditioned bedroom with rattan lamps" } },
-      { src: "assets/villa/piscine.webp", alt: { fr: "La piscine vue d'en haut", en: "The pool from above" } },
-      { src: "assets/villa/mezzanine-nuit.webp", alt: { fr: "La mezzanine en bois, de nuit", en: "The wooden mezzanine at night" } },
       { src: "assets/villa/chambre-rhinoceros.webp", alt: { fr: "Chambre en mezzanine", en: "Mezzanine bedroom" } },
-      { src: "assets/villa/salon.webp", alt: { fr: "Salon en teck", en: "Teak living room" } },
-      { src: "assets/villa/salon-escalier.webp", alt: { fr: "Salon et escalier vers la chambre", en: "Living room and stairs to the bedroom" } }
+      { src: "assets/villa/salon-escalier.webp", alt: { fr: "Salon et escalier vers la chambre", en: "Living room and stairs to the bedroom" } },
+      { src: "assets/villa/mezzanine-nuit.webp", alt: { fr: "La mezzanine en bois, de nuit", en: "The wooden mezzanine at night" } },
+      { src: "assets/villa/salon.webp", alt: { fr: "Salon en teck", en: "Teak living room" } }
     ]
   },
 
   /* ---------- Galerie générale ---------- */
   gallery: [
-    "assets/villa/piscine-cascade.webp",
+    "assets/villa/piscine-nuit.webp",
+    "assets/villa/piscine-surf.webp",
+    "assets/villa/chambre-mezzanine-vue.webp",
     "assets/villa/salle-de-bain-baignoire.webp",
     "assets/villa/balcon.webp",
-    "assets/villa/chambre-elephant.webp",
+    "assets/villa/piscine-cascade.webp",
     "assets/villa/salon-cuisine.webp",
-    "assets/villa/salle-de-bain-douche.webp",
-    "assets/villa/mezzanine-nuit.webp",
-    "assets/villa/chambre-lanternes.webp",
-    "assets/villa/piscine.webp",
-    "assets/villa/salon-tv.webp"
+    "assets/villa/chambre-elephant.webp",
+    "assets/villa/serviettes.webp",
+    "assets/villa/piscine.webp"
   ],
 
   /* ---------- Services & contacts locaux ----------
