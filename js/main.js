@@ -139,7 +139,9 @@
     img.src = src;
     el.appendChild(img);
   }
-  const mediaHTML = (src, extra = "", cls = "") => `<div class="media ${cls}" data-src="${src}" ${extra}></div>`;
+  const srcOf = (p) => (typeof p === "string" ? p : (p && p.src) || "");
+  const altOf = (p) => (typeof p === "string" ? "" : L(p && p.alt));
+  const mediaHTML = (src, extra = "", cls = "") => `<div class="media ${cls}" data-src="${srcOf(src)}" data-alt="${altOf(src).replace(/"/g, "&quot;")}" ${extra}></div>`;
   const hydrateAll = (root = document) => $$(".media", root).forEach(hydrateMedia);
 
   /* ---------------- QR ---------------- */
@@ -188,7 +190,7 @@
             <span class="villa__twin"><b>×${v.count}</b> ${t("villa.twin")}</span>
             <button class="villa__count" type="button">${icon("i-size")}<span>1 / ${photosK}</span></button>
           </div>
-          <div class="villa__thumbs">
+          <div class="villa__thumbs" style="--n:${photosK}">
             ${v.photos.map((p, k) => mediaHTML(p, `data-k="${k}" data-tone="${k % 5}"`, k === 0 ? "is-active" : "")).join("")}
           </div>
         </div>
@@ -237,7 +239,8 @@
       main.classList.remove("has-img", "is-swapping");
       main.removeAttribute("data-hydrated");
       $$("img", main).forEach((im) => im.remove());
-      main.dataset.src = v.photos[idx];
+      main.dataset.src = srcOf(v.photos[idx]);
+      main.dataset.alt = altOf(v.photos[idx]);
       main.dataset.tone = th.dataset.tone;
       void main.offsetWidth;
       main.classList.add("is-swapping");
@@ -252,8 +255,9 @@
       const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
       if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { swiped = true; show(idx + (dx < 0 ? 1 : -1)); }
     });
-    main.addEventListener("click", () => { if (!swiped) openLightbox(v.photos, idx); });
-    $(".villa__count", el).addEventListener("click", () => openLightbox(v.photos, idx));
+    const srcs = v.photos.map(srcOf);
+    main.addEventListener("click", () => { if (!swiped) openLightbox(srcs, idx); });
+    $(".villa__count", el).addEventListener("click", () => openLightbox(srcs, idx));
   }
 
   function renderGallery() {
@@ -447,7 +451,7 @@
     rail.addEventListener("click", (e) => {
       const item = e.target.closest(".gallery__item");
       if (!item || moved) return;
-      openLightbox(C.gallery, +item.dataset.i);
+      openLightbox(C.gallery.map(srcOf), +item.dataset.i);
     });
   }
 

@@ -568,7 +568,7 @@ body:not(.is-loaded) .hero .reveal { opacity: 0; transform: translateY(40px); }
   background: rgba(15,59,68,.6); backdrop-filter: blur(8px); color: #fff; font-size: .75rem; font-weight: 600; letter-spacing: .08em;
 }
 .villa__count .ico { width: 14px; height: 14px; }
-.villa__thumbs { grid-template-columns: repeat(6, 1fr); }
+.villa__thumbs { grid-template-columns: repeat(var(--n, 5), 1fr); }
 .villa__per { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); margin: 26px 0 -14px; }
 
 .formula { display: flex; align-items: stretch; gap: 10px; margin: 6px 0 14px; }

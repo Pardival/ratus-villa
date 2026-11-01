@@ -24,8 +24,8 @@ window.RATUS = {
 
   /* ---------- Médias du hero (vidéo d'accueil) ---------- */
   hero: {
-    video: "assets/hero/hero.mp4",     // vidéo de fond (mp4, muette, ~10-20 s)
-    poster: "assets/hero/hero.jpg"     // image affichée avant/à la place de la vidéo
+    video: "assets/hero/hero.mp4",       // vidéo de fond (mp4, muette, ~10-20 s) — à ajouter
+    poster: "assets/villa/piscine.webp"  // image affichée avant/à la place de la vidéo
   },
 
   /* ---------- Localisation (carte) ---------- */
@@ -55,21 +55,22 @@ window.RATUS = {
     stats: { bedrooms: 2, bathrooms: 2, guests: 4, size: "— m²" },
     price: { fr: "Prix sur demande", en: "Price on request" },
     amenities: ["pool", "ac", "wifi", "kitchen", "parking", "garden", "terrace", "cleaning", "towels", "surfrack"],
-    photos: [
-      "assets/villa/1.jpg",
-      "assets/villa/2.jpg",
-      "assets/villa/3.jpg",
-      "assets/villa/4.jpg",
-      "assets/villa/5.jpg",
-      "assets/villa/6.jpg"
+photos: [
+      { src: "assets/villa/piscine.webp",            alt: { fr: "Piscine privée avec cascade", en: "Private pool with waterfall" } },
+      { src: "assets/villa/chambre-elephant.webp",   alt: { fr: "Chambre sous charpente en bois", en: "Bedroom under the wooden roof" } },
+      { src: "assets/villa/salon.webp",              alt: { fr: "Salon en teck", en: "Teak living room" } },
+      { src: "assets/villa/chambre-rhinoceros.webp", alt: { fr: "Chambre en mezzanine", en: "Mezzanine bedroom" } },
+      { src: "assets/villa/salon-escalier.webp",     alt: { fr: "Salon et escalier vers la chambre", en: "Living room and stairs to the bedroom" } }
     ]
   },
 
   /* ---------- Galerie générale ---------- */
   gallery: [
-    "assets/gallery/1.jpg", "assets/gallery/2.jpg", "assets/gallery/3.jpg",
-    "assets/gallery/4.jpg", "assets/gallery/5.jpg", "assets/gallery/6.jpg",
-    "assets/gallery/7.jpg", "assets/gallery/8.jpg"
+    "assets/villa/piscine.webp",
+    "assets/villa/chambre-elephant.webp",
+    "assets/villa/salon.webp",
+    "assets/villa/chambre-rhinoceros.webp",
+    "assets/villa/salon-escalier.webp"
   ],
 
   /* ---------- Services & contacts locaux ----------
