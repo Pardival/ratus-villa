@@ -57,7 +57,7 @@ window.RATUS = {
     },
     // Caractéristiques PAR villa
     stats: { bedrooms: 2, bathrooms: 2, guests: 4, size: "— m²" },
-    amenities: ["pool", "bathtub", "ac", "wifi", "tv", "kitchen", "balcony", "parking", "towels", "surfrack"],
+    amenities: ["pool", "bathtub", "ac", "wifi", "tv", "kitchen", "balcony", "parking", "towels"],
     photos: [
       { src: "assets/villa/piscine-cascade.webp", alt: { fr: "Piscine privée et sa cascade", en: "Private pool and waterfall" } },
       { src: "assets/villa/chambre-elephant.webp", alt: { fr: "Chambre sous charpente en bois", en: "Bedroom under the wooden roof" } },

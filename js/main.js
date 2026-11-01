@@ -17,17 +17,17 @@
       "hero.lead": "Deux villas jumelles avec piscine privée, à quelques minutes des plus belles plages et spots de surf du sud de Lombok.",
       "hero.discover": "Découvrir les villas", "hero.whatsapp": "Disponibilités", "hero.scroll": "Défiler",
       "intro.eyebrow": "Bienvenue",
-      "intro.title": "Un refuge tropical,<br><em>entre océan et collines.</em>",
-      "intro.p1": "Ratus Villa, ce sont deux villas identiques nichées dans un coin calme de Kuta, au sud de Lombok. Des espaces lumineux, une piscine privée pour se rafraîchir après le surf, et toute la côte à portée de scooter.",
-      "intro.p2": "Sur place, on vous facilite tout : surf, scooter, chauffeur, massage, soirées et bonnes adresses… tout est sur cette page, à un clic de votre téléphone.",
+      "intro.title": "Un refuge au cœur de Lombok,<br><em>entre océan et collines.</em>",
+      "intro.p1": "Ratus Villa, ce sont deux villas dans un coin calme de Kuta, au sud de Lombok. Des espaces lumineux et une piscine privée pour se rafraîchir.",
+      "intro.p2": "Sur place, on vous facilite tout : surf, scooter, chauffeur, massage, soirées et bonnes adresses…",
       "stats.villas": "Villas privées", "stats.bedrooms": "Chambres", "stats.beach": "Min de la plage", "stats.airport": "Min de l'aéroport",
-      "villas.eyebrow": "Les villas", "villas.title": "Deux villas jumelles, <em>une même douceur de vivre.</em>",
+      "villas.eyebrow": "Les villas", "villas.title": "Deux villas jumelles, <em>à votre disposition.</em>",
       "villa.bedrooms": "Chambres", "villa.bathrooms": "Sdb", "villa.guests": "Voyageurs", "villa.size": "Surface", "villa.book": "Demander les disponibilités",
       "villa.twin": "villas identiques", "villa.per": "Par villa", "villa.one": "1 villa", "villa.both": "Les 2 villas", "villa.upto": "jusqu'à {n} voyageurs",
       "villa.photos": "Voir les photos",
       "gallery.eyebrow": "Galerie", "gallery.title": "Instants <em>Ratus.</em>", "gallery.aside": "Faites glisser · touchez une photo pour l'agrandir.",
       "services.eyebrow": "Services & contacts", "services.title": "Tout à portée <em>d'un message.</em>",
-      "services.lead": "Nos contacts de confiance sur place. Un clic pour écrire sur WhatsApp, ou scannez le QR code avec votre téléphone.",
+      "services.lead": "Nos contacts de confiance sur place. Un clic pour leur écrire sur WhatsApp.",
       "services.write": "Écrire sur WhatsApp",
       "guide.eyebrow": "Guide local", "guide.title": "Vivre Kuta <em>comme un local.</em>",
       "guide.surf": "Surf & plages", "guide.night": "Soirées", "guide.move": "Se déplacer", "guide.food": "Courses",
@@ -61,17 +61,17 @@
       "hero.lead": "Two twin private-pool villas, minutes from South Lombok's most beautiful beaches and surf spots.",
       "hero.discover": "Discover the villas", "hero.whatsapp": "Availability", "hero.scroll": "Scroll",
       "intro.eyebrow": "Welcome",
-      "intro.title": "A tropical hideaway,<br><em>between ocean and hills.</em>",
-      "intro.p1": "Ratus Villa is two identical villas tucked away in a quiet corner of Kuta, South Lombok. Bright living spaces, a private pool to cool off after surfing, and the whole coast within scooter reach.",
-      "intro.p2": "On the ground, we make everything easy: surf, scooter, driver, massage, parties and local tips… it's all on this page, one tap away on your phone.",
+      "intro.title": "A hideaway in the heart of Lombok,<br><em>between ocean and hills.</em>",
+      "intro.p1": "Ratus Villa is two villas in a quiet corner of Kuta, South Lombok. Bright living spaces and a private pool to cool off.",
+      "intro.p2": "On the ground, we make everything easy: surf, scooter, driver, massage, parties and local tips…",
       "stats.villas": "Private villas", "stats.bedrooms": "Bedrooms", "stats.beach": "Min to the beach", "stats.airport": "Min to the airport",
-      "villas.eyebrow": "The villas", "villas.title": "Twin villas, <em>one easy way of life.</em>",
+      "villas.eyebrow": "The villas", "villas.title": "Twin villas, <em>at your disposal.</em>",
       "villa.bedrooms": "Bedrooms", "villa.bathrooms": "Baths", "villa.guests": "Guests", "villa.size": "Size", "villa.book": "Check availability",
       "villa.twin": "identical villas", "villa.per": "Per villa", "villa.one": "1 villa", "villa.both": "Both villas", "villa.upto": "up to {n} guests",
       "villa.photos": "See photos",
       "gallery.eyebrow": "Gallery", "gallery.title": "Ratus <em>moments.</em>", "gallery.aside": "Swipe · tap a photo to enlarge.",
       "services.eyebrow": "Services & contacts", "services.title": "Everything is <em>one message away.</em>",
-      "services.lead": "Our trusted local contacts. One tap to message on WhatsApp, or scan the QR code with your phone.",
+      "services.lead": "Our trusted local contacts. One tap to message them on WhatsApp.",
       "services.write": "Message on WhatsApp",
       "guide.eyebrow": "Local guide", "guide.title": "Live Kuta <em>like a local.</em>",
       "guide.surf": "Surf & beaches", "guide.night": "Nightlife", "guide.move": "Getting around", "guide.food": "Groceries",
@@ -184,7 +184,6 @@
         <div class="villa__gallery">
           <div class="villa__mainwrap">
             ${mediaHTML(v.photos[0] || "", `data-tone="1" data-label="${t("photo")}"`, "villa__main")}
-            <span class="villa__twin"><b>×${v.count}</b> ${t("villa.twin")}</span>
             <button class="villa__count" type="button">${icon("i-size")}<span>1 / ${photosK}</span></button>
           </div>
           <div class="villa__thumbs" style="--n:${Math.min(photosK, 7)}">
@@ -269,7 +268,6 @@
       const actions = s.whatsapp
         ? `<div class="service__actions">
              <a class="btn btn--light" href="${waLink(s.whatsapp, L(s.message))}" target="_blank" rel="noopener">${icon("i-whatsapp")}<span>${t("services.write")}</span></a>
-             <button class="btn-qr" data-qr="${i}" aria-label="QR code">${icon("i-qr")}</button>
            </div>`
         : "";
       return `<article class="service reveal" style="--d:${i % 2}">
