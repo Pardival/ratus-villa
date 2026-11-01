@@ -24,6 +24,7 @@ Tout le contenu modifiable est dans **`js/config.js`** :
 | Spots de surf, programme des soirées, courses (+ lieu pour le bouton « Y aller ») | `guide` |
 | Localisation de la villa (recherche « Ratus Villa » ou coordonnées GPS) | `map` |
 
+Les textes sont en 4 langues : `en` (par défaut), `fr`, `es`, `id`.
 Les numéros WhatsApp s'écrivent au format international **sans `+` ni espaces** (ex. `6281234567890`).
 Les QR codes sont générés automatiquement à partir de ces numéros.
 

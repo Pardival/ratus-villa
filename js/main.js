@@ -9,52 +9,14 @@
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
 
-  /* ---------------- Textes fixes (FR / EN) ---------------- */
+  /* ---------------- Textes fixes (EN / FR / ES / ID) ---------------- */
+  const LANGS = [
+    { code: "en", label: "English" },
+    { code: "fr", label: "Français" },
+    { code: "es", label: "Español" },
+    { code: "id", label: "Bahasa Indonesia" }
+  ];
   const I18N = {
-    fr: {
-      "nav.villas": "Les villas", "nav.gallery": "Galerie", "nav.services": "Services", "nav.guide": "Guide Kuta", "nav.contact": "Contact", "nav.book": "Réserver",
-      "hero.eyebrow": "Kuta · Lombok · Indonésie",
-      "hero.lead": "Deux villas jumelles avec piscine privée, à quelques minutes des plus belles plages et spots de surf du sud de Lombok.",
-      "hero.discover": "Découvrir les villas", "hero.whatsapp": "Disponibilités", "hero.scroll": "Défiler",
-      "intro.eyebrow": "Bienvenue",
-      "intro.title": "Un refuge au cœur de Lombok,<br><em>entre océan et collines.</em>",
-      "intro.p1": "Ratus Villa, ce sont deux villas dans un coin calme de Kuta, au sud de Lombok. Des espaces lumineux et une piscine privée pour se rafraîchir.",
-      "intro.p2": "Sur place, on vous facilite tout : surf, scooter, chauffeur, massage, soirées et bonnes adresses…",
-      "stats.villas": "Villas privées", "stats.bedrooms": "Chambres", "stats.beach": "Min de la plage", "stats.airport": "Min de l'aéroport",
-      "villas.eyebrow": "Les villas", "villas.title": "Deux villas jumelles, <em>à votre disposition.</em>",
-      "villa.bedrooms": "Chambres", "villa.bathrooms": "Sdb", "villa.guests": "Voyageurs", "villa.size": "Surface", "villa.book": "Demander les disponibilités",
-      "villa.twin": "villas identiques", "villa.per": "Par villa", "villa.one": "1 villa", "villa.both": "Les 2 villas", "villa.upto": "jusqu'à {n} voyageurs",
-      "villa.photos": "Voir les photos",
-      "gallery.eyebrow": "Galerie", "gallery.title": "Instants <em>Ratus.</em>", "gallery.aside": "Faites glisser · touchez une photo pour l'agrandir.",
-      "services.eyebrow": "Services & contacts", "services.title": "Tout à portée <em>d'un message.</em>",
-      "services.lead": "Nos contacts de confiance sur place. Un clic pour leur écrire sur WhatsApp.",
-      "services.write": "Écrire sur WhatsApp",
-      "guide.eyebrow": "Guide local", "guide.title": "Vivre Kuta <em>comme un local.</em>",
-      "guide.surf": "Surf & plages", "guide.night": "Soirées", "guide.move": "Se déplacer", "guide.food": "Courses",
-      "guide.surf.title": "Le paradis des surfeurs",
-      "guide.surf.text": "La côte sud de Lombok aligne des dizaines de spots, des baies abritées pour débuter aux récifs mythiques. La meilleure saison va d'avril à octobre, mais on surfe toute l'année.",
-      "guide.night.title": "Sunsets & soirées",
-      "guide.night.text": "À Kuta, la fête tourne de bar en bar selon le jour de la semaine. Voici où sortir chaque soir, et à quelle heure y aller.",
-      "night.tonight": "Ce soir", "days": ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
-      "go": "Y aller", "go.apple": "Plans",
-      "guide.move.title": "Le scooter, la liberté",
-      "guide.move.text": "À Kuta, tout se fait en scooter. Comptez quelques euros par jour, livraison à la villa possible. Permis international recommandé, casque obligatoire.",
-      "guide.move.t1": "Livraison & récupération à la villa", "guide.move.t2": "Porte-planche de surf disponible", "guide.move.t3": "Chauffeur privé pour les longues distances",
-      "guide.move.cta": "Louer un scooter",
-      "guide.food.title": "Faire ses courses",
-      "guide.food.text": "Toutes les villas sont équipées d'une cuisine. Voici où trouver de quoi la remplir — des produits locaux aux produits importés.",
-      "location.eyebrow": "Localisation", "location.title": "Au cœur du <em>sud de Lombok.</em>",
-      "location.d1": "Plage de Kuta", "location.d5": "Aéroport international", "location.cta": "Itinéraire vers la villa", "location.apple": "Ouvrir dans Plans", "location.open": "Voir l'itinéraire",
-      "mbar.book": "Réserver", "mbar.guide": "Guide", "mbar.go": "Y aller",
-      "cta.eyebrow": "Réservation", "cta.title": "Votre séjour à Lombok<br><em>commence ici.</em>",
-      "cta.lead": "Écrivez-nous sur WhatsApp pour les disponibilités, les tarifs et toutes vos questions. Réponse rapide.",
-      "cta.scan": "Scannez pour nous écrire", "cta.whatsapp": "Écrire sur WhatsApp", "cta.share": "Partager le site", "cta.copied": "Lien copié !",
-      "footer.made": "Fait avec amour sous le soleil de Lombok.",
-      "qr.hint": "Scannez avec l'appareil photo de votre téléphone.", "qr.open": "Ouvrir WhatsApp",
-      "photo": "Photo à venir",
-      "am.pool": "Piscine privée", "am.ac": "Climatisation", "am.wifi": "Wi-Fi", "am.kitchen": "Cuisine équipée", "am.parking": "Parking scooter",
-      "am.garden": "Jardin tropical", "am.cleaning": "Ménage", "am.towels": "Linge & serviettes", "am.terrace": "Terrasse", "am.surfrack": "Rack à surf", "am.tv": "Smart TV", "am.bathtub": "Baignoire", "am.balcony": "Balcon"
-    },
     en: {
       "nav.villas": "Villas", "nav.gallery": "Gallery", "nav.services": "Services", "nav.guide": "Kuta guide", "nav.contact": "Contact", "nav.book": "Book",
       "hero.eyebrow": "Kuta · Lombok · Indonesia",
@@ -67,49 +29,133 @@
       "stats.villas": "Private villas", "stats.bedrooms": "Bedrooms", "stats.beach": "Min to the beach", "stats.airport": "Min to the airport",
       "villas.eyebrow": "The villas", "villas.title": "Twin villas, <em>at your disposal.</em>",
       "villa.bedrooms": "Bedrooms", "villa.bathrooms": "Baths", "villa.guests": "Guests", "villa.size": "Size", "villa.book": "Check availability",
-      "villa.twin": "identical villas", "villa.per": "Per villa", "villa.one": "1 villa", "villa.both": "Both villas", "villa.upto": "up to {n} guests",
-      "villa.photos": "See photos",
+      "villa.per": "Per villa", "villa.one": "1 villa", "villa.both": "Both villas", "villa.upto": "up to {n} guests",
       "gallery.eyebrow": "Gallery", "gallery.title": "Ratus <em>moments.</em>", "gallery.aside": "Swipe · tap a photo to enlarge.",
       "services.eyebrow": "Services & contacts", "services.title": "Everything is <em>one message away.</em>",
       "services.lead": "Our trusted local contacts. One tap to message them on WhatsApp.",
       "services.write": "Message on WhatsApp",
       "guide.eyebrow": "Local guide", "guide.title": "Live Kuta <em>like a local.</em>",
-      "guide.surf": "Surf & beaches", "guide.night": "Nightlife", "guide.move": "Getting around", "guide.food": "Groceries",
-      "guide.surf.title": "A surfer's paradise",
-      "guide.surf.text": "Lombok's south coast lines up dozens of spots, from sheltered bays for beginners to legendary reefs. Best season is April to October, but you can surf all year round.",
-      "guide.night.title": "Sunsets & parties",
-      "guide.night.text": "In Kuta, the party moves from bar to bar depending on the day. Here's where to go each night, and what time to show up.",
+      "guide.surf": "Surf & beaches", "guide.night": "Nightlife", "guide.food": "Groceries",
       "night.tonight": "Tonight", "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       "go": "Go there", "go.apple": "Apple Maps",
-      "guide.move.title": "Scooter = freedom",
-      "guide.move.text": "In Kuta, everything happens by scooter. A few euros a day, delivery to the villa available. International licence recommended, helmet mandatory.",
-      "guide.move.t1": "Delivery & pick-up at the villa", "guide.move.t2": "Surfboard rack available", "guide.move.t3": "Private driver for longer trips",
-      "guide.move.cta": "Rent a scooter",
-      "guide.food.title": "Grocery shopping",
-      "guide.food.text": "Every villa has a fully equipped kitchen. Here's where to fill it up — from local produce to imported goods.",
       "location.eyebrow": "Location", "location.title": "In the heart of <em>South Lombok.</em>",
       "location.d1": "Kuta beach", "location.d5": "International airport", "location.cta": "Directions to the villa", "location.apple": "Open in Apple Maps", "location.open": "Get directions",
       "mbar.book": "Book", "mbar.guide": "Guide", "mbar.go": "Directions",
       "cta.eyebrow": "Booking", "cta.title": "Your Lombok stay<br><em>starts here.</em>",
       "cta.lead": "Message us on WhatsApp for availability, rates and any question. Quick reply.",
-      "cta.scan": "Scan to message us", "cta.whatsapp": "Message on WhatsApp", "cta.share": "Share this site", "cta.copied": "Link copied!",
-      "footer.made": "Made with love under the Lombok sun.",
-      "qr.hint": "Scan with your phone camera.", "qr.open": "Open WhatsApp",
-      "photo": "Photo coming soon",
+      "cta.scan": "Scan to message us", "cta.whatsapp": "Message on WhatsApp",
+      "qr.hint": "Scan with your phone camera.", "qr.open": "Open WhatsApp", "lang.label": "Language", "photo": "Photo coming soon",
       "am.pool": "Private pool", "am.ac": "Air conditioning", "am.wifi": "Wi-Fi", "am.kitchen": "Equipped kitchen", "am.parking": "Scooter parking",
-      "am.garden": "Tropical garden", "am.cleaning": "Housekeeping", "am.towels": "Linen & towels", "am.terrace": "Terrace", "am.surfrack": "Surf rack", "am.tv": "Smart TV", "am.bathtub": "Bathtub", "am.balcony": "Balcony"
+      "am.towels": "Linen & towels", "am.tv": "Smart TV", "am.bathtub": "Bathtub", "am.balcony": "Balcony",
+      "am.garden": "Tropical garden", "am.cleaning": "Housekeeping", "am.terrace": "Terrace", "am.surfrack": "Surf rack"
+    },
+    fr: {
+      "nav.villas": "Les villas", "nav.gallery": "Galerie", "nav.services": "Services", "nav.guide": "Guide Kuta", "nav.contact": "Contact", "nav.book": "Réserver",
+      "hero.eyebrow": "Kuta · Lombok · Indonésie",
+      "hero.lead": "Deux villas jumelles avec piscine privée, à quelques minutes des plus belles plages et spots de surf du sud de Lombok.",
+      "hero.discover": "Découvrir les villas", "hero.whatsapp": "Disponibilités", "hero.scroll": "Défiler",
+      "intro.eyebrow": "Bienvenue",
+      "intro.title": "Un refuge au cœur de Lombok,<br><em>entre océan et collines.</em>",
+      "intro.p1": "Ratus Villa, ce sont deux villas dans un coin calme de Kuta, au sud de Lombok. Des espaces lumineux et une piscine privée pour se rafraîchir.",
+      "intro.p2": "Sur place, on vous facilite tout : surf, scooter, chauffeur, massage, soirées et bonnes adresses…",
+      "stats.villas": "Villas privées", "stats.bedrooms": "Chambres", "stats.beach": "Min de la plage", "stats.airport": "Min de l'aéroport",
+      "villas.eyebrow": "Les villas", "villas.title": "Deux villas jumelles, <em>à votre disposition.</em>",
+      "villa.bedrooms": "Chambres", "villa.bathrooms": "Sdb", "villa.guests": "Voyageurs", "villa.size": "Surface", "villa.book": "Demander les disponibilités",
+      "villa.per": "Par villa", "villa.one": "1 villa", "villa.both": "Les 2 villas", "villa.upto": "jusqu'à {n} voyageurs",
+      "gallery.eyebrow": "Galerie", "gallery.title": "Instants <em>Ratus.</em>", "gallery.aside": "Faites glisser · touchez une photo pour l'agrandir.",
+      "services.eyebrow": "Services & contacts", "services.title": "Tout à portée <em>d'un message.</em>",
+      "services.lead": "Nos contacts de confiance sur place. Un clic pour leur écrire sur WhatsApp.",
+      "services.write": "Écrire sur WhatsApp",
+      "guide.eyebrow": "Guide local", "guide.title": "Vivre Kuta <em>comme un local.</em>",
+      "guide.surf": "Surf & plages", "guide.night": "Soirées", "guide.food": "Courses",
+      "night.tonight": "Ce soir", "days": ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
+      "go": "Y aller", "go.apple": "Plans",
+      "location.eyebrow": "Localisation", "location.title": "Au cœur du <em>sud de Lombok.</em>",
+      "location.d1": "Plage de Kuta", "location.d5": "Aéroport international", "location.cta": "Itinéraire vers la villa", "location.apple": "Ouvrir dans Plans", "location.open": "Voir l'itinéraire",
+      "mbar.book": "Réserver", "mbar.guide": "Guide", "mbar.go": "Y aller",
+      "cta.eyebrow": "Réservation", "cta.title": "Votre séjour à Lombok<br><em>commence ici.</em>",
+      "cta.lead": "Écrivez-nous sur WhatsApp pour les disponibilités, les tarifs et toutes vos questions. Réponse rapide.",
+      "cta.scan": "Scannez pour nous écrire", "cta.whatsapp": "Écrire sur WhatsApp",
+      "qr.hint": "Scannez avec l'appareil photo de votre téléphone.", "qr.open": "Ouvrir WhatsApp", "lang.label": "Langue", "photo": "Photo à venir",
+      "am.pool": "Piscine privée", "am.ac": "Climatisation", "am.wifi": "Wi-Fi", "am.kitchen": "Cuisine équipée", "am.parking": "Parking scooter",
+      "am.towels": "Linge & serviettes", "am.tv": "Smart TV", "am.bathtub": "Baignoire", "am.balcony": "Balcon",
+      "am.garden": "Jardin tropical", "am.cleaning": "Ménage", "am.terrace": "Terrasse", "am.surfrack": "Rack à surf"
+    },
+    es: {
+      "nav.villas": "Las villas", "nav.gallery": "Galería", "nav.services": "Servicios", "nav.guide": "Guía de Kuta", "nav.contact": "Contacto", "nav.book": "Reservar",
+      "hero.eyebrow": "Kuta · Lombok · Indonesia",
+      "hero.lead": "Dos villas gemelas con piscina privada, a pocos minutos de las playas y spots de surf más bonitos del sur de Lombok.",
+      "hero.discover": "Descubrir las villas", "hero.whatsapp": "Disponibilidad", "hero.scroll": "Desliza",
+      "intro.eyebrow": "Bienvenidos",
+      "intro.title": "Un refugio en el corazón de Lombok,<br><em>entre el océano y las colinas.</em>",
+      "intro.p1": "Ratus Villa son dos villas en un rincón tranquilo de Kuta, al sur de Lombok. Espacios luminosos y una piscina privada para refrescarse.",
+      "intro.p2": "Allí te lo ponemos fácil: surf, scooter, chófer, masajes, fiestas y buenos sitios…",
+      "stats.villas": "Villas privadas", "stats.bedrooms": "Habitaciones", "stats.beach": "Min a la playa", "stats.airport": "Min al aeropuerto",
+      "villas.eyebrow": "Las villas", "villas.title": "Dos villas gemelas, <em>a tu disposición.</em>",
+      "villa.bedrooms": "Habitaciones", "villa.bathrooms": "Baños", "villa.guests": "Huéspedes", "villa.size": "Superficie", "villa.book": "Consultar disponibilidad",
+      "villa.per": "Por villa", "villa.one": "1 villa", "villa.both": "Las 2 villas", "villa.upto": "hasta {n} huéspedes",
+      "gallery.eyebrow": "Galería", "gallery.title": "Momentos <em>Ratus.</em>", "gallery.aside": "Desliza · toca una foto para ampliarla.",
+      "services.eyebrow": "Servicios y contactos", "services.title": "Todo a <em>un mensaje.</em>",
+      "services.lead": "Nuestros contactos de confianza en Kuta. Un toque para escribirles por WhatsApp.",
+      "services.write": "Escribir por WhatsApp",
+      "guide.eyebrow": "Guía local", "guide.title": "Vive Kuta <em>como un local.</em>",
+      "guide.surf": "Surf y playas", "guide.night": "Fiestas", "guide.food": "Compras",
+      "night.tonight": "Esta noche", "days": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+      "go": "Cómo llegar", "go.apple": "Mapas",
+      "location.eyebrow": "Ubicación", "location.title": "En el corazón <em>del sur de Lombok.</em>",
+      "location.d1": "Playa de Kuta", "location.d5": "Aeropuerto internacional", "location.cta": "Cómo llegar a la villa", "location.apple": "Abrir en Mapas", "location.open": "Ver la ruta",
+      "mbar.book": "Reservar", "mbar.guide": "Guía", "mbar.go": "Cómo llegar",
+      "cta.eyebrow": "Reservas", "cta.title": "Tu estancia en Lombok<br><em>empieza aquí.</em>",
+      "cta.lead": "Escríbenos por WhatsApp para disponibilidad, tarifas y cualquier pregunta. Respuesta rápida.",
+      "cta.scan": "Escanea para escribirnos", "cta.whatsapp": "Escribir por WhatsApp",
+      "qr.hint": "Escanea con la cámara de tu teléfono.", "qr.open": "Abrir WhatsApp", "lang.label": "Idioma", "photo": "Foto próximamente",
+      "am.pool": "Piscina privada", "am.ac": "Aire acondicionado", "am.wifi": "Wi-Fi", "am.kitchen": "Cocina equipada", "am.parking": "Parking para scooter",
+      "am.towels": "Ropa de cama y toallas", "am.tv": "Smart TV", "am.bathtub": "Bañera", "am.balcony": "Balcón",
+      "am.garden": "Jardín tropical", "am.cleaning": "Limpieza", "am.terrace": "Terraza", "am.surfrack": "Soporte para tablas"
+    },
+    id: {
+      "nav.villas": "Vila", "nav.gallery": "Galeri", "nav.services": "Layanan", "nav.guide": "Panduan Kuta", "nav.contact": "Kontak", "nav.book": "Pesan",
+      "hero.eyebrow": "Kuta · Lombok · Indonesia",
+      "hero.lead": "Dua vila kembar dengan kolam renang pribadi, hanya beberapa menit dari pantai dan spot selancar terindah di Lombok Selatan.",
+      "hero.discover": "Lihat vila", "hero.whatsapp": "Ketersediaan", "hero.scroll": "Gulir",
+      "intro.eyebrow": "Selamat datang",
+      "intro.title": "Tempat berlindung di jantung Lombok,<br><em>di antara laut dan perbukitan.</em>",
+      "intro.p1": "Ratus Villa adalah dua vila di sudut Kuta yang tenang, Lombok Selatan. Ruangan yang terang dan kolam renang pribadi untuk menyegarkan diri.",
+      "intro.p2": "Di sini kami memudahkan semuanya: selancar, sewa motor, sopir, pijat, pesta, dan tempat-tempat favorit…",
+      "stats.villas": "Vila pribadi", "stats.bedrooms": "Kamar tidur", "stats.beach": "Menit ke pantai", "stats.airport": "Menit ke bandara",
+      "villas.eyebrow": "Vila", "villas.title": "Dua vila kembar, <em>siap untuk Anda.</em>",
+      "villa.bedrooms": "Kamar tidur", "villa.bathrooms": "Kamar mandi", "villa.guests": "Tamu", "villa.size": "Luas", "villa.book": "Cek ketersediaan",
+      "villa.per": "Per vila", "villa.one": "1 vila", "villa.both": "2 vila", "villa.upto": "hingga {n} tamu",
+      "gallery.eyebrow": "Galeri", "gallery.title": "Momen <em>Ratus.</em>", "gallery.aside": "Geser · ketuk foto untuk memperbesar.",
+      "services.eyebrow": "Layanan & kontak", "services.title": "Semuanya cukup <em>satu pesan.</em>",
+      "services.lead": "Kontak lokal tepercaya kami. Sekali ketuk untuk menghubungi mereka lewat WhatsApp.",
+      "services.write": "Kirim pesan WhatsApp",
+      "guide.eyebrow": "Panduan lokal", "guide.title": "Nikmati Kuta <em>seperti warga lokal.</em>",
+      "guide.surf": "Selancar & pantai", "guide.night": "Hiburan malam", "guide.food": "Belanja",
+      "night.tonight": "Malam ini", "days": ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"],
+      "go": "Petunjuk arah", "go.apple": "Apple Maps",
+      "location.eyebrow": "Lokasi", "location.title": "Di jantung <em>Lombok Selatan.</em>",
+      "location.d1": "Pantai Kuta", "location.d5": "Bandara internasional", "location.cta": "Petunjuk arah ke vila", "location.apple": "Buka di Apple Maps", "location.open": "Lihat rute",
+      "mbar.book": "Pesan", "mbar.guide": "Panduan", "mbar.go": "Rute",
+      "cta.eyebrow": "Pemesanan", "cta.title": "Liburan Anda di Lombok<br><em>dimulai di sini.</em>",
+      "cta.lead": "Hubungi kami lewat WhatsApp untuk ketersediaan, harga, dan pertanyaan lainnya. Balasan cepat.",
+      "cta.scan": "Pindai untuk menghubungi kami", "cta.whatsapp": "Kirim pesan WhatsApp",
+      "qr.hint": "Pindai dengan kamera ponsel Anda.", "qr.open": "Buka WhatsApp", "lang.label": "Bahasa", "photo": "Foto segera hadir",
+      "am.pool": "Kolam renang pribadi", "am.ac": "AC", "am.wifi": "Wi-Fi", "am.kitchen": "Dapur lengkap", "am.parking": "Parkir motor",
+      "am.towels": "Seprai & handuk", "am.tv": "Smart TV", "am.bathtub": "Bathtub", "am.balcony": "Balkon",
+      "am.garden": "Taman tropis", "am.cleaning": "Layanan kebersihan", "am.terrace": "Teras", "am.surfrack": "Rak papan selancar"
     }
   };
 
   const AMENITY_ICONS = { pool: "i-pool", ac: "i-ac", wifi: "i-wifi", kitchen: "i-kitchen", parking: "i-parking", garden: "i-garden", cleaning: "i-clean", towels: "i-towel", terrace: "i-terrace", surfrack: "i-surfrack", tv: "i-tv", bathtub: "i-bath", balcony: "i-terrace" };
   const SERVICE_ICONS = { wave: "i-wave", scooter: "i-scooter", music: "i-music", car: "i-car", lotus: "i-lotus", basket: "i-basket" };
 
-  let lang = "fr";
-  try { lang = localStorage.getItem("ratus-lang") || (navigator.language || "fr").slice(0, 2); } catch (e) {}
-  if (!I18N[lang]) lang = "en";
+  // Anglais par défaut ; le choix du visiteur est mémorisé.
+  let lang = "en";
+  try { const saved = localStorage.getItem("ratus-lang"); if (saved && I18N[saved]) lang = saved; } catch (e) {}
 
-  const t = (k) => (I18N[lang] && I18N[lang][k]) || I18N.fr[k] || k;
-  const L = (obj) => (obj && typeof obj === "object") ? (obj[lang] || obj.fr || "") : (obj || "");
+  const t = (k) => (I18N[lang] && I18N[lang][k]) || I18N.en[k] || k;
+  const L = (obj) => (obj && typeof obj === "object") ? (obj[lang] || obj.en || obj.fr || "") : (obj || "");
   const icon = (id, cls = "ico") => `<svg class="${cls}"><use href="#${id}"/></svg>`;
   const IS_IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   const gDir = (q) => `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q)}`;
@@ -158,7 +204,8 @@
     document.documentElement.lang = lang;
     $$("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
     $$("[data-i18n-html]").forEach((el) => { el.innerHTML = t(el.dataset.i18nHtml); });
-    $$("#langToggle [data-lang]").forEach((s) => s.classList.toggle("is-active", s.dataset.lang === lang));
+    const cur = $("#langCur"); if (cur) cur.textContent = lang.toUpperCase();
+    $$("#langMenu [data-lang]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.lang === lang)));
   }
 
   function bindBooking() {
@@ -268,6 +315,7 @@
       const actions = s.whatsapp
         ? `<div class="service__actions">
              <a class="btn btn--light" href="${waLink(s.whatsapp, L(s.message))}" target="_blank" rel="noopener">${icon("i-whatsapp")}<span>${t("services.write")}</span></a>
+             <button class="btn-qr" data-qr="${i}" aria-label="QR code">${icon("i-qr")}</button>
            </div>`
         : "";
       return `<article class="service reveal" style="--d:${i % 2}">
@@ -279,7 +327,7 @@
     }).join("");
     $$(".btn-qr", grid).forEach((b) => b.addEventListener("click", () => {
       const s = C.services[+b.dataset.qr];
-      openQr(L(s.title) + (s.contact ? " · " + s.contact : ""), waLink(s.whatsapp, L(s.message)));
+      openQr(L(s.title), waLink(s.whatsapp, L(s.message)));
     }));
   }
 
@@ -416,13 +464,23 @@
   }
 
   function setupLang() {
-    $("#langToggle").addEventListener("click", () => {
-      lang = lang === "fr" ? "en" : "fr";
+    const box = $("#lang"), btn = $("#langBtn"), menu = $("#langMenu");
+    menu.innerHTML = LANGS.map((l) => `<li><button type="button" role="option" data-lang="${l.code}"><b>${l.code.toUpperCase()}</b>${l.label}</button></li>`).join("");
+    const close = () => { box.classList.remove("is-open"); btn.setAttribute("aria-expanded", "false"); };
+    btn.addEventListener("click", (e) => { e.stopPropagation(); const o = box.classList.toggle("is-open"); btn.setAttribute("aria-expanded", String(o)); });
+    document.addEventListener("click", (e) => { if (!box.contains(e.target)) close(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+    $$("[data-lang]", menu).forEach((b) => b.addEventListener("click", () => {
+      close();
+      if (b.dataset.lang === lang) return;
+      lang = b.dataset.lang;
       try { localStorage.setItem("ratus-lang", lang); } catch (e) {}
       document.body.animate([{ opacity: 1 }, { opacity: .25 }, { opacity: 1 }], { duration: 700, easing: "ease-in-out" });
       setTimeout(() => { renderAll(true); $$(".reveal").forEach((el) => el.classList.add("is-in")); }, 300);
-    });
+    }));
+    applyI18n();
   }
+
 
   function setupGuide() {
     $$("#guideNav .chip").forEach((chip) => chip.addEventListener("click", () => {
