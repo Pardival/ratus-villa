@@ -30,51 +30,40 @@ window.RATUS = {
 
   /* ---------- Localisation (carte) ---------- */
   map: {
-    query: "Kuta, Lombok, Indonesia",  // ← remplacer par l'adresse / coordonnées exactes
-    googleMapsLink: "https://maps.google.com/?q=Kuta+Lombok"
+    // Recherche utilisée pour la carte et l'itinéraire (même résultat que de taper "Ratus Villa" dans Google Maps).
+    query: "Ratus Villa, Kuta, Lombok",
+    // Optionnel : coordonnées GPS exactes pour un repère précis (ex: lat: -8.8955, lng: 116.2840).
+    // Si renseignées, elles sont prioritaires sur la recherche ci-dessus.
+    lat: null,
+    lng: null
   },
 
-  /* ---------- Les villas ---------- */
-  villas: [
-    {
-      id: "villa-1",
-      name: "Villa Ratus I",
-      tagline: { fr: "Lumineuse, ouverte, piscine privée", en: "Bright, open-plan, private pool" },
-      description: {
-        fr: "Une villa pensée pour ralentir : grands espaces ouverts sur la piscine, matériaux naturels, lumière douce du matin au coucher du soleil. À quelques minutes des plus belles plages du sud de Lombok.",
-        en: "A villa designed for slowing down: open living spaces facing the pool, natural materials and soft light from sunrise to sunset. Minutes away from South Lombok's most beautiful beaches."
-      },
-      stats: { bedrooms: 2, bathrooms: 2, guests: 4, size: "— m²" },
-      price: { fr: "Prix sur demande", en: "Price on request" },
-      amenities: ["pool", "ac", "wifi", "kitchen", "parking", "garden", "cleaning", "towels"],
-      photos: [
-        "assets/villa-1/1.jpg",
-        "assets/villa-1/2.jpg",
-        "assets/villa-1/3.jpg",
-        "assets/villa-1/4.jpg",
-        "assets/villa-1/5.jpg"
-      ]
+  /* ---------- Les villas (2 villas identiques) ---------- */
+  villa: {
+    count: 2,
+    name: "Ratus Villa",
+    tagline: { fr: "2 villas identiques · piscine privée", en: "2 identical villas · private pool" },
+    description: {
+      fr: "Deux villas jumelles, construites côte à côte et aménagées à l'identique. Chacune a sa propre piscine, son salon ouvert sur le jardin et sa cuisine équipée : on profite d'une vraie intimité, au calme, à quelques minutes des plages et des spots de surf.",
+      en: "Two twin villas, built side by side and fitted out identically. Each has its own pool, an open living room facing the garden and a fully equipped kitchen: real privacy and peace, minutes from the beaches and surf spots."
     },
-    {
-      id: "villa-2",
-      name: "Villa Ratus II",
-      tagline: { fr: "Intimiste, tropicale, au calme", en: "Intimate, tropical, peaceful" },
-      description: {
-        fr: "Nichée dans la verdure, la seconde villa offre une atmosphère plus intimiste : chambres spacieuses, salle de bain semi-ouverte, terrasse face à la piscine. Idéale pour les couples, amis ou surfeurs.",
-        en: "Tucked into the greenery, the second villa has a more intimate feel: spacious bedrooms, semi-open bathroom, terrace facing the pool. Ideal for couples, friends or surfers."
-      },
-      stats: { bedrooms: 2, bathrooms: 2, guests: 4, size: "— m²" },
-      price: { fr: "Prix sur demande", en: "Price on request" },
-      amenities: ["pool", "ac", "wifi", "kitchen", "parking", "terrace", "cleaning", "surfrack"],
-      photos: [
-        "assets/villa-2/1.jpg",
-        "assets/villa-2/2.jpg",
-        "assets/villa-2/3.jpg",
-        "assets/villa-2/4.jpg",
-        "assets/villa-2/5.jpg"
-      ]
-    }
-  ],
+    groupNote: {
+      fr: "En couple ou entre amis, louez une villa. En famille ou en groupe, réservez les deux et partagez le même coin de paradis.",
+      en: "As a couple or with friends, rent one villa. With family or a group, book both and share the same little corner of paradise."
+    },
+    // Caractéristiques PAR villa
+    stats: { bedrooms: 2, bathrooms: 2, guests: 4, size: "— m²" },
+    price: { fr: "Prix sur demande", en: "Price on request" },
+    amenities: ["pool", "ac", "wifi", "kitchen", "parking", "garden", "terrace", "cleaning", "towels", "surfrack"],
+    photos: [
+      "assets/villa/1.jpg",
+      "assets/villa/2.jpg",
+      "assets/villa/3.jpg",
+      "assets/villa/4.jpg",
+      "assets/villa/5.jpg",
+      "assets/villa/6.jpg"
+    ]
+  },
 
   /* ---------- Galerie générale ---------- */
   gallery: [
@@ -112,18 +101,6 @@ window.RATUS = {
       message: { fr: "Bonjour, je séjourne à Ratus Villa et j'aimerais louer un scooter.", en: "Hi, I'm staying at Ratus Villa and would like to rent a scooter." }
     },
     {
-      id: "party",
-      icon: "music",
-      title: { fr: "Soirées & parties", en: "Parties & nightlife" },
-      text: {
-        fr: "Beach bars, live music, sunset sessions et soirées chaque semaine. On vous partage le programme du moment.",
-        en: "Beach bars, live music, sunset sessions and weekly parties. We'll share what's on this week."
-      },
-      contact: "Contact soirées",
-      whatsapp: "620000000003",
-      message: { fr: "Bonjour, quelles sont les soirées cette semaine à Kuta ?", en: "Hi, what parties are on this week in Kuta?" }
-    },
-    {
       id: "transfer",
       icon: "car",
       title: { fr: "Transfert aéroport", en: "Airport transfer" },
@@ -146,39 +123,32 @@ window.RATUS = {
       contact: "Massage",
       whatsapp: "620000000005",
       message: { fr: "Bonjour, j'aimerais réserver un massage à Ratus Villa.", en: "Hi, I'd like to book a massage at Ratus Villa." }
-    },
-    {
-      id: "food",
-      icon: "basket",
-      title: { fr: "Courses & livraison", en: "Groceries & delivery" },
-      text: {
-        fr: "Supérettes, marché local et livraison de courses à la villa. Voir le guide ci-dessous pour les adresses.",
-        en: "Mini-markets, local market and grocery delivery to the villa. See the guide below for addresses."
-      },
-      contact: "",
-      whatsapp: "",
-      message: { fr: "", en: "" }
     }
   ],
 
-  /* ---------- Guide de Kuta Lombok ---------- */
+  /* ---------- Guide de Kuta Lombok ----------
+     "place" = ce qui est recherché dans Google Maps / Plans pour le bouton "Y aller".  */
   guide: {
     surf: [
-      { name: "Gerupuk", level: { fr: "Tous niveaux", en: "All levels" }, text: { fr: "Baie protégée accessible en bateau, plusieurs pics pour débutants comme confirmés.", en: "Sheltered bay reached by boat, several peaks for beginners and pros alike." } },
-      { name: "Selong Belanak", level: { fr: "Débutant", en: "Beginner" }, text: { fr: "Longue plage de sable blanc, vagues douces : parfait pour une première session.", en: "Long white-sand beach with gentle waves: perfect for a first session." } },
-      { name: "Mawi", level: { fr: "Confirmé", en: "Advanced" }, text: { fr: "Une gauche/droite puissante sur récif, réservée aux surfeurs expérimentés.", en: "A powerful reef break for experienced surfers." } },
-      { name: "Tanjung Aan", level: { fr: "Plage & baignade", en: "Beach & swim" }, text: { fr: "Eau turquoise et coucher de soleil depuis la colline de Bukit Merese.", en: "Turquoise water and sunsets from Bukit Merese hill." } }
+      { name: "Gerupuk", place: "Gerupuk Beach, Lombok", level: { fr: "Tous niveaux", en: "All levels" }, text: { fr: "Baie protégée accessible en bateau, plusieurs pics pour débutants comme confirmés.", en: "Sheltered bay reached by boat, several peaks for beginners and pros alike." } },
+      { name: "Selong Belanak", place: "Selong Belanak Beach, Lombok", level: { fr: "Débutant", en: "Beginner" }, text: { fr: "Longue plage de sable blanc, vagues douces : parfait pour une première session.", en: "Long white-sand beach with gentle waves: perfect for a first session." } },
+      { name: "Mawi", place: "Mawi Beach, Lombok", level: { fr: "Confirmé", en: "Advanced" }, text: { fr: "Une vague puissante sur récif, réservée aux surfeurs expérimentés.", en: "A powerful reef break for experienced surfers." } },
+      { name: "Tanjung Aan", place: "Tanjung Aan Beach, Lombok", level: { fr: "Plage & baignade", en: "Beach & swim" }, text: { fr: "Eau turquoise, sable blanc et coucher de soleil depuis la colline de Bukit Merese.", en: "Turquoise water, white sand and sunsets from Bukit Merese hill." } }
     ],
+    // Programme des soirées (day: 1 = lundi … 7 = dimanche)
     nightlife: [
-      { day: { fr: "Lundi", en: "Monday" }, text: { fr: "À compléter", en: "To be completed" } },
-      { day: { fr: "Mercredi", en: "Wednesday" }, text: { fr: "À compléter", en: "To be completed" } },
-      { day: { fr: "Vendredi", en: "Friday" }, text: { fr: "À compléter", en: "To be completed" } },
-      { day: { fr: "Samedi", en: "Saturday" }, text: { fr: "À compléter", en: "To be completed" } }
+      { day: 1, venue: "Surfers Bar",  place: "Surfers Bar, Kuta, Lombok",  time: { fr: "Après minuit", en: "After midnight" } },
+      { day: 2, venue: "The Local",    place: "The Local, Kuta, Lombok",    time: { fr: "Dès 21 h", en: "Busy from 9 pm" } },
+      { day: 3, venue: "Pizza Shack",  place: "Pizza Shack, Kuta, Lombok",  time: { fr: "Dès 21 h", en: "Busy from 9 pm" } },
+      { day: 4, venue: "The Local",    place: "The Local, Kuta, Lombok",    time: { fr: "Dès 21 h", en: "Busy from 9 pm" } },
+      { day: 5, venue: "Surfers Bar",  place: "Surfers Bar, Kuta, Lombok",  time: { fr: "Après minuit", en: "After midnight" } },
+      { day: 6, venue: "Rasta Bar",    place: "Rasta Bar, Kuta, Lombok",    time: { fr: "Après minuit", en: "After midnight" } },
+      { day: 7, venue: "The Local",    place: "The Local, Kuta, Lombok",    time: { fr: "Dès 21 h", en: "Busy from 9 pm" } }
     ],
     groceries: [
-      { name: { fr: "Supérettes (Indomaret / Alfamart)", en: "Mini-markets (Indomaret / Alfamart)" }, text: { fr: "Produits du quotidien, eau, snacks — ouvertes tard.", en: "Everyday essentials, water, snacks — open late." } },
-      { name: { fr: "Épiceries internationales", en: "International grocery stores" }, text: { fr: "Produits importés, fromages, vins, produits frais.", en: "Imported goods, cheese, wine, fresh produce." } },
-      { name: { fr: "Marché local", en: "Local market" }, text: { fr: "Fruits tropicaux, poisson et légumes frais, à petits prix.", en: "Tropical fruit, fresh fish and vegetables at local prices." } }
+      { name: { fr: "Supérettes Indomaret / Alfamart", en: "Indomaret / Alfamart mini-markets" }, place: "Indomaret Kuta Lombok", text: { fr: "Eau, snacks, produits du quotidien — ouvertes tard.", en: "Water, snacks, everyday essentials — open late." } },
+      { name: { fr: "Supermarchés & épiceries", en: "Supermarkets & grocery stores" }, place: "supermarket Kuta Lombok", text: { fr: "Produits importés, frais, vins, fromages.", en: "Imported goods, fresh produce, wine, cheese." } },
+      { name: { fr: "Marché local", en: "Local market" }, place: "Pasar Kuta Lombok", text: { fr: "Fruits tropicaux, poisson et légumes frais, à petits prix.", en: "Tropical fruit, fresh fish and vegetables at local prices." } }
     ]
   }
 };

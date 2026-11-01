@@ -18,11 +18,11 @@ Tout le contenu modifiable est dans **`js/config.js`** :
 |---|---|
 | Numéro WhatsApp de réservation, e-mail | `booking` |
 | Vidéo / image d'accueil | `hero` |
-| Les 2 villas (nom, description, chambres, sdb, voyageurs, surface, prix, équipements, photos) | `villas` |
+| La villa (2 villas identiques : description, chambres, sdb, voyageurs, surface, prix, équipements, photos) | `villa` |
 | Galerie | `gallery` |
-| Services + contacts WhatsApp (surf, scooter, soirées, chauffeur, massage…) | `services` |
-| Spots de surf, programme des soirées, courses | `guide` |
-| Localisation Google Maps | `map` |
+| Services + contacts WhatsApp (surf, scooter, chauffeur, massage…) | `services` |
+| Spots de surf, programme des soirées, courses (+ lieu pour le bouton « Y aller ») | `guide` |
+| Localisation de la villa (recherche « Ratus Villa » ou coordonnées GPS) | `map` |
 
 Les numéros WhatsApp s'écrivent au format international **sans `+` ni espaces** (ex. `6281234567890`).
 Les QR codes sont générés automatiquement à partir de ces numéros.
@@ -34,8 +34,7 @@ Il suffit de déposer les fichiers avec ces noms — tant qu'une photo est absen
 ```
 assets/
 ├── hero/      hero.mp4 (vidéo d'accueil, muette, 10-20 s, < 10 Mo) · hero.jpg (image de secours + partage Facebook)
-├── villa-1/   1.jpg … 5.jpg
-├── villa-2/   1.jpg … 5.jpg
+├── villa/     1.jpg … 6.jpg
 ├── gallery/   1.jpg … 8.jpg
 └── guide/     surf.jpg · party.jpg · scooter.jpg · food.jpg
 ```

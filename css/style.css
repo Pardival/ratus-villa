@@ -358,7 +358,7 @@ body.is-loaded .split .char { transform: none; }
 .gallery__item:hover img { transform: scale(1.06); }
 
 /* ---------- Services ---------- */
-.services__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.services__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 .service {
   position: relative; padding: 34px 30px 30px; border-radius: var(--radius);
   background: rgba(255,255,255,.04); border: 1px solid rgba(244,237,226,.12);
@@ -548,4 +548,153 @@ body:not(.is-loaded) .hero .reveal { opacity: 0; transform: translateY(40px); }
 @media (max-width: 600px) {
   .service { padding: 26px 22px 22px; }
   .service__icon { width: 46px; height: 46px; margin-bottom: 16px; }
+}
+
+/* ==========================================================================
+   V2 — villa unique, agenda, itinéraires, mobile
+   ========================================================================== */
+.villa__mainwrap { position: relative; }
+.villa__twin {
+  position: absolute; top: 16px; left: 16px; z-index: 2;
+  display: inline-flex; align-items: baseline; gap: 6px;
+  padding: .55em 1em; border-radius: 999px;
+  background: rgba(251,247,240,.92); backdrop-filter: blur(8px); color: var(--ocean);
+  font-size: .78rem; font-weight: 600; letter-spacing: .04em;
+}
+.villa__twin b { font-family: var(--serif); font-size: 1.15rem; font-weight: 500; color: var(--sunset); }
+.villa__count {
+  position: absolute; right: 14px; bottom: 14px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 6px; padding: .5em .9em; border-radius: 999px;
+  background: rgba(15,59,68,.6); backdrop-filter: blur(8px); color: #fff; font-size: .75rem; font-weight: 600; letter-spacing: .08em;
+}
+.villa__count .ico { width: 14px; height: 14px; }
+.villa__thumbs { grid-template-columns: repeat(6, 1fr); }
+.villa__per { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); margin: 26px 0 -14px; }
+
+.formula { display: flex; align-items: stretch; gap: 10px; margin: 6px 0 14px; }
+.formula__item { flex: 1; padding: 14px 16px; border-radius: var(--radius-sm); border: 1px solid rgba(29,42,44,.14); display: flex; flex-direction: column; }
+.formula__item b { font-family: var(--serif); font-weight: 400; font-size: 1.2rem; }
+.formula__item span { font-size: .8rem; color: var(--ink-soft); }
+.formula__item--hl { background: var(--ocean); border-color: var(--ocean); color: var(--cream); }
+.formula__item--hl span { color: rgba(244,237,226,.75); }
+.formula__plus { align-self: center; font-family: var(--serif); font-size: 1.4rem; color: var(--sunset); }
+.villa__note { font-size: .92rem; color: var(--ink-soft); margin-bottom: 22px; }
+
+/* Services */
+.service__head { display: block; }
+.services__grid .service p { margin-bottom: 1em; }
+
+/* "Y aller" buttons */
+.go { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+.go__btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 42px; padding: .55em 1.1em; border-radius: 999px;
+  background: var(--ocean); color: var(--cream); font-size: .84rem; font-weight: 600;
+  transition: background .4s, transform .4s var(--ease);
+}
+.go__btn .ico { width: 16px; height: 16px; }
+.go__btn--alt { background: transparent; color: var(--ocean); border: 1px solid rgba(15,59,68,.3); }
+.go__btn:active { transform: scale(.96); }
+@media (hover: hover) { .go__btn:hover { background: var(--lagoon); color: #fff; border-color: transparent; } }
+
+/* Agenda */
+.agenda li { grid-template-columns: 170px 1fr auto; align-items: center; }
+.agenda .go { margin-top: 0; }
+.agenda__day b { display: block; }
+.agenda__day em { display: inline-block; margin-top: 4px; font-style: normal; font-size: .66rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #fff; background: var(--sunset); padding: .3em .8em; border-radius: 999px; }
+.agenda__venue strong { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.35rem; line-height: 1.2; color: var(--ink); }
+.agenda__venue span { font-size: .88rem; color: var(--ink-soft); }
+.agenda li.is-today { background: var(--sand); border-radius: var(--radius-sm); padding-left: 18px; padding-right: 18px; border-bottom-color: transparent; }
+
+/* Location */
+.location__btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn--outline { border: 1px solid rgba(15,59,68,.35); color: var(--ocean); }
+.btn--outline::after { background: var(--ocean); }
+.btn--outline:hover { color: var(--cream); }
+
+/* Mobile action bar */
+.mbar { display: none; }
+
+@media (max-width: 860px) {
+  .section { padding: 76px 0; }
+  .section__head { margin-bottom: 34px; }
+  .stats { margin-top: 70px; }
+
+  .fab { display: none; }
+  .mbar {
+    position: fixed; z-index: 95; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom));
+    display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 6px; padding: 6px;
+    border-radius: 22px; background: rgba(15,59,68,.9); backdrop-filter: blur(16px) saturate(1.4); -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    box-shadow: 0 18px 40px -16px rgba(0,0,0,.55);
+    transform: translateY(140%); transition: transform .7s var(--ease);
+  }
+  body.show-mbar:not(.menu-open) .mbar { transform: none; }
+  .mbar__btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    min-height: 54px; border-radius: 16px; color: var(--cream); font-size: .72rem; font-weight: 600; letter-spacing: .02em;
+    transition: background .3s, transform .3s var(--ease);
+  }
+  .mbar__btn .ico { width: 22px; height: 22px; }
+  .mbar__btn:active { transform: scale(.95); background: rgba(255,255,255,.1); }
+  .mbar__btn--wa { background: #25d366; color: #fff; flex-direction: row; gap: 8px; font-size: .9rem; }
+  .footer { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
+
+  .guide__nav { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 calc(var(--gutter) * -1) 30px; padding: 4px var(--gutter); scroll-snap-type: x proximity; }
+  .guide__nav::-webkit-scrollbar { display: none; }
+  .chip { flex: none; scroll-snap-align: start; min-height: 46px; }
+  .panel__intro { gap: 22px; margin-bottom: 26px; }
+  .panel__intro .media { aspect-ratio: 16 / 10; }
+
+  .villa__thumbs { display: flex; overflow-x: auto; scrollbar-width: none; gap: 8px; padding: 4px 2px 6px; }
+  .villa__thumbs::-webkit-scrollbar { display: none; }
+  .villa__thumbs .media { flex: 0 0 68px; height: 68px; }
+  .villa__thumbs .media.is-active { transform: none; }
+
+  .map { aspect-ratio: 1 / 1; }
+  .location__btns .btn { flex: 1 1 100%; }
+}
+
+@media (max-width: 600px) {
+  .h2 { font-size: clamp(2rem, 9vw, 2.6rem); }
+  .villa__main { aspect-ratio: 4 / 4.2; margin: 0 calc(var(--gutter) * -1); border-radius: 0; }
+  .villa__twin { left: 12px; top: 12px; }
+  .villa__count { right: 12px; }
+  .villa__name { font-size: 2.3rem; }
+  .formula { gap: 6px; }
+  .formula__item { padding: 12px; }
+  .villa__foot { flex-direction: column; align-items: stretch; text-align: center; }
+  .villa__foot .btn { width: 100%; }
+
+  .service { padding: 22px 20px 20px; }
+  .service__head { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+  .service__head .service__icon { margin: 0; width: 44px; height: 44px; border-radius: 14px; }
+  .service__head h3 { margin: 0; font-size: 1.35rem; }
+  .services__grid { gap: 12px; }
+
+  .agenda li { grid-template-columns: 1fr auto; grid-template-areas: "day go" "venue go"; gap: 4px 14px; padding: 18px 0; }
+  .agenda li.is-today { padding: 18px 16px; }
+  .agenda__day { grid-area: day; display: flex; align-items: center; gap: 10px; }
+  .agenda__day em { margin: 0; }
+  .agenda__day b { font-size: 1.05rem; }
+  .agenda__venue { grid-area: venue; }
+  .agenda .go { grid-area: go; flex-direction: row; gap: 6px; }
+  .agenda .go__btn span { display: none; }
+  .agenda .go__btn { width: 46px; height: 46px; padding: 0; }
+  .agenda .go__btn--alt { width: auto; padding: 0 12px; font-size: .74rem; }
+  .agenda li:hover { padding-left: 0; }
+  .agenda li.is-today:hover { padding-left: 16px; }
+
+  .spots { grid-template-columns: 1fr; gap: 12px; }
+  .spot { padding: 22px; }
+  .go__btn { flex: 1; }
+}
+
+/* Pas d'effets de survol "collants" sur écran tactile */
+@media (hover: none) {
+  .service:hover, .spot:hover, .fact:hover, .btn:hover, .chip:hover { transform: none; }
+  .btn:hover::after { transform: translateY(101%); }
+  .btn--light:hover { color: var(--ocean); box-shadow: none; }
+  .btn--ghost:hover { color: #fff; }
+  .btn--outline:hover { color: var(--ocean); }
+  .btn:active { transform: scale(.97); }
 }
