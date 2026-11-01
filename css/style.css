@@ -698,3 +698,7 @@ body:not(.is-loaded) .hero .reveal { opacity: 0; transform: translateY(40px); }
   .btn--outline:hover { color: var(--ocean); }
   .btn:active { transform: scale(.97); }
 }
+
+@media (min-width: 1025px) {
+  .villa__gallery { position: sticky; top: 90px; }
+}

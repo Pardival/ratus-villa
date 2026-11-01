@@ -53,7 +53,7 @@
       "qr.hint": "Scannez avec l'appareil photo de votre téléphone.", "qr.open": "Ouvrir WhatsApp",
       "photo": "Photo à venir",
       "am.pool": "Piscine privée", "am.ac": "Climatisation", "am.wifi": "Wi-Fi", "am.kitchen": "Cuisine équipée", "am.parking": "Parking scooter",
-      "am.garden": "Jardin tropical", "am.cleaning": "Ménage", "am.towels": "Linge & serviettes", "am.terrace": "Terrasse", "am.surfrack": "Rack à surf"
+      "am.garden": "Jardin tropical", "am.cleaning": "Ménage", "am.towels": "Linge & serviettes", "am.terrace": "Terrasse", "am.surfrack": "Rack à surf", "am.tv": "Smart TV"
     },
     en: {
       "nav.villas": "Villas", "nav.gallery": "Gallery", "nav.services": "Services", "nav.guide": "Kuta guide", "nav.contact": "Contact", "nav.book": "Book",
@@ -97,11 +97,11 @@
       "qr.hint": "Scan with your phone camera.", "qr.open": "Open WhatsApp",
       "photo": "Photo coming soon",
       "am.pool": "Private pool", "am.ac": "Air conditioning", "am.wifi": "Wi-Fi", "am.kitchen": "Equipped kitchen", "am.parking": "Scooter parking",
-      "am.garden": "Tropical garden", "am.cleaning": "Housekeeping", "am.towels": "Linen & towels", "am.terrace": "Terrace", "am.surfrack": "Surf rack"
+      "am.garden": "Tropical garden", "am.cleaning": "Housekeeping", "am.towels": "Linen & towels", "am.terrace": "Terrace", "am.surfrack": "Surf rack", "am.tv": "Smart TV"
     }
   };
 
-  const AMENITY_ICONS = { pool: "i-pool", ac: "i-ac", wifi: "i-wifi", kitchen: "i-kitchen", parking: "i-parking", garden: "i-garden", cleaning: "i-clean", towels: "i-towel", terrace: "i-terrace", surfrack: "i-surfrack" };
+  const AMENITY_ICONS = { pool: "i-pool", ac: "i-ac", wifi: "i-wifi", kitchen: "i-kitchen", parking: "i-parking", garden: "i-garden", cleaning: "i-clean", towels: "i-towel", terrace: "i-terrace", surfrack: "i-surfrack", tv: "i-tv" };
   const SERVICE_ICONS = { wave: "i-wave", scooter: "i-scooter", music: "i-music", car: "i-car", lotus: "i-lotus", basket: "i-basket" };
 
   let lang = "fr";

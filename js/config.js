@@ -54,11 +54,14 @@ window.RATUS = {
     // Caractéristiques PAR villa
     stats: { bedrooms: 2, bathrooms: 2, guests: 4, size: "— m²" },
     price: { fr: "Prix sur demande", en: "Price on request" },
-    amenities: ["pool", "ac", "wifi", "kitchen", "parking", "garden", "terrace", "cleaning", "towels", "surfrack"],
-photos: [
+    amenities: ["pool", "ac", "wifi", "tv", "kitchen", "parking", "garden", "terrace", "cleaning", "towels", "surfrack"],
+    photos: [
       { src: "assets/villa/piscine.webp",            alt: { fr: "Piscine privée avec cascade", en: "Private pool with waterfall" } },
       { src: "assets/villa/chambre-elephant.webp",   alt: { fr: "Chambre sous charpente en bois", en: "Bedroom under the wooden roof" } },
+      { src: "assets/villa/salon-tv.webp",           alt: { fr: "Salon avec TV et escalier en teck", en: "Living room with TV and teak staircase" } },
+      { src: "assets/villa/chambre-lanternes.webp",  alt: { fr: "Chambre climatisée aux lampes en rotin", en: "Air-conditioned bedroom with rattan lamps" } },
       { src: "assets/villa/salon.webp",              alt: { fr: "Salon en teck", en: "Teak living room" } },
+      { src: "assets/villa/mezzanine-nuit.webp",     alt: { fr: "La mezzanine en bois, de nuit", en: "The wooden mezzanine at night" } },
       { src: "assets/villa/chambre-rhinoceros.webp", alt: { fr: "Chambre en mezzanine", en: "Mezzanine bedroom" } },
       { src: "assets/villa/salon-escalier.webp",     alt: { fr: "Salon et escalier vers la chambre", en: "Living room and stairs to the bedroom" } }
     ]
@@ -67,7 +70,10 @@ photos: [
   /* ---------- Galerie générale ---------- */
   gallery: [
     "assets/villa/piscine.webp",
+    "assets/villa/salon-tv.webp",
     "assets/villa/chambre-elephant.webp",
+    "assets/villa/mezzanine-nuit.webp",
+    "assets/villa/chambre-lanternes.webp",
     "assets/villa/salon.webp",
     "assets/villa/chambre-rhinoceros.webp",
     "assets/villa/salon-escalier.webp"
