@@ -48,8 +48,8 @@ window.RATUS = {
     name: "Ratus Villa",
     tagline: { fr: "2 villas identiques · piscine privée", en: "2 identical villas · private pool" },
     description: {
-      fr: "Deux villas jumelles, construites côte à côte et aménagées à l'identique. Au rez-de-chaussée, un salon en teck ouvert sur la cuisine équipée et la piscine privée avec sa cascade. À l'étage, sous une charpente en bois, des chambres climatisées, un balcon et une salle de bain en marbre avec baignoire et douche à l'italienne. Le tout au calme, à quelques minutes des plages et des spots de surf.",
-      en: "Two twin villas, built side by side and fitted out identically. Downstairs, a teak living room opening onto the equipped kitchen and the private pool with its waterfall. Upstairs, under a wooden roof, air-conditioned bedrooms, a balcony and a marble bathroom with bathtub and walk-in shower. All in a quiet spot, minutes from the beaches and surf spots."
+      fr: "Deux villas jumelles, côte à côte. Chacune a son salon, sa cuisine équipée et sa piscine privée, deux chambres climatisées, un balcon et deux salles de bain. Le tout au calme, à quelques minutes des plages et des spots de surf.",
+      en: "Two twin villas, side by side. Each has its own living room, equipped kitchen and private pool, two air-conditioned bedrooms, a balcony and two bathrooms. All in a quiet spot, minutes from the beaches and surf spots."
     },
     groupNote: {
       fr: "En couple ou entre amis, louez une villa. En famille ou en groupe, réservez les deux et partagez le même coin de paradis.",
@@ -57,7 +57,7 @@ window.RATUS = {
     },
     // Caractéristiques PAR villa
     stats: { bedrooms: 2, bathrooms: 2, guests: 4, size: "— m²" },
-    amenities: ["pool", "bathtub", "ac", "wifi", "tv", "kitchen", "balcony", "parking", "garden", "cleaning", "towels", "surfrack"],
+    amenities: ["pool", "bathtub", "ac", "wifi", "tv", "kitchen", "balcony", "parking", "towels", "surfrack"],
     photos: [
       { src: "assets/villa/piscine-cascade.webp", alt: { fr: "Piscine privée et sa cascade", en: "Private pool and waterfall" } },
       { src: "assets/villa/chambre-elephant.webp", alt: { fr: "Chambre sous charpente en bois", en: "Bedroom under the wooden roof" } },
