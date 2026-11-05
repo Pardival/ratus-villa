@@ -1,0 +1,5 @@
+# Données privées de /admin (mot de passe, tentatives)
+admin/data/*.php
+admin/data/*.json
+# Sauvegardes automatiques du contenu (hébergement PHP)
+content/backups/

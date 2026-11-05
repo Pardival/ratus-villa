@@ -469,6 +469,9 @@
     try { C = await loadContent(); }
     catch (e) { console.error("content/content.json introuvable", e); document.body.classList.add("is-loaded"); document.body.classList.remove("is-loading"); return; }
     $("#year").textContent = new Date().getFullYear();
+    const split = $$("[data-split]");
+    if (C.hero && C.hero.titleA != null && split[0]) split[0].textContent = C.hero.titleA;
+    if (C.hero && C.hero.titleB != null && split[1]) split[1].textContent = C.hero.titleB;
     splitText();
     renderIntro();
     renderGallery();

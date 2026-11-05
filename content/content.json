@@ -10,6 +10,8 @@
     }
   },
   "hero": {
+    "titleA": "Ratus",
+    "titleB": "Villa",
     "poster": "assets/villa/piscine-surf.webp",
     "video": ""
   },
