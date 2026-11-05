@@ -1,171 +1,55 @@
 /* ==========================================================================
    RATUS VILLA — Interactions
-   (Le contenu se modifie dans js/config.js, pas ici.)
+   Le contenu (textes en 4 langues, photos, services…) est dans content/content.json
+   et se modifie depuis la page /admin.
    ========================================================================== */
 (function () {
   "use strict";
 
-  const C = window.RATUS;
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
 
-  /* ---------------- Textes fixes (EN / FR / ES / ID) ---------------- */
   const LANGS = [
     { code: "en", label: "English" },
     { code: "fr", label: "Français" },
     { code: "es", label: "Español" },
     { code: "id", label: "Bahasa Indonesia" }
   ];
-  const I18N = {
-    en: {
-      "nav.villas": "Villas", "nav.gallery": "Gallery", "nav.services": "Services", "nav.guide": "Kuta guide", "nav.contact": "Contact", "nav.book": "Book",
-      "hero.eyebrow": "Kuta · Lombok · Indonesia",
-      "hero.lead": "Two twin private-pool villas, minutes from South Lombok's most beautiful beaches and surf spots.",
-      "hero.discover": "Discover the villas", "hero.whatsapp": "Availability", "hero.scroll": "Scroll",
-      "intro.eyebrow": "Welcome",
-      "intro.title": "A hideaway in the heart of Lombok,<br><em>between ocean and hills.</em>",
-      "intro.p1": "Ratus Villa is two villas in a quiet corner of Kuta, South Lombok. Bright living spaces and a private pool to cool off.",
-      "intro.p2": "On the ground, we make everything easy: surf, scooter, driver, massage, parties and local tips…",
-      "stats.villas": "Private villas", "stats.bedrooms": "Bedrooms", "stats.beach": "Min to the beach", "stats.airport": "Min to the airport",
-      "villas.eyebrow": "The villas", "villas.title": "Twin villas, <em>at your disposal.</em>",
-      "villa.bedrooms": "Bedrooms", "villa.bathrooms": "Baths", "villa.guests": "Guests", "villa.size": "Size", "villa.book": "Check availability",
-      "villa.per": "Per villa", "villa.one": "1 villa", "villa.both": "Both villas", "villa.upto": "up to {n} guests",
-      "gallery.eyebrow": "Gallery", "gallery.title": "Ratus <em>moments.</em>", "gallery.aside": "Swipe · tap a photo to enlarge.",
-      "services.eyebrow": "Services & contacts", "services.title": "Everything is <em>one message away.</em>",
-      "services.lead": "Our trusted local contacts. One tap to message them on WhatsApp.",
-      "services.write": "Message on WhatsApp",
-      "guide.eyebrow": "Local guide", "guide.title": "Live Kuta <em>like a local.</em>",
-      "guide.surf": "Surf & beaches", "guide.night": "Nightlife", "guide.food": "Groceries",
-      "night.tonight": "Tonight", "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-      "go": "Go there", "go.apple": "Apple Maps",
-      "location.eyebrow": "Location", "location.title": "In the heart of <em>South Lombok.</em>",
-      "location.d1": "Kuta beach", "location.d5": "International airport", "location.cta": "Directions to the villa", "location.apple": "Open in Apple Maps", "location.open": "Get directions",
-      "mbar.book": "Book", "mbar.guide": "Guide", "mbar.go": "Directions",
-      "cta.eyebrow": "Booking", "cta.title": "Your Lombok stay<br><em>starts here.</em>",
-      "cta.lead": "Message us on WhatsApp for availability, rates and any question. Quick reply.",
-      "cta.scan": "Scan to message us", "cta.whatsapp": "Message on WhatsApp",
-      "qr.hint": "Scan with your phone camera.", "qr.open": "Open WhatsApp", "lang.label": "Language", "photo": "Photo coming soon",
-      "am.pool": "Private pool", "am.ac": "Air conditioning", "am.wifi": "Wi-Fi", "am.kitchen": "Equipped kitchen", "am.parking": "Scooter parking",
-      "am.towels": "Linen & towels", "am.tv": "Smart TV", "am.bathtub": "Bathtub", "am.balcony": "Balcony",
-      "am.garden": "Tropical garden", "am.cleaning": "Housekeeping", "am.terrace": "Terrace", "am.surfrack": "Surf rack"
-    },
-    fr: {
-      "nav.villas": "Les villas", "nav.gallery": "Galerie", "nav.services": "Services", "nav.guide": "Guide Kuta", "nav.contact": "Contact", "nav.book": "Réserver",
-      "hero.eyebrow": "Kuta · Lombok · Indonésie",
-      "hero.lead": "Deux villas jumelles avec piscine privée, à quelques minutes des plus belles plages et spots de surf du sud de Lombok.",
-      "hero.discover": "Découvrir les villas", "hero.whatsapp": "Disponibilités", "hero.scroll": "Défiler",
-      "intro.eyebrow": "Bienvenue",
-      "intro.title": "Un refuge au cœur de Lombok,<br><em>entre océan et collines.</em>",
-      "intro.p1": "Ratus Villa, ce sont deux villas dans un coin calme de Kuta, au sud de Lombok. Des espaces lumineux et une piscine privée pour se rafraîchir.",
-      "intro.p2": "Sur place, on vous facilite tout : surf, scooter, chauffeur, massage, soirées et bonnes adresses…",
-      "stats.villas": "Villas privées", "stats.bedrooms": "Chambres", "stats.beach": "Min de la plage", "stats.airport": "Min de l'aéroport",
-      "villas.eyebrow": "Les villas", "villas.title": "Deux villas jumelles, <em>à votre disposition.</em>",
-      "villa.bedrooms": "Chambres", "villa.bathrooms": "Sdb", "villa.guests": "Voyageurs", "villa.size": "Surface", "villa.book": "Demander les disponibilités",
-      "villa.per": "Par villa", "villa.one": "1 villa", "villa.both": "Les 2 villas", "villa.upto": "jusqu'à {n} voyageurs",
-      "gallery.eyebrow": "Galerie", "gallery.title": "Instants <em>Ratus.</em>", "gallery.aside": "Faites glisser · touchez une photo pour l'agrandir.",
-      "services.eyebrow": "Services & contacts", "services.title": "Tout à portée <em>d'un message.</em>",
-      "services.lead": "Nos contacts de confiance sur place. Un clic pour leur écrire sur WhatsApp.",
-      "services.write": "Écrire sur WhatsApp",
-      "guide.eyebrow": "Guide local", "guide.title": "Vivre Kuta <em>comme un local.</em>",
-      "guide.surf": "Surf & plages", "guide.night": "Soirées", "guide.food": "Courses",
-      "night.tonight": "Ce soir", "days": ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
-      "go": "Y aller", "go.apple": "Plans",
-      "location.eyebrow": "Localisation", "location.title": "Au cœur du <em>sud de Lombok.</em>",
-      "location.d1": "Plage de Kuta", "location.d5": "Aéroport international", "location.cta": "Itinéraire vers la villa", "location.apple": "Ouvrir dans Plans", "location.open": "Voir l'itinéraire",
-      "mbar.book": "Réserver", "mbar.guide": "Guide", "mbar.go": "Y aller",
-      "cta.eyebrow": "Réservation", "cta.title": "Votre séjour à Lombok<br><em>commence ici.</em>",
-      "cta.lead": "Écrivez-nous sur WhatsApp pour les disponibilités, les tarifs et toutes vos questions. Réponse rapide.",
-      "cta.scan": "Scannez pour nous écrire", "cta.whatsapp": "Écrire sur WhatsApp",
-      "qr.hint": "Scannez avec l'appareil photo de votre téléphone.", "qr.open": "Ouvrir WhatsApp", "lang.label": "Langue", "photo": "Photo à venir",
-      "am.pool": "Piscine privée", "am.ac": "Climatisation", "am.wifi": "Wi-Fi", "am.kitchen": "Cuisine équipée", "am.parking": "Parking scooter",
-      "am.towels": "Linge & serviettes", "am.tv": "Smart TV", "am.bathtub": "Baignoire", "am.balcony": "Balcon",
-      "am.garden": "Jardin tropical", "am.cleaning": "Ménage", "am.terrace": "Terrasse", "am.surfrack": "Rack à surf"
-    },
-    es: {
-      "nav.villas": "Las villas", "nav.gallery": "Galería", "nav.services": "Servicios", "nav.guide": "Guía de Kuta", "nav.contact": "Contacto", "nav.book": "Reservar",
-      "hero.eyebrow": "Kuta · Lombok · Indonesia",
-      "hero.lead": "Dos villas gemelas con piscina privada, a pocos minutos de las playas y spots de surf más bonitos del sur de Lombok.",
-      "hero.discover": "Descubrir las villas", "hero.whatsapp": "Disponibilidad", "hero.scroll": "Desliza",
-      "intro.eyebrow": "Bienvenidos",
-      "intro.title": "Un refugio en el corazón de Lombok,<br><em>entre el océano y las colinas.</em>",
-      "intro.p1": "Ratus Villa son dos villas en un rincón tranquilo de Kuta, al sur de Lombok. Espacios luminosos y una piscina privada para refrescarse.",
-      "intro.p2": "Allí te lo ponemos fácil: surf, scooter, chófer, masajes, fiestas y buenos sitios…",
-      "stats.villas": "Villas privadas", "stats.bedrooms": "Habitaciones", "stats.beach": "Min a la playa", "stats.airport": "Min al aeropuerto",
-      "villas.eyebrow": "Las villas", "villas.title": "Dos villas gemelas, <em>a tu disposición.</em>",
-      "villa.bedrooms": "Habitaciones", "villa.bathrooms": "Baños", "villa.guests": "Huéspedes", "villa.size": "Superficie", "villa.book": "Consultar disponibilidad",
-      "villa.per": "Por villa", "villa.one": "1 villa", "villa.both": "Las 2 villas", "villa.upto": "hasta {n} huéspedes",
-      "gallery.eyebrow": "Galería", "gallery.title": "Momentos <em>Ratus.</em>", "gallery.aside": "Desliza · toca una foto para ampliarla.",
-      "services.eyebrow": "Servicios y contactos", "services.title": "Todo a <em>un mensaje.</em>",
-      "services.lead": "Nuestros contactos de confianza en Kuta. Un toque para escribirles por WhatsApp.",
-      "services.write": "Escribir por WhatsApp",
-      "guide.eyebrow": "Guía local", "guide.title": "Vive Kuta <em>como un local.</em>",
-      "guide.surf": "Surf y playas", "guide.night": "Fiestas", "guide.food": "Compras",
-      "night.tonight": "Esta noche", "days": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
-      "go": "Cómo llegar", "go.apple": "Mapas",
-      "location.eyebrow": "Ubicación", "location.title": "En el corazón <em>del sur de Lombok.</em>",
-      "location.d1": "Playa de Kuta", "location.d5": "Aeropuerto internacional", "location.cta": "Cómo llegar a la villa", "location.apple": "Abrir en Mapas", "location.open": "Ver la ruta",
-      "mbar.book": "Reservar", "mbar.guide": "Guía", "mbar.go": "Cómo llegar",
-      "cta.eyebrow": "Reservas", "cta.title": "Tu estancia en Lombok<br><em>empieza aquí.</em>",
-      "cta.lead": "Escríbenos por WhatsApp para disponibilidad, tarifas y cualquier pregunta. Respuesta rápida.",
-      "cta.scan": "Escanea para escribirnos", "cta.whatsapp": "Escribir por WhatsApp",
-      "qr.hint": "Escanea con la cámara de tu teléfono.", "qr.open": "Abrir WhatsApp", "lang.label": "Idioma", "photo": "Foto próximamente",
-      "am.pool": "Piscina privada", "am.ac": "Aire acondicionado", "am.wifi": "Wi-Fi", "am.kitchen": "Cocina equipada", "am.parking": "Parking para scooter",
-      "am.towels": "Ropa de cama y toallas", "am.tv": "Smart TV", "am.bathtub": "Bañera", "am.balcony": "Balcón",
-      "am.garden": "Jardín tropical", "am.cleaning": "Limpieza", "am.terrace": "Terraza", "am.surfrack": "Soporte para tablas"
-    },
-    id: {
-      "nav.villas": "Vila", "nav.gallery": "Galeri", "nav.services": "Layanan", "nav.guide": "Panduan Kuta", "nav.contact": "Kontak", "nav.book": "Pesan",
-      "hero.eyebrow": "Kuta · Lombok · Indonesia",
-      "hero.lead": "Dua vila kembar dengan kolam renang pribadi, hanya beberapa menit dari pantai dan spot selancar terindah di Lombok Selatan.",
-      "hero.discover": "Lihat vila", "hero.whatsapp": "Ketersediaan", "hero.scroll": "Gulir",
-      "intro.eyebrow": "Selamat datang",
-      "intro.title": "Tempat berlindung di jantung Lombok,<br><em>di antara laut dan perbukitan.</em>",
-      "intro.p1": "Ratus Villa adalah dua vila di sudut Kuta yang tenang, Lombok Selatan. Ruangan yang terang dan kolam renang pribadi untuk menyegarkan diri.",
-      "intro.p2": "Di sini kami memudahkan semuanya: selancar, sewa motor, sopir, pijat, pesta, dan tempat-tempat favorit…",
-      "stats.villas": "Vila pribadi", "stats.bedrooms": "Kamar tidur", "stats.beach": "Menit ke pantai", "stats.airport": "Menit ke bandara",
-      "villas.eyebrow": "Vila", "villas.title": "Dua vila kembar, <em>siap untuk Anda.</em>",
-      "villa.bedrooms": "Kamar tidur", "villa.bathrooms": "Kamar mandi", "villa.guests": "Tamu", "villa.size": "Luas", "villa.book": "Cek ketersediaan",
-      "villa.per": "Per vila", "villa.one": "1 vila", "villa.both": "2 vila", "villa.upto": "hingga {n} tamu",
-      "gallery.eyebrow": "Galeri", "gallery.title": "Momen <em>Ratus.</em>", "gallery.aside": "Geser · ketuk foto untuk memperbesar.",
-      "services.eyebrow": "Layanan & kontak", "services.title": "Semuanya cukup <em>satu pesan.</em>",
-      "services.lead": "Kontak lokal tepercaya kami. Sekali ketuk untuk menghubungi mereka lewat WhatsApp.",
-      "services.write": "Kirim pesan WhatsApp",
-      "guide.eyebrow": "Panduan lokal", "guide.title": "Nikmati Kuta <em>seperti warga lokal.</em>",
-      "guide.surf": "Selancar & pantai", "guide.night": "Hiburan malam", "guide.food": "Belanja",
-      "night.tonight": "Malam ini", "days": ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"],
-      "go": "Petunjuk arah", "go.apple": "Apple Maps",
-      "location.eyebrow": "Lokasi", "location.title": "Di jantung <em>Lombok Selatan.</em>",
-      "location.d1": "Pantai Kuta", "location.d5": "Bandara internasional", "location.cta": "Petunjuk arah ke vila", "location.apple": "Buka di Apple Maps", "location.open": "Lihat rute",
-      "mbar.book": "Pesan", "mbar.guide": "Panduan", "mbar.go": "Rute",
-      "cta.eyebrow": "Pemesanan", "cta.title": "Liburan Anda di Lombok<br><em>dimulai di sini.</em>",
-      "cta.lead": "Hubungi kami lewat WhatsApp untuk ketersediaan, harga, dan pertanyaan lainnya. Balasan cepat.",
-      "cta.scan": "Pindai untuk menghubungi kami", "cta.whatsapp": "Kirim pesan WhatsApp",
-      "qr.hint": "Pindai dengan kamera ponsel Anda.", "qr.open": "Buka WhatsApp", "lang.label": "Bahasa", "photo": "Foto segera hadir",
-      "am.pool": "Kolam renang pribadi", "am.ac": "AC", "am.wifi": "Wi-Fi", "am.kitchen": "Dapur lengkap", "am.parking": "Parkir motor",
-      "am.towels": "Seprai & handuk", "am.tv": "Smart TV", "am.bathtub": "Bathtub", "am.balcony": "Balkon",
-      "am.garden": "Taman tropis", "am.cleaning": "Layanan kebersihan", "am.terrace": "Teras", "am.surfrack": "Rak papan selancar"
-    }
+  const DAYS = {
+    en: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    fr: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
+    es: ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+    id: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
   };
 
-  const AMENITY_ICONS = { pool: "i-pool", ac: "i-ac", wifi: "i-wifi", kitchen: "i-kitchen", parking: "i-parking", garden: "i-garden", cleaning: "i-clean", towels: "i-towel", terrace: "i-terrace", surfrack: "i-surfrack", tv: "i-tv", bathtub: "i-bath", balcony: "i-terrace" };
-  const SERVICE_ICONS = { wave: "i-wave", scooter: "i-scooter", music: "i-music", car: "i-car", lotus: "i-lotus", basket: "i-basket" };
+  // Mode aperçu (utilisé par /admin) : ?preview=1[&lang=xx]
+  const params = new URLSearchParams(location.search);
+  const PREVIEW = params.has("preview");
 
-  // Anglais par défaut ; le choix du visiteur est mémorisé.
-  let lang = "en";
-  try { const saved = localStorage.getItem("ratus-lang"); if (saved && I18N[saved]) lang = saved; } catch (e) {}
+  let C = null; // contenu chargé
+  let lang = "en"; // anglais par défaut ; le choix du visiteur est mémorisé
+  try { const saved = localStorage.getItem("ratus-lang"); if (saved && LANGS.some((l) => l.code === saved)) lang = saved; } catch (e) {}
+  if (PREVIEW && LANGS.some((l) => l.code === params.get("lang"))) lang = params.get("lang");
 
-  const t = (k) => (I18N[lang] && I18N[lang][k]) || I18N.en[k] || k;
-  const L = (obj) => (obj && typeof obj === "object") ? (obj[lang] || obj.en || obj.fr || "") : (obj || "");
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  // *mot* = italique coloré, retour à la ligne = <br>
+  const md = (s) => esc(s).replace(/\*([^*]+)\*/g, "<em>$1</em>").replace(/\n/g, "<br>");
+  const pick = (o) => (o && typeof o === "object") ? (o[lang] || o.en || o.fr || "") : (o == null ? "" : String(o));
+  const t = (k) => { const v = C.texts && C.texts[k]; return v ? pick(v) : ""; };
+  const tPlain = (k) => t(k).replace(/\*/g, "");
+  const L = (o) => esc(pick(o));
   const icon = (id, cls = "ico") => `<svg class="${cls}"><use href="#${id}"/></svg>`;
+  const ico = (name) => icon("i-" + (name || "wave"));
   const IS_IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   const gDir = (q) => `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q)}`;
   const aDir = (q) => `https://maps.apple.com/?daddr=${encodeURIComponent(q)}`;
-  const villaDest = () => (C.map.lat != null && C.map.lng != null) ? `${C.map.lat},${C.map.lng}` : C.map.query;
+  const villaDest = () => { const m = C.location || {}; return (m.lat != null && m.lng != null && m.lat !== "" && m.lng !== "") ? `${m.lat},${m.lng}` : (m.query || "Ratus Villa, Kuta, Lombok"); };
   const goButtons = (q) => `<div class="go">
-      <a class="go__btn" href="${gDir(q)}" target="_blank" rel="noopener">${icon("i-route")}<span>${t("go")}</span></a>
-      ${IS_IOS ? `<a class="go__btn go__btn--alt" href="${aDir(q)}" target="_blank" rel="noopener">${t("go.apple")}</a>` : ""}
+      <a class="go__btn" href="${esc(gDir(q))}" target="_blank" rel="noopener">${icon("i-route")}<span>${esc(tPlain("go"))}</span></a>
+      ${IS_IOS ? `<a class="go__btn go__btn--alt" href="${esc(aDir(q))}" target="_blank" rel="noopener">${esc(tPlain("go.apple"))}</a>` : ""}
     </div>`;
-  const waLink = (num, msg) => `https://wa.me/${num}${msg ? "?text=" + encodeURIComponent(msg) : ""}`;
+  const cleanNum = (n) => String(n || "").replace(/[^\d]/g, "");
+  const waLink = (num, msg) => `https://wa.me/${cleanNum(num)}${msg ? "?text=" + encodeURIComponent(msg) : ""}`;
 
   /* ---------------- Médias : image si présente, sinon placeholder ---------------- */
   let toneCounter = 0;
@@ -173,7 +57,7 @@
     if (el.dataset.hydrated) return;
     el.dataset.hydrated = "1";
     if (!el.dataset.tone) el.dataset.tone = String(toneCounter++ % 5);
-    if (!el.dataset.label) el.dataset.label = t("photo");
+    if (!el.dataset.label) el.dataset.label = tPlain("photo");
     const src = el.dataset.src;
     if (!src) return;
     const img = new Image();
@@ -186,8 +70,8 @@
     el.appendChild(img);
   }
   const srcOf = (p) => (typeof p === "string" ? p : (p && p.src) || "");
-  const altOf = (p) => (typeof p === "string" ? "" : L(p && p.alt));
-  const mediaHTML = (src, extra = "", cls = "") => `<div class="media ${cls}" data-src="${srcOf(src)}" data-alt="${altOf(src).replace(/"/g, "&quot;")}" ${extra}></div>`;
+  const altOf = (p) => (typeof p === "string" ? "" : pick(p && p.alt));
+  const mediaHTML = (p, extra = "", cls = "") => `<div class="media ${cls}" data-src="${esc(srcOf(p))}" data-alt="${esc(altOf(p))}" ${extra}></div>`;
   const hydrateAll = (root = document) => $$(".media", root).forEach(hydrateMedia);
 
   /* ---------------- QR ---------------- */
@@ -202,25 +86,19 @@
   /* ---------------- Rendus dynamiques ---------------- */
   function applyI18n() {
     document.documentElement.lang = lang;
-    $$("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
-    $$("[data-i18n-html]").forEach((el) => { el.innerHTML = t(el.dataset.i18nHtml); });
+    $$("[data-i18n]").forEach((el) => { el.textContent = tPlain(el.dataset.i18n); });
+    $$("[data-i18n-html]").forEach((el) => { el.innerHTML = md(t(el.dataset.i18nHtml)); });
     const cur = $("#langCur"); if (cur) cur.textContent = lang.toUpperCase();
     $$("#langMenu [data-lang]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.lang === lang)));
   }
 
   function bindBooking() {
     const b = C.booking;
-    const href = waLink(b.whatsapp, L(b.message));
+    const href = waLink(b.whatsapp, pick(b.message));
     $$(".js-wa-booking").forEach((a) => (a.href = href));
     $("#bookingQr").innerHTML = qrSvg(href);
 
-    const st = $$(".stat [data-count]");
-    if (st.length >= 2) { st[0].dataset.count = C.villa.count; st[1].dataset.count = C.villa.count * C.villa.stats.bedrooms; }
 
-    $$(".js-wa-service").forEach((a) => {
-      const s = C.services.find((x) => x.id === a.dataset.service);
-      if (s && s.whatsapp) a.href = waLink(s.whatsapp, L(s.message)); else a.hidden = true;
-    });
   }
 
   function villaHTML(v) {
@@ -230,7 +108,7 @@
       <article class="villa">
         <div class="villa__gallery">
           <div class="villa__mainwrap">
-            ${mediaHTML(v.photos[0] || "", `data-tone="1" data-label="${t("photo")}"`, "villa__main")}
+            ${mediaHTML(v.photos[0] || "", `data-tone="1" data-label="${esc(tPlain("photo"))}"`, "villa__main")}
             <button class="villa__count" type="button">${icon("i-size")}<span>1 / ${photosK}</span></button>
           </div>
           <div class="villa__thumbs" style="--n:${Math.min(photosK, 8)}">
@@ -239,26 +117,26 @@
         </div>
         <div class="villa__info">
           <span class="tag">${L(v.tagline)}</span>
-          <h3 class="villa__name">${v.name}</h3>
+          <h3 class="villa__name">${esc(v.name)}</h3>
           <p class="villa__desc">${L(v.description)}</p>
-          <p class="villa__per">${t("villa.per")}</p>
+          <p class="villa__per">${esc(tPlain("villa.per"))}</p>
           <div class="villa__facts">
-            <div class="fact">${icon("i-bed")}<strong>${s.bedrooms}</strong><span>${t("villa.bedrooms")}</span></div>
-            <div class="fact">${icon("i-bath")}<strong>${s.bathrooms}</strong><span>${t("villa.bathrooms")}</span></div>
-            <div class="fact">${icon("i-guests")}<strong>${s.guests}</strong><span>${t("villa.guests")}</span></div>
-            <div class="fact">${icon("i-size")}<strong>${s.size}</strong><span>${t("villa.size")}</span></div>
+            <div class="fact">${icon("i-bed")}<strong>${esc(s.bedrooms)}</strong><span>${esc(tPlain("villa.bedrooms"))}</span></div>
+            <div class="fact">${icon("i-bath")}<strong>${esc(s.bathrooms)}</strong><span>${esc(tPlain("villa.bathrooms"))}</span></div>
+            <div class="fact">${icon("i-guests")}<strong>${esc(s.guests)}</strong><span>${esc(tPlain("villa.guests"))}</span></div>
+            <div class="fact">${icon("i-size")}<strong>${esc(s.size)}</strong><span>${esc(tPlain("villa.size"))}</span></div>
           </div>
           <ul class="amenities">
-            ${v.amenities.map((a) => `<li>${icon(AMENITY_ICONS[a] || "i-clean")}${t("am." + a)}</li>`).join("")}
+            ${(v.amenities || []).map((a) => `<li>${ico(a.icon)}${L(a.label)}</li>`).join("")}
           </ul>
           <div class="formula">
-            <div class="formula__item"><b>${t("villa.one")}</b><span>${t("villa.upto").replace("{n}", s.guests)}</span></div>
+            <div class="formula__item"><b>${esc(tPlain("villa.one"))}</b><span>${esc(tPlain("villa.upto").replace("{n}", s.guests))}</span></div>
             <div class="formula__plus">+</div>
-            <div class="formula__item formula__item--hl"><b>${t("villa.both")}</b><span>${t("villa.upto").replace("{n}", s.guests * v.count)}</span></div>
+            <div class="formula__item formula__item--hl"><b>${esc(tPlain("villa.both"))}</b><span>${esc(tPlain("villa.upto").replace("{n}", (+s.guests || 0) * (+v.count || 1)))}</span></div>
           </div>
           <p class="villa__note">${L(v.groupNote)}</p>
           <div class="villa__foot">
-            <a class="btn btn--dark js-wa-booking" href="#" target="_blank" rel="noopener">${icon("i-whatsapp")}<span>${t("villa.book")}</span></a>
+            <a class="btn btn--dark js-wa-booking" href="#" target="_blank" rel="noopener">${icon("i-whatsapp")}<span>${esc(tPlain("villa.book"))}</span></a>
           </div>
         </div>
       </article>`;
@@ -267,6 +145,7 @@
   function mountVilla() {
     const stage = $("#villaStage");
     const v = C.villa;
+    if (!v.photos || !v.photos.length) v.photos = [{ src: "" }];
     stage.innerHTML = villaHTML(v);
     const el = $(".villa", stage);
     hydrateAll(el);
@@ -304,7 +183,7 @@
 
   function renderGallery() {
     const rail = $("#galleryRail");
-    rail.innerHTML = C.gallery.map((src, i) => mediaHTML(src, `data-i="${i}"`, "gallery__item reveal")).join("");
+    rail.innerHTML = (C.gallery || []).map((p, i) => mediaHTML(p, `data-i="${i}"`, "gallery__item reveal")).join("");
     $$(".gallery__item", rail).forEach((el, i) => { el.style.setProperty("--d", i % 4); });
     hydrateAll(rail);
   }
@@ -314,12 +193,12 @@
     grid.innerHTML = C.services.map((s, i) => {
       const actions = s.whatsapp
         ? `<div class="service__actions">
-             <a class="btn btn--light" href="${waLink(s.whatsapp, L(s.message))}" target="_blank" rel="noopener">${icon("i-whatsapp")}<span>${t("services.write")}</span></a>
+             <a class="btn btn--light" href="${waLink(s.whatsapp, pick(s.message))}" target="_blank" rel="noopener">${icon("i-whatsapp")}<span>${esc(tPlain("services.write"))}</span></a>
              <button class="btn-qr" data-qr="${i}" aria-label="QR code">${icon("i-qr")}</button>
            </div>`
         : "";
       return `<article class="service reveal" style="--d:${i % 2}">
-          <div class="service__head"><div class="service__icon">${icon(SERVICE_ICONS[s.icon] || "i-wave")}</div>
+          <div class="service__head"><div class="service__icon">${ico(s.icon)}</div>
           <h3>${L(s.title)}</h3></div>
           <p>${L(s.text)}</p>
           ${actions}
@@ -327,28 +206,44 @@
     }).join("");
     $$(".btn-qr", grid).forEach((b) => b.addEventListener("click", () => {
       const s = C.services[+b.dataset.qr];
-      openQr(L(s.title), waLink(s.whatsapp, L(s.message)));
+      openQr(pick(s.title), waLink(s.whatsapp, pick(s.message)));
     }));
   }
 
   function renderGuide() {
     const g = C.guide;
-    $("#spotList").innerHTML = g.surf.map((s, i) => `<div class="spot" style="--i:${i}"><span class="spot__level">${L(s.level)}</span><h4>${s.name}</h4><p>${L(s.text)}</p>${s.place ? goButtons(s.place) : ""}</div>`).join("");
+    $("#spotList").innerHTML = g.surf.map((s, i) => `<div class="spot" style="--i:${i}"><span class="spot__level">${L(s.level)}</span><h4>${esc(s.name)}</h4><p>${L(s.text)}</p>${s.place ? goButtons(s.place) : ""}</div>`).join("");
     const today = ((new Date().getDay() + 6) % 7) + 1; // 1 = lundi
-    const days = t("days");
+    const days = DAYS[lang] || DAYS.en;
     const list = g.nightlife.slice().sort((a, b) => ((a.day - today + 7) % 7) - ((b.day - today + 7) % 7));
     $("#agendaList").innerHTML = list.map((n, i) => `<li class="${n.day === today ? "is-today" : ""}" style="--i:${i}">
-        <div class="agenda__day"><b>${days[n.day - 1]}</b>${n.day === today ? `<em>${t("night.tonight")}</em>` : ""}</div>
-        <div class="agenda__venue"><strong>${n.venue}</strong><span>${L(n.time)}</span></div>
+        <div class="agenda__day"><b>${days[n.day - 1]}</b>${n.day === today ? `<em>${esc(tPlain("night.tonight"))}</em>` : ""}</div>
+        <div class="agenda__venue"><strong>${esc(n.venue)}</strong><span>${L(n.time)}</span></div>
         ${n.place ? goButtons(n.place) : ""}
       </li>`).join("");
     $("#groceryList").innerHTML = g.groceries.map((s, i) => `<div class="spot" style="--i:${i}"><h4>${L(s.name)}</h4><p>${L(s.text)}</p>${s.place ? goButtons(s.place) : ""}</div>`).join("");
   }
 
+  function renderStats() {
+    $("#statsRow").innerHTML = (C.stats || []).map((st, i) => `<div class="stat reveal" data-delay="${i}"><strong data-count="${+st.value || 0}">0</strong><span>${L(st.label)}</span></div>`).join("");
+  }
+
+  function renderIntro() {
+    const m = $("#introMedia");
+    m.className = "media media--tall"; m.removeAttribute("data-hydrated"); m.innerHTML = "";
+    m.dataset.src = (C.intro && C.intro.image) || ""; m.dataset.alt = "Ratus Villa";
+    hydrateMedia(m);
+  }
+
+  function renderDistances() {
+    $("#distanceList").innerHTML = ((C.location && C.location.distances) || []).map((d) => `<li><span>${L(d.label)}</span><b>${esc(d.time)}</b></li>`).join("");
+  }
+
   function renderMap() {
     const dest = villaDest();
-    const frame = $("#mapFrame");
-    if (frame && C.map.embed) frame.src = C.map.embed; else if (frame) frame.remove();
+    const frame = $("#mapFrame"), loc = C.location || {};
+    if (frame && loc.embed) frame.src = loc.embed; else if (frame) frame.remove();
+    const img = $("#mapImage"); if (img && loc.image) img.src = loc.image;
     $$(".js-directions").forEach((a) => (a.href = gDir(dest)));
     const apple = $(".js-apple-villa");
     if (apple && IS_IOS) { apple.href = aDir(dest); apple.hidden = false; }
@@ -358,6 +253,8 @@
     applyI18n();
     mountVilla();
     bindBooking();
+    renderStats();
+    renderDistances();
     renderServices();
     renderGuide();
     hydrateAll();
@@ -517,7 +414,7 @@
     box.innerHTML = "";
     box.dataset.src = lb.list[lb.i];
     box.dataset.tone = String(lb.i % 5);
-    box.dataset.label = t("photo");
+    box.dataset.label = tPlain("photo");
     hydrateMedia(box);
     box.animate([{ opacity: 0, transform: "scale(.97)" }, { opacity: 1, transform: "none" }], { duration: 600, easing: "cubic-bezier(.22,.8,.24,1)" });
     $("#lightboxCount").textContent = `${lb.i + 1} / ${lb.list.length}`;
@@ -560,9 +457,20 @@
 
 
   /* ---------------- Init ---------------- */
-  function init() {
+  async function loadContent() {
+    if (PREVIEW) {
+      try { const d = localStorage.getItem("ratus-draft"); if (d) return JSON.parse(d); } catch (e) {}
+    }
+    const res = await fetch("content/content.json?v=" + Date.now(), { cache: "no-store" });
+    return res.json();
+  }
+
+  async function init() {
+    try { C = await loadContent(); }
+    catch (e) { console.error("content/content.json introuvable", e); document.body.classList.add("is-loaded"); document.body.classList.remove("is-loading"); return; }
     $("#year").textContent = new Date().getFullYear();
     splitText();
+    renderIntro();
     renderGallery();
     renderMap();
     renderAll(false);
@@ -580,7 +488,7 @@
       document.body.classList.add("is-loaded");
       setTimeout(() => document.body.classList.remove("is-loading"), 900);
     };
-    const minDelay = new Promise((r) => setTimeout(r, 1500));
+    const minDelay = new Promise((r) => setTimeout(r, PREVIEW ? 0 : 1500));
     const loaded = new Promise((r) => (document.readyState === "complete" ? r() : window.addEventListener("load", r)));
     Promise.race([Promise.all([minDelay, loaded]), new Promise((r) => setTimeout(r, 3500))]).then(finish);
   }

@@ -107,7 +107,7 @@
           <p class="reveal" data-delay="3" data-i18n="intro.p2">Sur place, on vous facilite tout : surf, scooter, chauffeur, massage, soirées et bonnes adresses…</p>
         </div>
         <div class="intro__media reveal reveal--zoom" data-delay="1">
-          <div class="media media--tall" data-src="assets/villa/balcon.webp" data-alt="Balcon en bois de Ratus Villa" data-label="Photo à venir"></div>
+          <div class="media media--tall" id="introMedia"></div>
           <div class="intro__badge">
             <svg viewBox="0 0 100 100" class="badge__ring"><defs><path id="circ" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#circ">RATUS VILLA · KUTA LOMBOK · RATUS VILLA · KUTA LOMBOK ·</textPath></text></svg>
             <svg class="ico badge__ico"><use href="#i-wave"/></svg>
@@ -115,11 +115,8 @@
         </div>
       </div>
 
-      <div class="container stats">
-        <div class="stat reveal" data-delay="0"><strong data-count="2">0</strong><span data-i18n="stats.villas">Villas privées</span></div>
-        <div class="stat reveal" data-delay="1"><strong data-count="4">0</strong><span data-i18n="stats.bedrooms">Chambres</span></div>
-        <div class="stat reveal" data-delay="2"><strong data-count="10">0</strong><span data-i18n="stats.beach">De la plage</span></div>
-        <div class="stat reveal" data-delay="3"><strong data-count="30">0</strong><span data-i18n="stats.airport">De l'aéroport</span></div>
+      <div class="container stats" id="statsRow">
+        <!-- rempli depuis content/content.json -->
       </div>
     </section>
 
@@ -199,13 +196,7 @@
         <div>
           <p class="eyebrow reveal" data-i18n="location.eyebrow">Localisation</p>
           <h2 class="h2 reveal" data-delay="1" data-i18n-html="location.title">Au cœur du <em>sud de Lombok.</em></h2>
-          <ul class="distances reveal" data-delay="2">
-            <li><span data-i18n="location.d1">Plage de Kuta</span><b>~ 10 min</b></li>
-            <li><span>Tanjung Aan</span><b>~ 15 min</b></li>
-            <li><span>Gerupuk</span><b>~ 20 min</b></li>
-            <li><span>Selong Belanak</span><b>~ 30 min</b></li>
-            <li><span data-i18n="location.d5">Aéroport international</span><b>~ 30 min</b></li>
-          </ul>
+          <ul class="distances reveal" data-delay="2" id="distanceList"></ul>
           <div class="location__btns reveal" data-delay="3">
             <a class="btn btn--dark js-directions" href="#" target="_blank" rel="noopener"><svg class="ico"><use href="#i-route"/></svg><span data-i18n="location.cta">Itinéraire vers la villa</span></a>
             <a class="btn btn--outline js-apple-villa" href="#" target="_blank" rel="noopener" hidden><svg class="ico"><use href="#i-pin"/></svg><span data-i18n="location.apple">Ouvrir dans Plans</span></a>
@@ -213,7 +204,7 @@
         </div>
         <div class="map reveal reveal--zoom" data-delay="1">
           <a class="map__plan js-directions" href="#" target="_blank" rel="noopener" aria-label="Itinéraire vers Ratus Villa">
-            <img src="assets/villa/plan-acces.webp" alt="Plan d'accès : Ratus Villa sur Jl. Mawun, près de Pepito Market et de la plage de Kuta" width="1448" height="1126" loading="lazy">
+            <img id="mapImage" src="assets/villa/plan-acces.webp" alt="Plan d'accès : Ratus Villa sur Jl. Mawun, près de Pepito Market et de la plage de Kuta" width="1448" height="1126" loading="lazy">
             <small class="map__credit">Carte © Google</small>
           </a>
           <iframe id="mapFrame" class="map__frame" title="Ratus Villa sur Google Maps" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
@@ -319,7 +310,6 @@
   </svg>
 
   <script src="js/vendor/qrcode.js"></script>
-  <script src="js/config.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

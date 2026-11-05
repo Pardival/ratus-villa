@@ -1,0 +1,1050 @@
+{
+  "_info": "Ratus Villa — site content. Edit with /admin (or by hand). Languages: en (default), fr, es, id.",
+  "booking": {
+    "whatsapp": "620000000000",
+    "message": {
+      "en": "Hi! I'm interested in Ratus Villa in Kuta Lombok. Could you share the availability?",
+      "fr": "Bonjour ! Je suis intéressé(e) par Ratus Villa à Kuta Lombok. Pouvez-vous me donner les disponibilités ?",
+      "es": "¡Hola! Me interesa Ratus Villa en Kuta Lombok. ¿Me podéis indicar la disponibilidad?",
+      "id": "Halo! Saya tertarik dengan Ratus Villa di Kuta Lombok. Bisakah Anda menginformasikan ketersediaannya?"
+    }
+  },
+  "hero": {
+    "poster": "assets/villa/piscine-surf.webp",
+    "video": ""
+  },
+  "intro": {
+    "image": "assets/villa/balcon.webp"
+  },
+  "stats": [
+    {
+      "value": 2,
+      "label": {
+        "en": "Private villas",
+        "fr": "Villas privées",
+        "es": "Villas privadas",
+        "id": "Vila pribadi"
+      }
+    },
+    {
+      "value": 4,
+      "label": {
+        "en": "Bedrooms",
+        "fr": "Chambres",
+        "es": "Habitaciones",
+        "id": "Kamar tidur"
+      }
+    },
+    {
+      "value": 10,
+      "label": {
+        "en": "Min to the beach",
+        "fr": "Min de la plage",
+        "es": "Min a la playa",
+        "id": "Menit ke pantai"
+      }
+    },
+    {
+      "value": 30,
+      "label": {
+        "en": "Min to the airport",
+        "fr": "Min de l'aéroport",
+        "es": "Min al aeropuerto",
+        "id": "Menit ke bandara"
+      }
+    }
+  ],
+  "villa": {
+    "count": 2,
+    "name": "Ratus Villa",
+    "tagline": {
+      "en": "2 identical villas · private pool",
+      "fr": "2 villas identiques · piscine privée",
+      "es": "2 villas idénticas · piscina privada",
+      "id": "2 vila identik · kolam renang pribadi"
+    },
+    "description": {
+      "en": "Two twin villas, side by side. Each has its own living room, equipped kitchen and private pool, two air-conditioned bedrooms, a balcony and two bathrooms. All in a quiet spot, minutes from the beaches and surf spots.",
+      "fr": "Deux villas jumelles, côte à côte. Chacune a son salon, sa cuisine équipée et sa piscine privée, deux chambres climatisées, un balcon et deux salles de bain. Le tout au calme, à quelques minutes des plages et des spots de surf.",
+      "es": "Dos villas gemelas, una al lado de la otra. Cada una tiene su salón, su cocina equipada y su piscina privada, dos habitaciones con aire acondicionado, un balcón y dos baños. Todo en un lugar tranquilo, a pocos minutos de las playas y los spots de surf.",
+      "id": "Dua vila kembar yang bersebelahan. Masing-masing memiliki ruang tamu, dapur lengkap, dan kolam renang pribadi, dua kamar tidur ber-AC, balkon, serta dua kamar mandi. Semuanya di lokasi yang tenang, hanya beberapa menit dari pantai dan spot selancar."
+    },
+    "groupNote": {
+      "en": "As a couple or with friends, rent one villa. With family or a group, book both and share the same little corner of paradise.",
+      "fr": "En couple ou entre amis, louez une villa. En famille ou en groupe, réservez les deux et partagez le même coin de paradis.",
+      "es": "En pareja o con amigos, alquila una villa. En familia o en grupo, reserva las dos y compartid el mismo rincón de paraíso.",
+      "id": "Berdua atau bersama teman, sewa satu vila. Bersama keluarga atau rombongan, pesan keduanya dan nikmati sudut surga yang sama."
+    },
+    "stats": {
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "guests": 4,
+      "size": "— m²"
+    },
+    "amenities": [
+      {
+        "icon": "pool",
+        "label": {
+          "en": "Private pool",
+          "fr": "Piscine privée",
+          "es": "Piscina privada",
+          "id": "Kolam renang pribadi"
+        }
+      },
+      {
+        "icon": "bath",
+        "label": {
+          "en": "Bathtub",
+          "fr": "Baignoire",
+          "es": "Bañera",
+          "id": "Bathtub"
+        }
+      },
+      {
+        "icon": "ac",
+        "label": {
+          "en": "Air conditioning",
+          "fr": "Climatisation",
+          "es": "Aire acondicionado",
+          "id": "AC"
+        }
+      },
+      {
+        "icon": "wifi",
+        "label": {
+          "en": "Wi-Fi",
+          "fr": "Wi-Fi",
+          "es": "Wi-Fi",
+          "id": "Wi-Fi"
+        }
+      },
+      {
+        "icon": "tv",
+        "label": {
+          "en": "Smart TV",
+          "fr": "Smart TV",
+          "es": "Smart TV",
+          "id": "Smart TV"
+        }
+      },
+      {
+        "icon": "kitchen",
+        "label": {
+          "en": "Equipped kitchen",
+          "fr": "Cuisine équipée",
+          "es": "Cocina equipada",
+          "id": "Dapur lengkap"
+        }
+      },
+      {
+        "icon": "terrace",
+        "label": {
+          "en": "Balcony",
+          "fr": "Balcon",
+          "es": "Balcón",
+          "id": "Balkon"
+        }
+      },
+      {
+        "icon": "parking",
+        "label": {
+          "en": "Scooter parking",
+          "fr": "Parking scooter",
+          "es": "Parking para scooter",
+          "id": "Parkir motor"
+        }
+      },
+      {
+        "icon": "towel",
+        "label": {
+          "en": "Linen & towels",
+          "fr": "Linge & serviettes",
+          "es": "Ropa de cama y toallas",
+          "id": "Seprai & handuk"
+        }
+      }
+    ],
+    "photos": [
+      {
+        "src": "assets/villa/piscine-surf.webp",
+        "alt": {
+          "en": "Private pool with surfboard and skateboard",
+          "fr": "Piscine privée, planche de surf et skate",
+          "es": "Piscina privada con tabla de surf y skate",
+          "id": "Kolam renang pribadi dengan papan selancar dan skateboard"
+        }
+      },
+      {
+        "src": "assets/villa/chambre-mezzanine-vue.webp",
+        "alt": {
+          "en": "Mezzanine bedroom opening onto the balcony",
+          "fr": "Chambre en mezzanine avec vue sur le balcon",
+          "es": "Habitación en altillo con vistas al balcón",
+          "id": "Kamar mezanin yang terbuka ke balkon"
+        }
+      },
+      {
+        "src": "assets/villa/salle-de-bain-baignoire.webp",
+        "alt": {
+          "en": "Marble bathroom with bathtub",
+          "fr": "Salle de bain en marbre avec baignoire",
+          "es": "Baño de mármol con bañera",
+          "id": "Kamar mandi marmer dengan bathtub"
+        }
+      },
+      {
+        "src": "assets/villa/salon-cuisine.webp",
+        "alt": {
+          "en": "Living room opening onto the kitchen",
+          "fr": "Salon ouvert sur la cuisine équipée",
+          "es": "Salón abierto a la cocina equipada",
+          "id": "Ruang tamu yang terbuka ke dapur"
+        }
+      },
+      {
+        "src": "assets/villa/piscine-cascade.webp",
+        "alt": {
+          "en": "Private pool and waterfall",
+          "fr": "Piscine privée et sa cascade",
+          "es": "Piscina privada con cascada",
+          "id": "Kolam renang pribadi dengan air terjun"
+        }
+      },
+      {
+        "src": "assets/villa/chambre-elephant.webp",
+        "alt": {
+          "en": "Bedroom under the wooden roof",
+          "fr": "Chambre sous charpente en bois",
+          "es": "Habitación bajo el techo de madera",
+          "id": "Kamar di bawah atap kayu"
+        }
+      },
+      {
+        "src": "assets/villa/balcon.webp",
+        "alt": {
+          "en": "Upstairs wooden balcony",
+          "fr": "Balcon en bois à l'étage",
+          "es": "Balcón de madera en la planta alta",
+          "id": "Balkon kayu di lantai atas"
+        }
+      },
+      {
+        "src": "assets/villa/salle-de-bain-douche.webp",
+        "alt": {
+          "en": "Walk-in shower with gold fittings",
+          "fr": "Douche à l'italienne, robinetterie dorée",
+          "es": "Ducha a ras de suelo con grifería dorada",
+          "id": "Shower walk-in dengan keran emas"
+        }
+      },
+      {
+        "src": "assets/villa/piscine-nuit.webp",
+        "alt": {
+          "en": "The pool lit up at night",
+          "fr": "La piscine éclairée, de nuit",
+          "es": "La piscina iluminada de noche",
+          "id": "Kolam renang yang diterangi di malam hari"
+        }
+      },
+      {
+        "src": "assets/villa/salon-tv.webp",
+        "alt": {
+          "en": "Living room with TV and teak staircase",
+          "fr": "Salon avec TV et escalier en teck",
+          "es": "Salón con TV y escalera de teca",
+          "id": "Ruang tamu dengan TV dan tangga jati"
+        }
+      },
+      {
+        "src": "assets/villa/chambre-lanternes.webp",
+        "alt": {
+          "en": "Air-conditioned bedroom with rattan lamps",
+          "fr": "Chambre climatisée aux lampes en rotin",
+          "es": "Habitación con aire acondicionado y lámparas de ratán",
+          "id": "Kamar ber-AC dengan lampu rotan"
+        }
+      },
+      {
+        "src": "assets/villa/chambre-rhinoceros.webp",
+        "alt": {
+          "en": "Mezzanine bedroom",
+          "fr": "Chambre en mezzanine",
+          "es": "Habitación en altillo",
+          "id": "Kamar mezanin"
+        }
+      },
+      {
+        "src": "assets/villa/salon-escalier.webp",
+        "alt": {
+          "en": "Living room and stairs to the bedroom",
+          "fr": "Salon et escalier vers la chambre",
+          "es": "Salón y escalera hacia la habitación",
+          "id": "Ruang tamu dan tangga ke kamar"
+        }
+      },
+      {
+        "src": "assets/villa/mezzanine-nuit.webp",
+        "alt": {
+          "en": "The wooden mezzanine at night",
+          "fr": "La mezzanine en bois, de nuit",
+          "es": "El altillo de madera de noche",
+          "id": "Mezanin kayu di malam hari"
+        }
+      },
+      {
+        "src": "assets/villa/salon.webp",
+        "alt": {
+          "en": "Teak living room",
+          "fr": "Salon en teck",
+          "es": "Salón de teca",
+          "id": "Ruang tamu jati"
+        }
+      }
+    ]
+  },
+  "gallery": [
+    {
+      "src": "assets/villa/piscine-nuit.webp",
+      "alt": {
+        "en": "The pool lit up at night",
+        "fr": "La piscine éclairée, de nuit",
+        "es": "La piscina iluminada de noche",
+        "id": "Kolam renang yang diterangi di malam hari"
+      }
+    },
+    {
+      "src": "assets/villa/piscine-surf.webp",
+      "alt": {
+        "en": "Private pool with surfboard and skateboard",
+        "fr": "Piscine privée, planche de surf et skate",
+        "es": "Piscina privada con tabla de surf y skate",
+        "id": "Kolam renang pribadi dengan papan selancar dan skateboard"
+      }
+    },
+    {
+      "src": "assets/villa/chambre-mezzanine-vue.webp",
+      "alt": {
+        "en": "Mezzanine bedroom opening onto the balcony",
+        "fr": "Chambre en mezzanine avec vue sur le balcon",
+        "es": "Habitación en altillo con vistas al balcón",
+        "id": "Kamar mezanin yang terbuka ke balkon"
+      }
+    },
+    {
+      "src": "assets/villa/salle-de-bain-baignoire.webp",
+      "alt": {
+        "en": "Marble bathroom with bathtub",
+        "fr": "Salle de bain en marbre avec baignoire",
+        "es": "Baño de mármol con bañera",
+        "id": "Kamar mandi marmer dengan bathtub"
+      }
+    },
+    {
+      "src": "assets/villa/balcon.webp",
+      "alt": {
+        "en": "Upstairs wooden balcony",
+        "fr": "Balcon en bois à l'étage",
+        "es": "Balcón de madera en la planta alta",
+        "id": "Balkon kayu di lantai atas"
+      }
+    },
+    {
+      "src": "assets/villa/piscine-cascade.webp",
+      "alt": {
+        "en": "Private pool and waterfall",
+        "fr": "Piscine privée et sa cascade",
+        "es": "Piscina privada con cascada",
+        "id": "Kolam renang pribadi dengan air terjun"
+      }
+    },
+    {
+      "src": "assets/villa/salon-cuisine.webp",
+      "alt": {
+        "en": "Living room opening onto the kitchen",
+        "fr": "Salon ouvert sur la cuisine équipée",
+        "es": "Salón abierto a la cocina equipada",
+        "id": "Ruang tamu yang terbuka ke dapur"
+      }
+    },
+    {
+      "src": "assets/villa/chambre-elephant.webp",
+      "alt": {
+        "en": "Bedroom under the wooden roof",
+        "fr": "Chambre sous charpente en bois",
+        "es": "Habitación bajo el techo de madera",
+        "id": "Kamar di bawah atap kayu"
+      }
+    },
+    {
+      "src": "assets/villa/serviettes.webp",
+      "alt": {
+        "en": "",
+        "fr": "",
+        "es": "",
+        "id": ""
+      }
+    },
+    {
+      "src": "assets/villa/piscine.webp",
+      "alt": {
+        "en": "",
+        "fr": "",
+        "es": "",
+        "id": ""
+      }
+    }
+  ],
+  "services": [
+    {
+      "icon": "wave",
+      "title": {
+        "en": "Surf",
+        "fr": "Surf",
+        "es": "Surf",
+        "id": "Selancar"
+      },
+      "text": {
+        "en": "Lessons for all levels, board rental and boat trips to the best spots around Gerupuk.",
+        "fr": "Cours tous niveaux, location de planches et sorties en bateau vers les meilleurs spots de Gerupuk et alentours.",
+        "es": "Clases para todos los niveles, alquiler de tablas y salidas en barco a los mejores spots de Gerupuk y alrededores.",
+        "id": "Kursus untuk semua level, sewa papan, dan perjalanan perahu ke spot terbaik di sekitar Gerupuk."
+      },
+      "whatsapp": "620000000001",
+      "message": {
+        "en": "Hi, I'm staying at Ratus Villa and would like info about surfing.",
+        "fr": "Bonjour, je séjourne à Ratus Villa et j'aimerais des infos sur le surf.",
+        "es": "Hola, me alojo en Ratus Villa y me gustaría información sobre el surf.",
+        "id": "Halo, saya menginap di Ratus Villa dan ingin info tentang selancar."
+      }
+    },
+    {
+      "icon": "scooter",
+      "title": {
+        "en": "Scooter rental",
+        "fr": "Location de scooter",
+        "es": "Alquiler de scooter",
+        "id": "Sewa motor"
+      },
+      "text": {
+        "en": "Scooter rental with helmets and surf rack. The best way to explore the coast.",
+        "fr": "Location de scooter avec casques et porte-planche. Le moyen idéal pour explorer la côte.",
+        "es": "Alquiler de scooter con cascos y portatablas. La mejor forma de explorar la costa.",
+        "id": "Sewa motor lengkap dengan helm dan rak papan selancar. Cara terbaik menjelajahi pesisir."
+      },
+      "whatsapp": "620000000002",
+      "message": {
+        "en": "Hi, I'm staying at Ratus Villa and would like to rent a scooter.",
+        "fr": "Bonjour, je séjourne à Ratus Villa et j'aimerais louer un scooter.",
+        "es": "Hola, me alojo en Ratus Villa y me gustaría alquilar un scooter.",
+        "id": "Halo, saya menginap di Ratus Villa dan ingin menyewa motor."
+      }
+    },
+    {
+      "icon": "car",
+      "title": {
+        "en": "Airport transfer",
+        "fr": "Transfert aéroport",
+        "es": "Traslado al aeropuerto",
+        "id": "Antar-jemput bandara"
+      },
+      "text": {
+        "en": "Private driver from Lombok International Airport (about 30 min) or for your island day trips.",
+        "fr": "Chauffeur privé depuis l'aéroport international de Lombok (environ 30 min) ou pour vos excursions sur l'île.",
+        "es": "Chófer privado desde el aeropuerto internacional de Lombok (unos 30 min) o para tus excursiones por la isla.",
+        "id": "Sopir pribadi dari Bandara Internasional Lombok (sekitar 30 menit) atau untuk jalan-jalan keliling pulau."
+      },
+      "whatsapp": "620000000004",
+      "message": {
+        "en": "Hi, I need a transfer to Ratus Villa.",
+        "fr": "Bonjour, j'ai besoin d'un transfert pour Ratus Villa.",
+        "es": "Hola, necesito un traslado a Ratus Villa.",
+        "id": "Halo, saya butuh antar-jemput ke Ratus Villa."
+      }
+    },
+    {
+      "icon": "lotus",
+      "title": {
+        "en": "Massage",
+        "fr": "Massage",
+        "es": "Masaje",
+        "id": "Pijat"
+      },
+      "text": {
+        "en": "Massages and relaxing treatments, at your disposal.",
+        "fr": "Massages et soins relaxants, à votre disposition.",
+        "es": "Masajes y tratamientos relajantes, a tu disposición.",
+        "id": "Pijat dan perawatan relaksasi, siap untuk Anda."
+      },
+      "whatsapp": "620000000005",
+      "message": {
+        "en": "Hi, I'd like to book a massage at Ratus Villa.",
+        "fr": "Bonjour, j'aimerais réserver un massage à Ratus Villa.",
+        "es": "Hola, me gustaría reservar un masaje en Ratus Villa.",
+        "id": "Halo, saya ingin memesan pijat di Ratus Villa."
+      }
+    }
+  ],
+  "guide": {
+    "surf": [
+      {
+        "name": "Gerupuk",
+        "place": "Gerupuk Beach, Lombok",
+        "level": {
+          "en": "All levels",
+          "fr": "Tous niveaux",
+          "es": "Todos los niveles",
+          "id": "Semua level"
+        },
+        "text": {
+          "en": "Sheltered bay reached by boat, several peaks for beginners and pros alike.",
+          "fr": "Baie protégée accessible en bateau, plusieurs pics pour débutants comme confirmés.",
+          "es": "Bahía protegida a la que se llega en barco, con varios picos para principiantes y expertos.",
+          "id": "Teluk terlindung yang dicapai dengan perahu, dengan beberapa titik ombak untuk pemula maupun mahir."
+        }
+      },
+      {
+        "name": "Selong Belanak",
+        "place": "Selong Belanak Beach, Lombok",
+        "level": {
+          "en": "Beginner",
+          "fr": "Débutant",
+          "es": "Principiante",
+          "id": "Pemula"
+        },
+        "text": {
+          "en": "Long white-sand beach with gentle waves: perfect for a first session.",
+          "fr": "Longue plage de sable blanc, vagues douces : parfait pour une première session.",
+          "es": "Larga playa de arena blanca con olas suaves: perfecta para una primera sesión.",
+          "id": "Pantai pasir putih yang panjang dengan ombak lembut: cocok untuk pertama kali berselancar."
+        }
+      },
+      {
+        "name": "Mawi",
+        "place": "Mawi Beach, Lombok",
+        "level": {
+          "en": "Advanced",
+          "fr": "Confirmé",
+          "es": "Avanzado",
+          "id": "Mahir"
+        },
+        "text": {
+          "en": "A powerful reef break for experienced surfers.",
+          "fr": "Une vague puissante sur récif, réservée aux surfeurs expérimentés.",
+          "es": "Una ola potente sobre arrecife, para surfistas con experiencia.",
+          "id": "Ombak karang yang kuat untuk peselancar berpengalaman."
+        }
+      },
+      {
+        "name": "Tanjung Aan",
+        "place": "Tanjung Aan Beach, Lombok",
+        "level": {
+          "en": "Beach & swim",
+          "fr": "Plage & baignade",
+          "es": "Playa y baño",
+          "id": "Pantai & berenang"
+        },
+        "text": {
+          "en": "Turquoise water, white sand and sunsets from Bukit Merese hill.",
+          "fr": "Eau turquoise, sable blanc et coucher de soleil depuis la colline de Bukit Merese.",
+          "es": "Agua turquesa, arena blanca y atardeceres desde la colina de Bukit Merese.",
+          "id": "Air biru toska, pasir putih, dan matahari terbenam dari Bukit Merese."
+        }
+      }
+    ],
+    "nightlife": [
+      {
+        "day": 1,
+        "venue": "Surfers Bar",
+        "place": "Surfers Bar, Kuta, Lombok",
+        "time": {
+          "en": "After midnight",
+          "fr": "Après minuit",
+          "es": "Después de medianoche",
+          "id": "Setelah tengah malam"
+        }
+      },
+      {
+        "day": 2,
+        "venue": "The Local",
+        "place": "The Local, Kuta, Lombok",
+        "time": {
+          "en": "Busy from 9 pm",
+          "fr": "Dès 21 h",
+          "es": "Desde las 21 h",
+          "id": "Ramai mulai pukul 21.00"
+        }
+      },
+      {
+        "day": 3,
+        "venue": "Pizza Shack",
+        "place": "Pizza Shack, Kuta, Lombok",
+        "time": {
+          "en": "Busy from 9 pm",
+          "fr": "Dès 21 h",
+          "es": "Desde las 21 h",
+          "id": "Ramai mulai pukul 21.00"
+        }
+      },
+      {
+        "day": 4,
+        "venue": "The Local",
+        "place": "The Local, Kuta, Lombok",
+        "time": {
+          "en": "Busy from 9 pm",
+          "fr": "Dès 21 h",
+          "es": "Desde las 21 h",
+          "id": "Ramai mulai pukul 21.00"
+        }
+      },
+      {
+        "day": 5,
+        "venue": "Surfers Bar",
+        "place": "Surfers Bar, Kuta, Lombok",
+        "time": {
+          "en": "After midnight",
+          "fr": "Après minuit",
+          "es": "Después de medianoche",
+          "id": "Setelah tengah malam"
+        }
+      },
+      {
+        "day": 6,
+        "venue": "Rasta Bar",
+        "place": "Rasta Bar, Kuta, Lombok",
+        "time": {
+          "en": "After midnight",
+          "fr": "Après minuit",
+          "es": "Después de medianoche",
+          "id": "Setelah tengah malam"
+        }
+      },
+      {
+        "day": 7,
+        "venue": "The Local",
+        "place": "The Local, Kuta, Lombok",
+        "time": {
+          "en": "Busy from 9 pm",
+          "fr": "Dès 21 h",
+          "es": "Desde las 21 h",
+          "id": "Ramai mulai pukul 21.00"
+        }
+      }
+    ],
+    "groceries": [
+      {
+        "name": "Pepito Market",
+        "place": "Pepito Market Kuta Lombok",
+        "text": {
+          "en": "Kuta's supermarket for all your grocery shopping: fresh produce, fruit and veg, meat, drinks, pantry and everyday essentials, both local and imported.",
+          "fr": "Le supermarché de Kuta pour faire toutes vos courses : produits frais, fruits et légumes, viande, boissons, épicerie et produits du quotidien, locaux comme importés.",
+          "es": "El supermercado de Kuta para hacer toda la compra: productos frescos, frutas y verduras, carne, bebidas, despensa y productos del día a día, locales e importados.",
+          "id": "Supermarket di Kuta untuk semua kebutuhan belanja Anda: produk segar, buah dan sayur, daging, minuman, bahan makanan, dan kebutuhan sehari-hari, baik lokal maupun impor."
+        }
+      }
+    ]
+  },
+  "location": {
+    "query": "Ratus Villa, Kuta, Lombok",
+    "lat": null,
+    "lng": null,
+    "embed": "",
+    "image": "assets/villa/plan-acces.webp",
+    "distances": [
+      {
+        "label": {
+          "en": "Kuta beach",
+          "fr": "Plage de Kuta",
+          "es": "Playa de Kuta",
+          "id": "Pantai Kuta"
+        },
+        "time": "~ 10 min"
+      },
+      {
+        "label": {
+          "en": "Tanjung Aan",
+          "fr": "Tanjung Aan",
+          "es": "Tanjung Aan",
+          "id": "Tanjung Aan"
+        },
+        "time": "~ 15 min"
+      },
+      {
+        "label": {
+          "en": "Gerupuk",
+          "fr": "Gerupuk",
+          "es": "Gerupuk",
+          "id": "Gerupuk"
+        },
+        "time": "~ 20 min"
+      },
+      {
+        "label": {
+          "en": "Selong Belanak",
+          "fr": "Selong Belanak",
+          "es": "Selong Belanak",
+          "id": "Selong Belanak"
+        },
+        "time": "~ 30 min"
+      },
+      {
+        "label": {
+          "en": "International airport",
+          "fr": "Aéroport international",
+          "es": "Aeropuerto internacional",
+          "id": "Bandara internasional"
+        },
+        "time": "~ 30 min"
+      }
+    ]
+  },
+  "texts": {
+    "nav.villas": {
+      "en": "Villas",
+      "fr": "Les villas",
+      "es": "Las villas",
+      "id": "Vila"
+    },
+    "nav.gallery": {
+      "en": "Gallery",
+      "fr": "Galerie",
+      "es": "Galería",
+      "id": "Galeri"
+    },
+    "nav.services": {
+      "en": "Services",
+      "fr": "Services",
+      "es": "Servicios",
+      "id": "Layanan"
+    },
+    "nav.guide": {
+      "en": "Kuta guide",
+      "fr": "Guide Kuta",
+      "es": "Guía de Kuta",
+      "id": "Panduan Kuta"
+    },
+    "nav.contact": {
+      "en": "Contact",
+      "fr": "Contact",
+      "es": "Contacto",
+      "id": "Kontak"
+    },
+    "nav.book": {
+      "en": "Book",
+      "fr": "Réserver",
+      "es": "Reservar",
+      "id": "Pesan"
+    },
+    "hero.eyebrow": {
+      "en": "Kuta · Lombok · Indonesia",
+      "fr": "Kuta · Lombok · Indonésie",
+      "es": "Kuta · Lombok · Indonesia",
+      "id": "Kuta · Lombok · Indonesia"
+    },
+    "hero.lead": {
+      "en": "Two twin private-pool villas, minutes from South Lombok's most beautiful beaches and surf spots.",
+      "fr": "Deux villas jumelles avec piscine privée, à quelques minutes des plus belles plages et spots de surf du sud de Lombok.",
+      "es": "Dos villas gemelas con piscina privada, a pocos minutos de las playas y spots de surf más bonitos del sur de Lombok.",
+      "id": "Dua vila kembar dengan kolam renang pribadi, hanya beberapa menit dari pantai dan spot selancar terindah di Lombok Selatan."
+    },
+    "hero.discover": {
+      "en": "Discover the villas",
+      "fr": "Découvrir les villas",
+      "es": "Descubrir las villas",
+      "id": "Lihat vila"
+    },
+    "hero.whatsapp": {
+      "en": "Availability",
+      "fr": "Disponibilités",
+      "es": "Disponibilidad",
+      "id": "Ketersediaan"
+    },
+    "hero.scroll": {
+      "en": "Scroll",
+      "fr": "Défiler",
+      "es": "Desliza",
+      "id": "Gulir"
+    },
+    "intro.eyebrow": {
+      "en": "Welcome",
+      "fr": "Bienvenue",
+      "es": "Bienvenidos",
+      "id": "Selamat datang"
+    },
+    "intro.title": {
+      "en": "A hideaway in the heart of Lombok,\n*between ocean and hills.*",
+      "fr": "Un refuge au cœur de Lombok,\n*entre océan et collines.*",
+      "es": "Un refugio en el corazón de Lombok,\n*entre el océano y las colinas.*",
+      "id": "Tempat berlindung di jantung Lombok,\n*di antara laut dan perbukitan.*"
+    },
+    "intro.p1": {
+      "en": "Ratus Villa is two villas in a quiet corner of Kuta, South Lombok. Bright living spaces and a private pool to cool off.",
+      "fr": "Ratus Villa, ce sont deux villas dans un coin calme de Kuta, au sud de Lombok. Des espaces lumineux et une piscine privée pour se rafraîchir.",
+      "es": "Ratus Villa son dos villas en un rincón tranquilo de Kuta, al sur de Lombok. Espacios luminosos y una piscina privada para refrescarse.",
+      "id": "Ratus Villa adalah dua vila di sudut Kuta yang tenang, Lombok Selatan. Ruangan yang terang dan kolam renang pribadi untuk menyegarkan diri."
+    },
+    "intro.p2": {
+      "en": "On the ground, we make everything easy: surf, scooter, driver, massage, parties and local tips…",
+      "fr": "Sur place, on vous facilite tout : surf, scooter, chauffeur, massage, soirées et bonnes adresses…",
+      "es": "Allí te lo ponemos fácil: surf, scooter, chófer, masajes, fiestas y buenos sitios…",
+      "id": "Di sini kami memudahkan semuanya: selancar, sewa motor, sopir, pijat, pesta, dan tempat-tempat favorit…"
+    },
+    "villas.eyebrow": {
+      "en": "The villas",
+      "fr": "Les villas",
+      "es": "Las villas",
+      "id": "Vila"
+    },
+    "villas.title": {
+      "en": "Twin villas, *at your disposal.*",
+      "fr": "Deux villas jumelles, *à votre disposition.*",
+      "es": "Dos villas gemelas, *a tu disposición.*",
+      "id": "Dua vila kembar, *siap untuk Anda.*"
+    },
+    "villa.bedrooms": {
+      "en": "Bedrooms",
+      "fr": "Chambres",
+      "es": "Habitaciones",
+      "id": "Kamar tidur"
+    },
+    "villa.bathrooms": {
+      "en": "Baths",
+      "fr": "Sdb",
+      "es": "Baños",
+      "id": "Kamar mandi"
+    },
+    "villa.guests": {
+      "en": "Guests",
+      "fr": "Voyageurs",
+      "es": "Huéspedes",
+      "id": "Tamu"
+    },
+    "villa.size": {
+      "en": "Size",
+      "fr": "Surface",
+      "es": "Superficie",
+      "id": "Luas"
+    },
+    "villa.book": {
+      "en": "Check availability",
+      "fr": "Demander les disponibilités",
+      "es": "Consultar disponibilidad",
+      "id": "Cek ketersediaan"
+    },
+    "villa.per": {
+      "en": "Per villa",
+      "fr": "Par villa",
+      "es": "Por villa",
+      "id": "Per vila"
+    },
+    "villa.one": {
+      "en": "1 villa",
+      "fr": "1 villa",
+      "es": "1 villa",
+      "id": "1 vila"
+    },
+    "villa.both": {
+      "en": "Both villas",
+      "fr": "Les 2 villas",
+      "es": "Las 2 villas",
+      "id": "2 vila"
+    },
+    "villa.upto": {
+      "en": "up to {n} guests",
+      "fr": "jusqu'à {n} voyageurs",
+      "es": "hasta {n} huéspedes",
+      "id": "hingga {n} tamu"
+    },
+    "gallery.eyebrow": {
+      "en": "Gallery",
+      "fr": "Galerie",
+      "es": "Galería",
+      "id": "Galeri"
+    },
+    "gallery.title": {
+      "en": "Ratus *moments.*",
+      "fr": "Instants *Ratus.*",
+      "es": "Momentos *Ratus.*",
+      "id": "Momen *Ratus.*"
+    },
+    "gallery.aside": {
+      "en": "Swipe · tap a photo to enlarge.",
+      "fr": "Faites glisser · touchez une photo pour l'agrandir.",
+      "es": "Desliza · toca una foto para ampliarla.",
+      "id": "Geser · ketuk foto untuk memperbesar."
+    },
+    "services.eyebrow": {
+      "en": "Services & contacts",
+      "fr": "Services & contacts",
+      "es": "Servicios y contactos",
+      "id": "Layanan & kontak"
+    },
+    "services.title": {
+      "en": "Everything is *one message away.*",
+      "fr": "Tout à portée *d'un message.*",
+      "es": "Todo a *un mensaje.*",
+      "id": "Semuanya cukup *satu pesan.*"
+    },
+    "services.lead": {
+      "en": "Our trusted local contacts. One tap to message them on WhatsApp.",
+      "fr": "Nos contacts de confiance sur place. Un clic pour leur écrire sur WhatsApp.",
+      "es": "Nuestros contactos de confianza en Kuta. Un toque para escribirles por WhatsApp.",
+      "id": "Kontak lokal tepercaya kami. Sekali ketuk untuk menghubungi mereka lewat WhatsApp."
+    },
+    "services.write": {
+      "en": "Message on WhatsApp",
+      "fr": "Écrire sur WhatsApp",
+      "es": "Escribir por WhatsApp",
+      "id": "Kirim pesan WhatsApp"
+    },
+    "guide.eyebrow": {
+      "en": "Local guide",
+      "fr": "Guide local",
+      "es": "Guía local",
+      "id": "Panduan lokal"
+    },
+    "guide.title": {
+      "en": "Live Kuta *like a local.*",
+      "fr": "Vivre Kuta *comme un local.*",
+      "es": "Vive Kuta *como un local.*",
+      "id": "Nikmati Kuta *seperti warga lokal.*"
+    },
+    "guide.surf": {
+      "en": "Surf & beaches",
+      "fr": "Surf & plages",
+      "es": "Surf y playas",
+      "id": "Selancar & pantai"
+    },
+    "guide.night": {
+      "en": "Nightlife",
+      "fr": "Soirées",
+      "es": "Fiestas",
+      "id": "Hiburan malam"
+    },
+    "guide.food": {
+      "en": "Groceries",
+      "fr": "Courses",
+      "es": "Compras",
+      "id": "Belanja"
+    },
+    "night.tonight": {
+      "en": "Tonight",
+      "fr": "Ce soir",
+      "es": "Esta noche",
+      "id": "Malam ini"
+    },
+    "go": {
+      "en": "Go there",
+      "fr": "Y aller",
+      "es": "Cómo llegar",
+      "id": "Petunjuk arah"
+    },
+    "go.apple": {
+      "en": "Apple Maps",
+      "fr": "Plans",
+      "es": "Mapas",
+      "id": "Apple Maps"
+    },
+    "location.eyebrow": {
+      "en": "Location",
+      "fr": "Localisation",
+      "es": "Ubicación",
+      "id": "Lokasi"
+    },
+    "location.title": {
+      "en": "In the heart of *South Lombok.*",
+      "fr": "Au cœur du *sud de Lombok.*",
+      "es": "En el corazón *del sur de Lombok.*",
+      "id": "Di jantung *Lombok Selatan.*"
+    },
+    "location.cta": {
+      "en": "Directions to the villa",
+      "fr": "Itinéraire vers la villa",
+      "es": "Cómo llegar a la villa",
+      "id": "Petunjuk arah ke vila"
+    },
+    "location.apple": {
+      "en": "Open in Apple Maps",
+      "fr": "Ouvrir dans Plans",
+      "es": "Abrir en Mapas",
+      "id": "Buka di Apple Maps"
+    },
+    "location.open": {
+      "en": "Get directions",
+      "fr": "Voir l'itinéraire",
+      "es": "Ver la ruta",
+      "id": "Lihat rute"
+    },
+    "mbar.book": {
+      "en": "Book",
+      "fr": "Réserver",
+      "es": "Reservar",
+      "id": "Pesan"
+    },
+    "mbar.guide": {
+      "en": "Guide",
+      "fr": "Guide",
+      "es": "Guía",
+      "id": "Panduan"
+    },
+    "mbar.go": {
+      "en": "Directions",
+      "fr": "Y aller",
+      "es": "Cómo llegar",
+      "id": "Rute"
+    },
+    "cta.eyebrow": {
+      "en": "Booking",
+      "fr": "Réservation",
+      "es": "Reservas",
+      "id": "Pemesanan"
+    },
+    "cta.title": {
+      "en": "Your Lombok stay\n*starts here.*",
+      "fr": "Votre séjour à Lombok\n*commence ici.*",
+      "es": "Tu estancia en Lombok\n*empieza aquí.*",
+      "id": "Liburan Anda di Lombok\n*dimulai di sini.*"
+    },
+    "cta.lead": {
+      "en": "Message us on WhatsApp for availability, rates and any question. Quick reply.",
+      "fr": "Écrivez-nous sur WhatsApp pour les disponibilités, les tarifs et toutes vos questions. Réponse rapide.",
+      "es": "Escríbenos por WhatsApp para disponibilidad, tarifas y cualquier pregunta. Respuesta rápida.",
+      "id": "Hubungi kami lewat WhatsApp untuk ketersediaan, harga, dan pertanyaan lainnya. Balasan cepat."
+    },
+    "cta.scan": {
+      "en": "Scan to message us",
+      "fr": "Scannez pour nous écrire",
+      "es": "Escanea para escribirnos",
+      "id": "Pindai untuk menghubungi kami"
+    },
+    "cta.whatsapp": {
+      "en": "Message on WhatsApp",
+      "fr": "Écrire sur WhatsApp",
+      "es": "Escribir por WhatsApp",
+      "id": "Kirim pesan WhatsApp"
+    },
+    "qr.hint": {
+      "en": "Scan with your phone camera.",
+      "fr": "Scannez avec l'appareil photo de votre téléphone.",
+      "es": "Escanea con la cámara de tu teléfono.",
+      "id": "Pindai dengan kamera ponsel Anda."
+    },
+    "qr.open": {
+      "en": "Open WhatsApp",
+      "fr": "Ouvrir WhatsApp",
+      "es": "Abrir WhatsApp",
+      "id": "Buka WhatsApp"
+    },
+    "lang.label": {
+      "en": "Language",
+      "fr": "Langue",
+      "es": "Idioma",
+      "id": "Bahasa"
+    },
+    "photo": {
+      "en": "Photo coming soon",
+      "fr": "Photo à venir",
+      "es": "Foto próximamente",
+      "id": "Foto segera hadir"
+    }
+  }
+}
