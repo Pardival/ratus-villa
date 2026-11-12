@@ -210,7 +210,6 @@
   let editLang = store.get("ratus-admin-edit") || "en";
   if (!LANGS.includes(editLang)) editLang = "en";
   let section = store.get("ratus-admin-section") || "home";
-  let villaIdx = +store.get("ratus-admin-villa") || 0;
   let previewOpen = false;
 
   const isDirty = () => JSON.stringify(content) !== published;
@@ -243,8 +242,6 @@
     else store.del("ratus-admin-draft");
   }, 600);
   function changed() {
-    const vc = document.querySelector(".vchip.is-on span");
-    if (vc && content.villas && content.villas[villaIdx]) vc.textContent = content.villas[villaIdx].name || T("newVillaName") + " " + (villaIdx + 1);
     updateStatus();
     saveDraft();
     refreshPreview();
@@ -373,10 +370,10 @@
     return fieldWrap(label, h("div", { class: "wa-row" }, input, test), { hint: T("whatsappHint") });
   }
 
-  function SELECT(path, label, options) {
+  function SELECT(path, label, options, o = {}) {
     const sel = h("select", { class: "select" }, options.map(([v, l]) => h("option", { value: v }, l)));
-    sel.value = String(getP(path));
-    sel.addEventListener("change", () => setP(path, isNaN(+sel.value) ? sel.value : +sel.value));
+    sel.value = String(getP(path) ?? options[0][0]);
+    sel.addEventListener("change", () => { setP(path, isNaN(+sel.value) ? sel.value : +sel.value); if (o.rerender) render(); });
     return fieldWrap(label, sel);
   }
 
@@ -467,6 +464,7 @@
   function LIST(path, opts) {
     const box = h("div");
     const openSet = new Set();
+    if (opts.openWhere) (getP(path) || []).forEach((it) => { if (opts.openWhere(it)) openSet.add(it); });
     const draw = () => {
       box.innerHTML = "";
       const arr = getP(path) || [];
@@ -484,44 +482,106 @@
           h("div", { class: "item__title" }, titleInfo[0] || "—", titleInfo[1] ? h("small", null, titleInfo[1]) : null),
           tools("item__tools"),
           svg("a-down", "ico item__caret"));
-        const toggle = () => { if (openSet.has(item)) openSet.delete(item); else openSet.add(item); draw(); };
+        const toggle = () => { if (openSet.has(item)) openSet.delete(item); else openSet.add(item); if (opts.onToggle) opts.onToggle(item, openSet.has(item)); draw(); };
         head.addEventListener("click", toggle);
         head.addEventListener("keydown", (e) => { if (e.target === head && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); toggle(); } });
         el.append(head);
         if (openSet.has(item)) el.append(h("div", { class: "item__body" }, tools("item__tools item__tools--body"), opts.render([...path, i], item)));
         list.append(el);
       });
-      box.append(list, h("button", { type: "button", class: "btn btn--ghost add-btn", onclick: () => { const n = opts.create(); arr.push(n); setP(path, arr); openSet.add(n); draw(); } }, svg("a-plus"), T("add") + " — " + opts.itemName));
+      box.append(list, opts.create() === null ? h("button", { type: "button", class: "btn btn--ghost add-btn", onclick: addSectionDialog }, svg("a-plus"), T("addSection")) : h("button", { type: "button", class: "btn btn--ghost add-btn", onclick: () => { const n = opts.create(); arr.push(n); setP(path, arr); openSet.add(n); draw(); } }, svg("a-plus"), T("add") + " — " + opts.itemName));
     };
     const move = (a, b) => { const arr = getP(path); const [x] = arr.splice(a, 1); arr.splice(b, 0, x); changed(); draw(); };
     draw();
     return box;
   }
 
-  /* ---------- villas ---------- */
-  const VP = (...k) => ["villas", villaIdx, ...k];
-  const newVilla = (n) => ({ name: T("newVillaName") + " " + n, count: 1, tagline: ml0(), description: ml0(), groupNote: ml0(), stats: { bedrooms: 1, bathrooms: 1, guests: 2, size: "" }, amenities: [], photos: [] });
-  function villaBar() {
-    const list = content.villas;
-    if (villaIdx >= list.length) villaIdx = Math.max(0, list.length - 1);
-    const pickV = (i) => { villaIdx = i; store.set("ratus-admin-villa", String(i)); render(); if (previewOpen) refreshPreview(true); };
-    const moveV = (a, b) => { const [x] = list.splice(a, 1); list.splice(b, 0, x); changed(); pickV(b); };
-    const cur = list[villaIdx] || {};
-    return h("section", { class: "card vcard" },
-      h("h3", { class: "card__title" }, T("villasTitle")),
-      h("div", { class: "vbar" },
-        list.map((v, i) => h("button", { type: "button", class: "vchip" + (i === villaIdx ? " is-on" : ""), onclick: () => pickV(i) }, svg("a-villa"), h("span", null, v.name || T("newVillaName") + " " + (i + 1)))),
-        h("button", { type: "button", class: "vchip vchip--add", onclick: () => { list.push(newVilla(list.length + 1)); changed(); pickV(list.length - 1); toast(T("villaAdded"), "ok"); } }, svg("a-plus"), h("span", null, T("villaAdd")))),
-      h("div", { class: "vtools" },
-        h("p", { class: "field__hint" }, list.length > 1 ? T("villasHint") : T("villasHint1")),
-        h("div", { class: "item__tools" },
-          h("button", { type: "button", class: "iconbtn", title: T("moveUp"), "aria-label": T("moveUp"), disabled: villaIdx === 0 || null, onclick: () => moveV(villaIdx, villaIdx - 1) }, svg("a-left")),
-          h("button", { type: "button", class: "iconbtn", title: T("moveDown"), "aria-label": T("moveDown"), disabled: villaIdx >= list.length - 1 || null, onclick: () => moveV(villaIdx, villaIdx + 1) }, svg("a-right")),
-          h("button", { type: "button", class: "iconbtn", title: T("villaDup"), "aria-label": T("villaDup"), onclick: () => { const c = clone(cur); c.name = (cur.name || "") + " (2)"; list.splice(villaIdx + 1, 0, c); changed(); pickV(villaIdx + 1); } }, svg("a-copy")),
-          h("button", { type: "button", class: "iconbtn iconbtn--danger", title: T("villaDelete"), "aria-label": T("villaDelete"), disabled: list.length < 2 || null, onclick: async () => {
-            if (!(await confirmBox(T("villaDeleteConfirm", { name: cur.name || "" }), T("delete"), true))) return;
-            list.splice(villaIdx, 1); changed(); pickV(Math.max(0, villaIdx - 1));
-          } }, svg("a-trash")))));
+  function villaFields(base, withPhotos) {
+    const P = (...k) => [...base, ...k];
+    return [
+      card(T("description"), TXT(P("name"), T("villaName")), ML(P("tagline"), T("tagline")),
+        ML(P("description"), T("description"), { multiline: true, rows: 5 }), ML(P("groupNote"), T("groupNote"), { multiline: true })),
+      card(T("perVilla"),
+        h("div", { class: "grid4" },
+          TXT(P("stats", "bedrooms"), T("bedrooms"), { type: "number", inputmode: "numeric" }),
+          TXT(P("stats", "bathrooms"), T("bathrooms"), { type: "number", inputmode: "numeric" }),
+          TXT(P("stats", "guests"), T("guests"), { type: "number", inputmode: "numeric" }),
+          TXT(P("stats", "size"), T("size"), { placeholder: "120 m²" })),
+        TXT(P("count"), T("villaCount"), { type: "number", inputmode: "numeric", hint: T("villaCountHint") })),
+      card(T("amenities"), LIST(P("amenities"), {
+        itemName: T("amenity"), icon: (a) => "i-" + (a.icon || "wave"), title: (a) => [first(a.label)],
+        create: () => ({ icon: "pool", label: ml0() }),
+        render: (p) => [ICON([...p, "icon"], T("icon")), ML([...p, "label"], T("label"))]
+      })),
+      withPhotos ? card(T("s_photos"), PHOTOS(P("photos"))) : null
+    ];
+  }
+
+  /* ---------- Sections ajoutées ---------- */
+  let openSection = null;
+  const SEC_TYPES = {
+    villa: { icon: "a-villa" },
+    text: { icon: "a-edit" },
+    features: { icon: "a-grid" },
+    photos: { icon: "a-images" }
+  };
+  const AFTER = ["intro", "villas", "gallery", "services", "guide", "location"];
+  const mlText = (txt) => { const o = ml0(); o[editLang] = txt; return o; };
+  function newSection(type) {
+    const base = { id: Math.random().toString(36).slice(2, 8), type, visible: true, after: "villas", bg: "light", menu: false, menuLabel: ml0(), eyebrow: ml0(), title: ml0(), lead: ml0() };
+    if (type === "villa") return Object.assign(base, { bg: "sand", eyebrow: mlText(T("secType_villa")), villa: { name: T("newVillaName"), count: 1, tagline: ml0(), description: ml0(), groupNote: ml0(), stats: { bedrooms: 1, bathrooms: 1, guests: 2, size: "" }, amenities: clone((content.villa && content.villa.amenities) || []), photos: [] } });
+    if (type === "text") return Object.assign(base, { title: mlText(T("secNewTitle")), text: ml0(), image: "", imageAlt: ml0(), imageSide: "right", button: { type: "none", label: ml0(), url: "", place: "", whatsapp: "", message: ml0() } });
+    if (type === "features") return Object.assign(base, { bg: "sand", title: mlText(T("secNewTitle")), items: [{ icon: "pool", title: ml0(), text: ml0() }, { icon: "garden", title: ml0(), text: ml0() }, { icon: "wifi", title: ml0(), text: ml0() }], button: { type: "none", label: ml0(), url: "", place: "", whatsapp: "", message: ml0() } });
+    return Object.assign(base, { title: mlText(T("secNewTitle")), photos: [] });
+  }
+  function addSectionDialog() {
+    modal((box, close) => {
+      box.append(h("h3", null, T("addSectionTitle")), h("p", null, T("addSectionSub")),
+        h("div", { class: "typegrid" }, Object.keys(SEC_TYPES).map((tp) => h("button", { type: "button", class: "typecard", onclick: () => {
+          const sec = newSection(tp); content.sections = content.sections || []; content.sections.push(sec);
+          openSection = sec.id; changed(); close(); section = "sections"; render(); toast(T("secAdded"), "ok");
+          setTimeout(() => { const el = document.querySelector(".item.is-open"); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); }, 150);
+        } }, h("span", { class: "typecard__icon" }, svg(SEC_TYPES[tp].icon)), h("b", null, T("secType_" + tp)), h("small", null, T("secTypeDesc_" + tp))))),
+        h("div", { class: "modal__btns" }, h("button", { class: "btn btn--ghost", onclick: close }, T("cancel"))));
+    });
+  }
+  function CHECK(path, label, hint) {
+    const cb = h("input", { type: "checkbox", checked: getP(path) !== false || null });
+    cb.addEventListener("change", () => { setP(path, cb.checked); render(); });
+    return h("div", { class: "field" }, h("label", { class: "check" }, cb, label), hint ? h("div", { class: "field__hint" }, hint) : null);
+  }
+  function buttonFields(p) {
+    const bt = getP([...p, "button"]) || {};
+    const type = bt.type || "none";
+    const out = [SELECT([...p, "button", "type"], T("btnType"), ["none", "whatsapp", "link", "map"].map((x) => [x, T("btn_" + x)]), { rerender: true })];
+    if (type !== "none") out.push(ML([...p, "button", "label"], T("btnLabel")));
+    if (type === "whatsapp") out.push(WA([...p, "button", "whatsapp"], T("whatsapp") + " — " + T("btnWaHint")), ML([...p, "button", "message"], T("waMessage"), { multiline: true, rows: 2 }));
+    if (type === "link") out.push(TXT([...p, "button", "url"], T("btnUrl"), { placeholder: "https://…", inputmode: "url" }));
+    if (type === "map") out.push(TXT([...p, "button", "place"], T("place"), { hint: T("placeHint") }));
+    return card(T("button"), ...out);
+  }
+  function sectionFields(p, sec) {
+    const out = [
+      card(T("secDisplay"),
+        CHECK([...p, "visible"], T("secVisible"), T("secVisibleHint")),
+        h("div", { class: "grid2" },
+          SELECT([...p, "after"], T("secAfter"), AFTER.map((x) => [x, T("after_" + x)])),
+          SELECT([...p, "bg"], T("secBg"), ["light", "sand", "ocean"].map((x) => [x, T("bg_" + x)]))),
+        CHECK([...p, "menu"], T("secMenu")),
+        sec.menu ? ML([...p, "menuLabel"], T("secMenuLabel"), { hint: T("secMenuLabelHint") }) : null),
+      card(T("title"), ML([...p, "eyebrow"], T("eyebrow")), ML([...p, "title"], T("title"), { multiline: true, rows: 2, md: true }), ML([...p, "lead"], T("subtitle"), { multiline: true, rows: 2 }))
+    ];
+    if (sec.type === "villa") out.push(...villaFields([...p, "villa"], true));
+    if (sec.type === "text") out.push(card(T("text"), ML([...p, "text"], T("text"), { multiline: true, rows: 7, md: true, hint: T("secTextHint") }),
+      MEDIA([...p, "image"], T("photo"), { removable: true }),
+      SELECT([...p, "imageSide"], T("imageSide"), [["right", T("side_right")], ["left", T("side_left")]])), buttonFields(p, sec));
+    if (sec.type === "features") out.push(card(T("featItems"), LIST([...p, "items"], {
+      itemName: T("featItem"), icon: (it) => "i-" + (it.icon || "wave"), title: (it) => [first(it.title), first(it.text)],
+      create: () => ({ icon: "wave", title: ml0(), text: ml0() }),
+      render: (q) => [ICON([...q, "icon"], T("icon")), ML([...q, "title"], T("title")), ML([...q, "text"], T("text"), { multiline: true, rows: 2 })]
+    })), buttonFields(p, sec));
+    if (sec.type === "photos") out.push(card(T("s_photos"), PHOTOS([...p, "photos"])));
+    return out;
   }
 
   const card = (title, ...kids) => h("section", { class: "card" }, title ? h("h3", { class: "card__title" }, title) : null, kids);
@@ -556,28 +616,14 @@
     ] },
     { id: "villa", icon: "a-villa", anchor: "#villas", render: () => [
       card(T("title"), tx("villas.eyebrow", T("eyebrow")), tx("villas.title", T("title"), { multiline: true, rows: 2, md: true })),
-      villaBar(),
-      card(T("description"), TXT(VP("name"), T("villaName")), ML(VP("tagline"), T("tagline")),
-        ML(VP("description"), T("description"), { multiline: true, rows: 5 }), ML(VP("groupNote"), T("groupNote"), { multiline: true })),
-      card(T("perVilla"),
-        h("div", { class: "grid4" },
-          TXT(VP("stats", "bedrooms"), T("bedrooms"), { type: "number", inputmode: "numeric" }),
-          TXT(VP("stats", "bathrooms"), T("bathrooms"), { type: "number", inputmode: "numeric" }),
-          TXT(VP("stats", "guests"), T("guests"), { type: "number", inputmode: "numeric" }),
-          TXT(VP("stats", "size"), T("size"), { placeholder: "120 m²" })),
-        TXT(VP("count"), T("villaCount"), { type: "number", inputmode: "numeric", hint: T("villaCountHint") })),
-      card(T("amenities"), LIST(VP("amenities"), {
-        itemName: T("amenity"), icon: (a) => "i-" + (a.icon || "wave"), title: (a) => [first(a.label)],
-        create: () => ({ icon: "pool", label: ml0() }),
-        render: (p) => [ICON([...p, "icon"], T("icon")), ML([...p, "label"], T("label"))]
-      })),
+      ...villaFields(["villa"], false),
       card(T("labels"),
         h("div", { class: "grid2" }, tx("villa.bedrooms", T("bedrooms")), tx("villa.bathrooms", T("bathrooms")), tx("villa.guests", T("guests")), tx("villa.size", T("size"))),
         tx("villa.per", T("perVilla")),
         h("div", { class: "grid2" }, tx("villa.one", "1 villa"), tx("villa.both", "2 villas")),
         tx("villa.upto", T("guests"), { hint: "{n} = " + T("guests") }), tx("villa.book", T("button")))
     ] },
-    { id: "photos", icon: "a-images", anchor: "#villas", render: () => [villaBar(), card(null, PHOTOS(VP("photos")))] },
+    { id: "photos", icon: "a-images", anchor: "#villas", render: () => [card(null, PHOTOS(["villa", "photos"]))] },
     { id: "gallery", icon: "a-grid", anchor: "#gallery", render: () => [
       card(null, PHOTOS(["gallery"])),
       card(T("text"), tx("gallery.eyebrow", T("eyebrow")), tx("gallery.title", T("title"), { md: true }), tx("gallery.aside", T("subtitle")))
@@ -632,6 +678,23 @@
       card(T("text"), tx("cta.eyebrow", T("eyebrow")), tx("cta.title", T("title"), { multiline: true, rows: 2, md: true }), tx("cta.lead", T("subtitle"), { multiline: true }),
         h("div", { class: "grid2" }, tx("cta.whatsapp", T("button")), tx("cta.scan", "QR")))
     ] },
+    { id: "sections", icon: "a-plus", anchor: "#villas", render: () => {
+      content.sections = content.sections || [];
+      const list = LIST(["sections"], {
+        itemName: T("secOne"), icon: (x) => (SEC_TYPES[x.type] || SEC_TYPES.text).icon,
+        title: (x) => [(first(x.title) || (x.type === "villa" && x.villa && x.villa.name) || T("untitled")).replace(/\*/g, "").split("\n")[0],
+          T("secType_" + x.type) + " · " + T("after_" + (x.after || "villas")) + (x.visible === false ? " · " + T("secHidden") : "")],
+        openWhere: (x) => x.id === openSection,
+        onToggle: (x, isOpen) => { openSection = isOpen ? x.id : null; if (previewOpen) refreshPreview(true); },
+        create: () => null,
+        render: (q, x) => sectionFields(q, x)
+      });
+      return [
+        card(null, h("p", { class: "note", style: "margin:0 0 14px" }, T("secIntro")),
+          h("button", { class: "btn btn--primary", onclick: addSectionDialog }, svg("a-plus"), T("addSection"))),
+        content.sections.length ? list : card(null, h("p", { class: "note", style: "margin:0" }, T("noSections")))
+      ];
+    } },
     { id: "menus", icon: "a-menu", anchor: "#top", render: () => [
       card(T("navigation"), h("div", { class: "grid2" }, tx("nav.villas", "1"), tx("nav.gallery", "2"), tx("nav.services", "3"), tx("nav.guide", "4"), tx("nav.contact", "5"), tx("nav.book", T("button")))),
       card(T("bottomBar"), h("div", { class: "grid2" }, tx("mbar.book", "1"), tx("mbar.guide", "2"), tx("mbar.go", "3"))),
@@ -717,7 +780,7 @@
     } }, svg("a-down"), T("exportBtn"));
     const imp = h("button", { class: "btn btn--ghost", onclick: async () => {
       const [f] = await pickFiles("application/json,.json"); if (!f) return;
-      try { const c = normalize(JSON.parse(await f.text())); if (!c || !c.texts || !c.villas) throw 0; content = c; changed(); render(); toast(T("imported"), "ok"); }
+      try { const c = normalize(JSON.parse(await f.text())); if (!c || !c.texts || !c.villa) throw 0; content = c; changed(); render(); toast(T("imported"), "ok"); }
       catch (e) { toast(T("badFile"), "err"); }
     } }, svg("a-upload"), T("importBtn"));
     out.push(card(T("exportTitle"), h("p", { class: "note" }, T("exportSub")), h("div", { class: "media-field__btns" }, exp, imp)));
@@ -822,7 +885,7 @@
     store.set("ratus-draft", JSON.stringify(draft));
     const fr = $("#previewFrame"); if (!fr) return;
     const sec = SECTIONS.find((s) => s.id === section) || SECTIONS[0];
-    fr.src = "../index.html?preview=1&lang=" + editLang + "&villa=" + villaIdx + "&t=" + Date.now() + sec.anchor;
+    fr.src = "../index.html?preview=1&lang=" + editLang + "&t=" + Date.now() + (sec.id === "sections" && openSection ? "#s-" + openSection : sec.anchor);
   }, 900);
 
   /* ---------------- Publication ---------------- */
@@ -958,13 +1021,18 @@
   // Anciennes versions du contenu (une seule villa) -> liste de villas
   function normalize(c) {
     if (!c || typeof c !== "object") return c;
-    if (!Array.isArray(c.villas)) c.villas = c.villa ? [c.villa] : [];
-    delete c.villa;
+    if (!c.villa && Array.isArray(c.villas) && c.villas.length) {
+      c.villa = c.villas[0];
+      c.sections = (c.sections || []).concat(c.villas.slice(1).map((v) => Object.assign(newSection("villa"), { villa: v })));
+    }
+    delete c.villas;
+    if (!Array.isArray(c.sections)) c.sections = [];
     c.hero = c.hero || {};
     if (c.hero.titleA == null) { c.hero.titleA = "Ratus"; c.hero.titleB = "Villa"; }
     walkML(c, [], () => {});
     return c;
   }
+
 
   async function loadIcons() {
     try {
@@ -999,7 +1067,7 @@
           // les fichiers non envoyés de la dernière visite sont perdus : on retire leurs références
           content = walk(d.content, (v) => (typeof v === "string" && v.startsWith("assets/uploads/") && !published.includes(JSON.stringify(v)) ? "" : v));
           content = normalize(content);
-          [content.gallery, ...content.villas.map((v) => v.photos)].forEach((arr) => { if (Array.isArray(arr)) for (let i = arr.length - 1; i >= 0; i--) if (!arr[i].src) arr.splice(i, 1); });
+          [content.gallery, content.villa && content.villa.photos, ...content.sections.map((x) => x.photos || (x.villa && x.villa.photos))].forEach((arr) => { if (Array.isArray(arr)) for (let i = arr.length - 1; i >= 0; i--) if (!arr[i].src) arr.splice(i, 1); });
         } else store.del("ratus-admin-draft");
       }
     } catch (e) {}

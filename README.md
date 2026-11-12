@@ -15,8 +15,9 @@ Tout le contenu se modifie depuis cette page :
 |---|---|
 | Accueil | Photo et vidéo de fond, titre, sous-titre, boutons |
 | Bienvenue | Texte de présentation, photo, chiffres clés |
-| La villa | **Une ou plusieurs villas** (ajouter, dupliquer, supprimer, réordonner) : description, chambres / sdb / voyageurs / surface, équipements. Avec 2 villas ou plus, le site affiche des onglets. |
-| Photos de la villa (par villa) · Galerie | Ajouter, supprimer, réordonner (glisser ou flèches), décrire les photos |
+| La villa | Description, chambres / sdb / voyageurs / surface, équipements |
+| **Sections en plus** | Ajouter ses propres sections : **une autre villa**, **texte & photo** (présenter le domaine, des infos…), **points forts** (liste avec icônes), **photos**. Pour chacune : emplacement sur la page, fond, lien dans le menu, bouton (WhatsApp, lien, itinéraire), afficher / masquer. |
+| Photos de la villa · Galerie | Ajouter, supprimer, réordonner (glisser ou flèches), décrire les photos |
 | Services | Surf, scooter, chauffeur, massage… avec leur numéro WhatsApp (ajout/suppression libres) |
 | Surf & plages · Soirées · Courses | Le guide local, avec le lieu utilisé par le bouton « Y aller » |
 | Localisation | Image de la carte, adresse pour l'itinéraire, temps de trajet |

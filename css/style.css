@@ -776,8 +776,47 @@ body:not(.is-loaded) .hero .reveal { opacity: 0; transform: translateY(40px); }
 /* QR des services : seulement sur ordinateur */
 @media (max-width: 860px) { .btn-qr { display: none !important; } }
 
-/* Onglets des villas (quand il y en a plusieurs) */
-.tabs-wrap { overflow-x: auto; scrollbar-width: none; margin: 0 calc(var(--gutter) * -1) 6px; padding: 4px var(--gutter) 10px; }
-.tabs-wrap::-webkit-scrollbar { display: none; }
-.tabs { margin-bottom: 30px; }
-@media (max-width: 600px) { .tabs { display: inline-flex; width: auto; } .tab { flex: none; padding: .8em 1.2em; } }
+/* ==========================================================================
+   Sections ajoutées depuis l'admin
+   ========================================================================== */
+.xsec .section__head { margin-bottom: clamp(28px, 5vw, 50px); }
+.xsec__lead { color: inherit; }
+.section--sand .xsec__lead, .xsec:not(.section--ocean) .xsec__lead { color: var(--ink-soft); opacity: 1; }
+.xsec__foot { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
+.xsec__rail { margin-top: -10px; }
+
+.xtext { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(30px, 6vw, 90px); align-items: center; }
+.xtext--left .xtext__media { order: -1; }
+.xtext--solo { grid-template-columns: minmax(0, 780px); }
+.xtext .section__head { margin-bottom: 18px; }
+.xtext__text p { font-size: 1.05rem; color: var(--ink-soft); }
+.section--ocean .xtext__text p { color: rgba(244,237,226,.82); }
+.xtext__media .media { border-radius: var(--radius); }
+
+.xfeat { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.xfeat__item { padding: 26px 24px; border-radius: var(--radius); background: var(--cream); transition: transform .6s var(--ease); }
+.section--sand .xfeat__item { background: var(--cream); }
+.xsec:not(.section--sand):not(.section--ocean) .xfeat__item { background: var(--sand); }
+.section--ocean .xfeat__item { background: rgba(255,255,255,.05); border: 1px solid rgba(244,237,226,.12); }
+.xfeat__icon { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: rgba(63,163,154,.14); color: var(--lagoon); margin-bottom: 16px; }
+.section--ocean .xfeat__icon { background: rgba(201,164,106,.14); color: var(--gold); }
+.xfeat__icon .ico { width: 24px; height: 24px; }
+.xfeat__item h3 { font-family: var(--serif); font-weight: 400; font-size: 1.35rem; margin: 0 0 .35em; }
+.section--ocean .xfeat__item h3 { color: var(--cream); }
+.xfeat__item p { margin: 0; font-size: .94rem; color: var(--ink-soft); }
+.section--ocean .xfeat__item p { color: rgba(244,237,226,.75); }
+@media (hover: hover) { .xfeat__item:hover { transform: translateY(-5px); } }
+.section--ocean .villa__desc, .section--ocean .villa__note, .section--ocean .villa__per, .section--ocean .fact span, .section--ocean .amenities li { color: rgba(244,237,226,.8); }
+.section--ocean .fact { background: rgba(255,255,255,.06); }
+.section--ocean .amenities li { border-color: rgba(244,237,226,.2); }
+
+@media (max-width: 860px) {
+  .xtext { grid-template-columns: 1fr; }
+  .xtext--left .xtext__media, .xtext__media { order: -1; }
+}
+@media (max-width: 600px) {
+  .xfeat { grid-template-columns: 1fr; gap: 12px; }
+  .xfeat__item { padding: 20px; display: grid; grid-template-columns: 44px 1fr; column-gap: 14px; align-items: start; }
+  .xfeat__icon { width: 44px; height: 44px; margin: 0; grid-row: span 2; }
+  .xfeat__item h3 { font-size: 1.2rem; margin-top: 8px; }
+}

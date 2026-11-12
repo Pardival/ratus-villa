@@ -103,7 +103,7 @@
 
   }
 
-  function villaHTML(v) {
+  function villaHTML(v, named) {
     const s = v.stats;
     const photosK = v.photos.length;
     return `
@@ -138,54 +138,26 @@
           </div>` : ""}
           ${pick(v.groupNote).trim() ? `<p class="villa__note">${L(v.groupNote)}</p>` : ""}
           <div class="villa__foot">
-            <a class="btn btn--dark js-wa-villa" href="${esc(waLink(C.booking.whatsapp, pick(C.booking.message) + (villas().length > 1 ? " (" + (v.name || "") + ")" : "")))}" target="_blank" rel="noopener">${icon("i-whatsapp")}<span>${esc(tPlain("villa.book"))}</span></a>
+            <a class="btn btn--dark js-wa-villa" href="${esc(waLink(C.booking.whatsapp, pick(C.booking.message) + (named && v.name ? " (" + v.name + ")" : "")))}" target="_blank" rel="noopener">${icon("i-whatsapp")}<span>${esc(tPlain("villa.book"))}</span></a>
           </div>
         </div>
       </article>`;
   }
 
-  // Une ou plusieurs villas (onglets quand il y en a plusieurs)
-  const villas = () => (Array.isArray(C.villas) && C.villas.length ? C.villas : (C.villa ? [C.villa] : []));
-  let currentVilla = PREVIEW ? (+params.get("villa") || 0) : 0;
-
-  function renderVillaTabs() {
-    const tabs = $("#villaTabs"), list = villas();
-    if (currentVilla >= list.length) currentVilla = 0;
-    if (list.length < 2) { tabs.hidden = true; tabs.innerHTML = ""; return; }
-    tabs.hidden = false;
-    tabs.innerHTML = list.map((v, i) => `<button class="tab ${i === currentVilla ? "is-active" : ""}" role="tab" type="button" data-i="${i}">${esc(v.name || "Villa " + (i + 1))}</button>`).join("") + `<span class="tabs__pill"></span>`;
-    $$(".tab", tabs).forEach((b) => b.addEventListener("click", () => switchVilla(+b.dataset.i)));
-    requestAnimationFrame(movePill);
-  }
-  function movePill() {
-    const active = $("#villaTabs .tab.is-active"), pill = $("#villaTabs .tabs__pill");
-    if (!active || !pill) return;
-    pill.style.width = active.offsetWidth + "px";
-    pill.style.transform = `translateX(${active.offsetLeft}px)`;
-  }
-  function switchVilla(i) {
-    if (i === currentVilla) return;
-    currentVilla = i;
-    $$("#villaTabs .tab").forEach((b) => b.classList.toggle("is-active", +b.dataset.i === i));
-    movePill();
-    const stage = $("#villaStage"), old = $(".villa", stage);
-    stage.style.minHeight = stage.offsetHeight + "px";
-    if (old) old.classList.add("is-leaving");
-    setTimeout(() => { mountVilla(true); setTimeout(() => (stage.style.minHeight = ""), 900); }, 380);
-  }
-  window.addEventListener("resize", () => movePill());
-
-  function mountVilla(animate) {
+  // Villa principale (une seule) — le même rendu sert aux sections "villa" ajoutées depuis l'admin
+  function mountVilla() {
+    const v = C.villa || (Array.isArray(C.villas) ? C.villas[0] : null);
     const stage = $("#villaStage");
-    const list = villas();
-    if (!list.length) { stage.innerHTML = ""; return; }
-    const v = list[currentVilla] || list[0];
+    if (!v) { stage.innerHTML = ""; return; }
+    mountVillaIn(stage, v, false);
+  }
+
+  function mountVillaIn(stage, v, named) {
     v.stats = v.stats || {};
     if (!v.photos || !v.photos.length) v.photos = [{ src: "" }];
-    stage.innerHTML = villaHTML(v);
+    stage.innerHTML = villaHTML(v, named);
     const el = $(".villa", stage);
     hydrateAll(el);
-    if (animate) { el.classList.add("is-entering"); setTimeout(() => el.classList.remove("is-entering"), 1400); }
 
     const main = $(".villa__main", el), counter = $(".villa__count span", el);
     let idx = 0;
@@ -216,6 +188,85 @@
     const srcs = v.photos.map(srcOf);
     main.addEventListener("click", () => { if (!swiped) openLightbox(srcs, idx); });
     $(".villa__count", el).addEventListener("click", () => openLightbox(srcs, idx));
+  }
+
+  /* ---------------- Sections ajoutées depuis l'admin ---------------- */
+  const SEC_BG = { light: "", sand: " section--sand", ocean: " section--ocean" };
+  const secHead = (sec, light) => `
+    <div class="section__head">
+      ${pick(sec.eyebrow).trim() ? `<p class="eyebrow${light ? " eyebrow--light" : ""} reveal">${L(sec.eyebrow)}</p>` : ""}
+      ${pick(sec.title).trim() ? `<h2 class="h2 reveal" data-delay="1">${md(pick(sec.title))}</h2>` : ""}
+      ${pick(sec.lead).trim() ? `<p class="section__lead xsec__lead reveal" data-delay="2">${md(pick(sec.lead))}</p>` : ""}
+    </div>`;
+  function secButton(sec) {
+    const bt = sec.button || {};
+    if (!bt.type || bt.type === "none" || !pick(bt.label).trim()) return "";
+    const href = bt.type === "whatsapp" ? waLink(bt.whatsapp || C.booking.whatsapp, pick(bt.message) || pick(C.booking.message)) : (bt.url || "#");
+    const ico = bt.type === "whatsapp" ? icon("i-whatsapp") : bt.type === "map" ? icon("i-route") : icon("i-share");
+    const url = bt.type === "map" ? gDir(bt.place || "") : href;
+    return `<a class="btn ${sec.bg === "ocean" ? "btn--light" : "btn--dark"}" href="${esc(url)}" target="_blank" rel="noopener">${ico}<span>${L(bt.label)}</span></a>`;
+  }
+  function sectionHTML(sec) {
+    const dark = sec.bg === "ocean";
+    const head = secHead(sec, dark);
+    if (sec.type === "villa") return `<div class="container">${head}<div class="villa-stage"></div></div>`;
+    if (sec.type === "features") return `<div class="container">${head}
+        <div class="xfeat">${(sec.items || []).map((it, i) => `
+          <div class="xfeat__item reveal" style="--d:${i % 3}">
+            <span class="xfeat__icon">${ico(it.icon)}</span>
+            <h3>${L(it.title)}</h3>
+            ${pick(it.text).trim() ? `<p>${L(it.text)}</p>` : ""}
+          </div>`).join("")}</div>
+        ${secButton(sec) ? `<div class="xsec__foot reveal">${secButton(sec)}</div>` : ""}</div>`;
+    if (sec.type === "photos") return `<div class="container">${head}</div>
+        <div class="gallery__rail xsec__rail">${(sec.photos || []).map((p, i) => mediaHTML(p, `data-i="${i}"`, "gallery__item reveal")).join("")}</div>`;
+    // "text" : texte + photo
+    const img = sec.image ? `<div class="xtext__media reveal reveal--zoom">${mediaHTML({ src: sec.image, alt: sec.imageAlt }, "", "media--wide")}</div>` : "";
+    return `<div class="container">
+        <div class="xtext${sec.image ? "" : " xtext--solo"}${sec.imageSide === "left" ? " xtext--left" : ""}">
+          <div class="xtext__body">
+            ${head}
+            ${pick(sec.text).trim() ? `<div class="xtext__text reveal" data-delay="2">${md(pick(sec.text)).split("<br><br>").map((x) => `<p>${x}</p>`).join("")}</div>` : ""}
+            ${secButton(sec) ? `<div class="xsec__foot reveal" data-delay="3">${secButton(sec)}</div>` : ""}
+          </div>
+          ${img}
+        </div></div>`;
+  }
+  function renderSections() {
+    $$(".xsec").forEach((el) => el.remove());
+    $$("#navLinks .js-xnav").forEach((el) => el.remove());
+    const list = (C.sections || []).filter((x) => x && x.visible !== false);
+    const navContact = $('#navLinks a[href="#contact"]');
+    // regroupées par emplacement, dans l'ordre de la liste
+    list.slice().reverse().forEach((sec) => {
+      const anchor = document.getElementById(sec.after || "villas") || document.getElementById("location");
+      const el = document.createElement("section");
+      el.className = "section xsec" + (SEC_BG[sec.bg] || "");
+      el.id = "s-" + (sec.id || Math.random().toString(36).slice(2, 8));
+      el.innerHTML = sectionHTML(sec);
+      anchor.after(el);
+      if (sec.type === "villa") mountVillaIn($(".villa-stage", el), sec.villa || {}, true);
+      if (sec.type === "photos") {
+        const srcs = (sec.photos || []).map(srcOf);
+        $$(".gallery__item", el).forEach((it) => it.addEventListener("click", () => openLightbox(srcs, +it.dataset.i)));
+      }
+      hydrateAll(el);
+    });
+    // ordre de la liste respecté pour plusieurs sections au même emplacement
+    const byAnchor = {};
+    list.forEach((sec) => (byAnchor[sec.after || "villas"] = byAnchor[sec.after || "villas"] || []).push(sec));
+    Object.keys(byAnchor).forEach((k) => {
+      let prev = document.getElementById(k) || document.getElementById("location");
+      byAnchor[k].forEach((sec) => { const el = document.getElementById("s-" + sec.id); if (el) { prev.after(el); prev = el; } });
+    });
+    // liens du menu
+    list.filter((x) => x.menu).forEach((sec) => {
+      const a = document.createElement("a");
+      a.href = "#s-" + sec.id; a.className = "js-xnav";
+      a.textContent = (pick(sec.menuLabel) || pick(sec.title) || "").replace(/\*/g, "").split("\n")[0];
+      if (navContact) navContact.before(a); else $("#navLinks").append(a);
+      a.addEventListener("click", () => { if (document.body.classList.contains("menu-open")) $("#burger").click(); });
+    });
   }
 
   function renderGallery() {
@@ -288,8 +339,8 @@
 
   function renderAll(animate) {
     applyI18n();
-    renderVillaTabs();
     mountVilla();
+    renderSections();
     bindBooking();
     renderStats();
     renderDistances();
