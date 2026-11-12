@@ -1,6 +1,6 @@
 # Ratus Villa — Kuta, Lombok
 
-Site vitrine (HTML / CSS / JS) en 4 langues (anglais par défaut, français, espagnol, indonésien),
+Site vitrine (HTML / CSS / JS) en 5 langues (anglais par défaut, français, espagnol, indonésien, allemand),
 avec une **page d'administration** pour tout modifier sans toucher au code : **`/admin`**.
 
 ---
@@ -26,14 +26,14 @@ Tout le contenu se modifie depuis cette page :
 
 **Langues** — la barre « Langue modifiée » choisit la langue en cours d'écriture.
 Chaque texte a un bouton **« Traduire dans les autres langues »** (traduction automatique gratuite,
-à relire) ; on peut aussi écrire chaque langue soi-même. Les pastilles EN/FR/ES/ID montrent les
+à relire) ; on peut aussi écrire chaque langue soi-même. Les pastilles EN/FR/ES/ID/DE montrent les
 langues remplies (vert) ou vides (orange).
 
 **Aperçu** — le bouton 👁 affiche le site avec les modifications, avant publication.
 **Publier** — met les modifications en ligne. Tant qu'on ne publie pas, rien ne change sur le site
 (le brouillon est gardé sur l'appareil).
 
-L'interface de l'admin existe en anglais, français, espagnol et indonésien (boutons en bas du menu).
+L'interface de l'admin existe en anglais, français, espagnol, indonésien et allemand (boutons en bas du menu).
 
 ---
 
@@ -87,7 +87,7 @@ connexion : *Propriétaire du site* → *Refaire la configuration*. Si l'équipe
 index.html               Page unique du site
 css/style.css            Design & animations
 js/main.js               Affichage du site (lit content/content.json)
-content/content.json     ← TOUT le contenu (textes en 4 langues, photos, contacts…)
+content/content.json     ← TOUT le contenu (textes en 5 langues, photos, contacts…)
 assets/villa/            Photos d'origine
 assets/uploads/          Photos et vidéos ajoutées depuis /admin
 admin/                   Page d'administration

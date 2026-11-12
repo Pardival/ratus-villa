@@ -6,8 +6,8 @@
 (() => {
   "use strict";
 
-  const LANGS = ["en", "fr", "es", "id"];
-  const LANG_NAMES = { en: "English", fr: "Français", es: "Español", id: "Indonesia" };
+  const LANGS = ["en", "fr", "es", "id", "de"];
+  const LANG_NAMES = { en: "English", fr: "Français", es: "Español", id: "Indonesia", de: "Deutsch" };
   const I18 = window.ADMIN_I18N;
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
@@ -233,7 +233,7 @@
   }
   function ensureML(path) {
     let v = getP(path);
-    if (!v || typeof v !== "object") { const base = typeof v === "string" ? v : ""; v = { en: base, fr: base, es: base, id: base }; setP(path, v); }
+    if (!v || typeof v !== "object") { const base = typeof v === "string" ? v : ""; v = { en: base, fr: base, es: base, id: base, de: base }; setP(path, v); }
     LANGS.forEach((l) => { if (typeof v[l] !== "string") v[l] = ""; });
     return v;
   }
@@ -322,7 +322,7 @@
       control, opts.hint ? h("div", { class: "field__hint" }, opts.hint) : null);
   }
 
-  // Texte en 4 langues
+  // Texte multilingue
   function ML(path, label, opts = {}) {
     const v = ensureML(path);
     const multiline = opts.multiline;
@@ -445,7 +445,7 @@
       add.addEventListener("click", async () => {
         const files = await pickFiles("image/*", true);
         for (const f of files) {
-          try { const p = await processImage(f); arr.push({ src: p, alt: { en: "", fr: "", es: "", id: "" } }); } catch (e) { toast(e.message, "err"); }
+          try { const p = await processImage(f); arr.push({ src: p, alt: { en: "", fr: "", es: "", id: "", de: "" } }); } catch (e) { toast(e.message, "err"); }
         }
         if (files.length) { setP(path, arr); draw(); }
       });
@@ -526,7 +526,7 @@
 
   const card = (title, ...kids) => h("section", { class: "card" }, title ? h("h3", { class: "card__title" }, title) : null, kids);
   const tx = (key, label, opts) => ML(["texts", key], label, opts);
-  const ml0 = () => ({ en: "", fr: "", es: "", id: "" });
+  const ml0 = () => ({ en: "", fr: "", es: "", id: "", de: "" });
   const first = (o) => (o && (o[editLang] || o.en || o.fr)) || "";
   const dayOptions = () => T("days").map((d, i) => [String(i + 1), d]);
 
@@ -727,10 +727,11 @@
     return out;
   }
 
+  const isML = (o) => typeof o.en === "string" && Object.keys(o).length > 0 && Object.keys(o).every((k) => LANGS.includes(k));
   function walkML(o, path, fn) {
     if (Array.isArray(o)) return o.forEach((v, i) => walkML(v, [...path, i], fn));
     if (o && typeof o === "object") {
-      if (LANGS.every((l) => l in o) && LANGS.every((l) => typeof o[l] === "string")) return fn(path, o);
+      if (isML(o)) { LANGS.forEach((l) => { if (typeof o[l] !== "string") o[l] = ""; }); return fn(path, o); }
       Object.keys(o).forEach((k) => walkML(o[k], [...path, k], fn));
     }
   }
@@ -961,6 +962,7 @@
     delete c.villa;
     c.hero = c.hero || {};
     if (c.hero.titleA == null) { c.hero.titleA = "Ratus"; c.hero.titleB = "Villa"; }
+    walkML(c, [], () => {});
     return c;
   }
 

@@ -13,13 +13,15 @@
     { code: "en", label: "English" },
     { code: "fr", label: "Français" },
     { code: "es", label: "Español" },
-    { code: "id", label: "Bahasa Indonesia" }
+    { code: "id", label: "Bahasa Indonesia" },
+    { code: "de", label: "Deutsch" }
   ];
   const DAYS = {
     en: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     fr: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
     es: ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
-    id: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
+    id: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"],
+    de: ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]
   };
 
   // Mode aperçu (utilisé par /admin) : ?preview=1[&lang=xx]
