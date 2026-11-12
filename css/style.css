@@ -820,3 +820,9 @@ body:not(.is-loaded) .hero .reveal { opacity: 0; transform: translateY(40px); }
   .xfeat__icon { width: 44px; height: 44px; margin: 0; grid-row: span 2; }
   .xfeat__item h3 { font-size: 1.2rem; margin-top: 8px; }
 }
+
+/* Sans boutons « Y aller » ni QR codes */
+.agenda li { grid-template-columns: 170px 1fr; }
+@media (max-width: 600px) { .agenda li { grid-template-columns: 1fr; grid-template-areas: "day" "venue"; } }
+.cta__row { justify-content: center; }
+.cta__buttons { min-width: 0; width: min(100%, 360px); }

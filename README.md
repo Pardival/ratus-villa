@@ -94,7 +94,6 @@ assets/uploads/          Photos et vidéos ajoutées depuis /admin
 admin/                   Page d'administration
   index.html, admin.js, admin.css, admin-i18n.js
   access.json            Clé GitHub chiffrée par le mot de passe (créé à la 1re configuration)
-js/vendor/qrcode.js      Générateur de QR code (MIT, Kazuhiko Arase)
 ```
 
 Dans les textes, `*mot*` s'affiche en italique coloré et un retour à la ligne crée un saut de ligne.

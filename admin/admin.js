@@ -641,7 +641,7 @@
       card(T("s_surf"), LIST(["guide", "surf"], {
         itemName: T("spot"), icon: () => "i-wave", title: (s) => [s.name, first(s.level)],
         create: () => ({ name: "", place: "", level: ml0(), text: ml0() }),
-        render: (p) => [TXT([...p, "name"], T("name")), ML([...p, "level"], T("level")), ML([...p, "text"], T("text"), { multiline: true }), TXT([...p, "place"], T("place"), { hint: T("placeHint") })]
+        render: (p) => [TXT([...p, "name"], T("name")), ML([...p, "level"], T("level")), ML([...p, "text"], T("text"), { multiline: true })]
       }))
     ] },
     { id: "night", icon: "a-moon", anchor: "#guide", render: () => [
@@ -649,7 +649,7 @@
       card(T("s_night"), LIST(["guide", "nightlife"], {
         itemName: T("party"), icon: () => "i-music", title: (n) => [T("days")[(n.day || 1) - 1] + " — " + (n.venue || ""), first(n.time)],
         create: () => ({ day: 1, venue: "", place: "", time: ml0() }),
-        render: (p) => [SELECT([...p, "day"], T("day"), dayOptions()), TXT([...p, "venue"], T("venue")), ML([...p, "time"], T("time")), TXT([...p, "place"], T("place"), { hint: T("placeHint") })]
+        render: (p) => [SELECT([...p, "day"], T("day"), dayOptions()), TXT([...p, "venue"], T("venue")), ML([...p, "time"], T("time"))]
       }))
     ] },
     { id: "groceries", icon: "a-cart", anchor: "#guide", render: () => [
@@ -657,7 +657,7 @@
       card(T("s_groceries"), LIST(["guide", "groceries"], {
         itemName: T("shop"), icon: () => "i-basket", title: (g) => [g.name],
         create: () => ({ name: "", place: "", text: ml0() }),
-        render: (p) => [TXT([...p, "name"], T("name")), ML([...p, "text"], T("text"), { multiline: true }), TXT([...p, "place"], T("place"), { hint: T("placeHint") })]
+        render: (p) => [TXT([...p, "name"], T("name")), ML([...p, "text"], T("text"), { multiline: true })]
       }))
     ] },
     { id: "location", icon: "i-pin", anchor: "#location", render: () => [
@@ -676,7 +676,7 @@
     { id: "booking", icon: "i-whatsapp", anchor: "#contact", render: () => [
       card("WhatsApp", WA(["booking", "whatsapp"], T("whatsapp")), ML(["booking", "message"], T("waMessage"), { multiline: true, rows: 2 })),
       card(T("text"), tx("cta.eyebrow", T("eyebrow")), tx("cta.title", T("title"), { multiline: true, rows: 2, md: true }), tx("cta.lead", T("subtitle"), { multiline: true }),
-        h("div", { class: "grid2" }, tx("cta.whatsapp", T("button")), tx("cta.scan", "QR")))
+        tx("cta.whatsapp", T("button")))
     ] },
     { id: "sections", icon: "a-plus", anchor: "#villas", render: () => {
       content.sections = content.sections || [];
@@ -698,7 +698,7 @@
     { id: "menus", icon: "a-menu", anchor: "#top", render: () => [
       card(T("navigation"), h("div", { class: "grid2" }, tx("nav.villas", "1"), tx("nav.gallery", "2"), tx("nav.services", "3"), tx("nav.guide", "4"), tx("nav.contact", "5"), tx("nav.book", T("button")))),
       card(T("bottomBar"), h("div", { class: "grid2" }, tx("mbar.book", "1"), tx("mbar.guide", "2"), tx("mbar.go", "3"))),
-      card(T("labels"), h("div", { class: "grid2" }, tx("go", "“Go there”"), tx("go.apple", "Apple Maps"), tx("location.open", T("mapImage")), tx("qr.hint", T("qrWindow")), tx("qr.open", T("qrWindow") + " — " + T("button")), tx("photo", T("photoPlaceholder")), tx("lang.label", T("langLabel"))))
+      card(T("labels"), h("div", { class: "grid2" }, tx("location.open", T("mapImage")), tx("photo", T("photoPlaceholder")), tx("lang.label", T("langLabel"))))
     ] },
     { id: "settings", icon: "a-gear", anchor: "#top", render: renderSettings }
   ];

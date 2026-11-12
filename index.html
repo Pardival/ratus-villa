@@ -220,10 +220,6 @@
         <h2 class="cta__title reveal" data-delay="1" data-i18n-html="cta.title">Votre séjour à Lombok<br><em>commence ici.</em></h2>
         <p class="cta__lead reveal" data-delay="2" data-i18n="cta.lead">Écrivez-nous sur WhatsApp pour les disponibilités, les tarifs et toutes vos questions. Réponse rapide.</p>
         <div class="cta__row reveal" data-delay="3">
-          <div class="qr-card">
-            <div class="qr" id="bookingQr"></div>
-            <span data-i18n="cta.scan">Scannez pour nous écrire</span>
-          </div>
           <div class="cta__buttons">
             <a href="#" class="btn btn--light btn--big js-wa-booking" target="_blank" rel="noopener"><svg class="ico"><use href="#i-whatsapp"/></svg><span data-i18n="cta.whatsapp">Écrire sur WhatsApp</span></a>
           </div>
@@ -263,18 +259,6 @@
     <div class="lightbox__count" id="lightboxCount"></div>
   </div>
 
-  <!-- Modal QR -->
-  <div class="modal" id="qrModal" aria-hidden="true">
-    <div class="modal__card">
-      <button class="modal__close" aria-label="Fermer">×</button>
-      <p class="eyebrow" id="qrModalEyebrow">WhatsApp</p>
-      <h3 class="h3" id="qrModalTitle"></h3>
-      <div class="qr qr--big" id="qrModalCode"></div>
-      <p class="modal__hint" data-i18n="qr.hint">Scannez avec l'appareil photo de votre téléphone.</p>
-      <a href="#" class="btn btn--dark" id="qrModalLink" target="_blank" rel="noopener"><svg class="ico"><use href="#i-whatsapp"/></svg><span data-i18n="qr.open">Ouvrir WhatsApp</span></a>
-    </div>
-  </div>
-
   <!-- ============ ICONS ============ -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <symbol id="i-whatsapp" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm5.8 14.08c-.24.68-1.42 1.3-1.95 1.35-.5.05-.97.23-3.27-.68-2.77-1.09-4.52-3.92-4.66-4.1-.13-.18-1.1-1.47-1.1-2.8 0-1.33.7-1.99.95-2.26.24-.27.53-.34.71-.34l.51.01c.16.01.38-.06.6.46.23.54.77 1.87.84 2.01.07.14.11.3.02.48-.09.18-.14.29-.27.45-.14.16-.29.35-.41.47-.14.14-.28.28-.12.55.16.27.7 1.16 1.51 1.88 1.04.93 1.91 1.21 2.18 1.35.27.14.43.11.59-.07.16-.18.68-.79.86-1.06.18-.27.36-.23.6-.14.25.09 1.57.74 1.84.88.27.14.45.2.52.32.07.11.07.66-.17 1.33z"/></symbol>
@@ -309,7 +293,6 @@
     <symbol id="i-surfrack" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 2c3 3 4 8 4 12s-1.8 8-4 8-4-4-4-8 1-9 4-12zM12 6v13"/></g></symbol>
   </svg>
 
-  <script src="js/vendor/qrcode.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

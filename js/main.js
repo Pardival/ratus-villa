@@ -46,10 +46,6 @@
   const gDir = (q) => `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q)}`;
   const aDir = (q) => `https://maps.apple.com/?daddr=${encodeURIComponent(q)}`;
   const villaDest = () => { const m = C.location || {}; return (m.lat != null && m.lng != null && m.lat !== "" && m.lng !== "") ? `${m.lat},${m.lng}` : (m.query || "Ratus Villa, Kuta, Lombok"); };
-  const goButtons = (q) => `<div class="go">
-      <a class="go__btn" href="${esc(gDir(q))}" target="_blank" rel="noopener">${icon("i-route")}<span>${esc(tPlain("go"))}</span></a>
-      ${IS_IOS ? `<a class="go__btn go__btn--alt" href="${esc(aDir(q))}" target="_blank" rel="noopener">${esc(tPlain("go.apple"))}</a>` : ""}
-    </div>`;
   const cleanNum = (n) => String(n || "").replace(/[^\d]/g, "");
   const waLink = (num, msg) => `https://wa.me/${cleanNum(num)}${msg ? "?text=" + encodeURIComponent(msg) : ""}`;
 
@@ -77,13 +73,7 @@
   const hydrateAll = (root = document) => $$(".media", root).forEach(hydrateMedia);
 
   /* ---------------- QR ---------------- */
-  function qrSvg(text) {
-    if (typeof qrcode !== "function") return "";
-    const q = qrcode(0, "M");
-    q.addData(text);
-    q.make();
-    return q.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
-  }
+
 
   /* ---------------- Rendus dynamiques ---------------- */
   function applyI18n() {
@@ -98,7 +88,6 @@
     const b = C.booking;
     const href = waLink(b.whatsapp, pick(b.message));
     $$(".js-wa-booking").forEach((a) => (a.href = href));
-    $("#bookingQr").innerHTML = qrSvg(href);
 
 
   }
@@ -282,7 +271,6 @@
       const actions = s.whatsapp
         ? `<div class="service__actions">
              <a class="btn btn--light" href="${waLink(s.whatsapp, pick(s.message))}" target="_blank" rel="noopener">${icon("i-whatsapp")}<span>${esc(tPlain("services.write"))}</span></a>
-             <button class="btn-qr" data-qr="${i}" aria-label="QR code">${icon("i-qr")}</button>
            </div>`
         : "";
       return `<article class="service reveal" style="--d:${i % 2}">
@@ -292,24 +280,19 @@
           ${actions}
         </article>`;
     }).join("");
-    $$(".btn-qr", grid).forEach((b) => b.addEventListener("click", () => {
-      const s = C.services[+b.dataset.qr];
-      openQr(pick(s.title), waLink(s.whatsapp, pick(s.message)));
-    }));
   }
 
   function renderGuide() {
     const g = C.guide;
-    $("#spotList").innerHTML = g.surf.map((s, i) => `<div class="spot" style="--i:${i}"><span class="spot__level">${L(s.level)}</span><h4>${esc(s.name)}</h4><p>${L(s.text)}</p>${s.place ? goButtons(s.place) : ""}</div>`).join("");
+    $("#spotList").innerHTML = g.surf.map((s, i) => `<div class="spot" style="--i:${i}"><span class="spot__level">${L(s.level)}</span><h4>${esc(s.name)}</h4><p>${L(s.text)}</p></div>`).join("");
     const today = ((new Date().getDay() + 6) % 7) + 1; // 1 = lundi
     const days = DAYS[lang] || DAYS.en;
     const list = g.nightlife.slice().sort((a, b) => ((a.day - today + 7) % 7) - ((b.day - today + 7) % 7));
     $("#agendaList").innerHTML = list.map((n, i) => `<li class="${n.day === today ? "is-today" : ""}" style="--i:${i}">
         <div class="agenda__day"><b>${days[n.day - 1]}</b>${n.day === today ? `<em>${esc(tPlain("night.tonight"))}</em>` : ""}</div>
         <div class="agenda__venue"><strong>${esc(n.venue)}</strong><span>${L(n.time)}</span></div>
-        ${n.place ? goButtons(n.place) : ""}
       </li>`).join("");
-    $("#groceryList").innerHTML = g.groceries.map((s, i) => `<div class="spot" style="--i:${i}"><h4>${L(s.name)}</h4><p>${L(s.text)}</p>${s.place ? goButtons(s.place) : ""}</div>`).join("");
+    $("#groceryList").innerHTML = g.groceries.map((s, i) => `<div class="spot" style="--i:${i}"><h4>${L(s.name)}</h4><p>${L(s.text)}</p></div>`).join("");
   }
 
   function renderStats() {
@@ -521,25 +504,11 @@
     box.addEventListener("touchstart", (e) => (sx = e.touches[0].clientX), { passive: true });
     box.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) stepLb(dx < 0 ? 1 : -1); });
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") { closeLightbox(); closeQr(); }
+      if (e.key === "Escape") closeLightbox();
       if (!box.classList.contains("is-open")) return;
       if (e.key === "ArrowRight") stepLb(1);
       if (e.key === "ArrowLeft") stepLb(-1);
     });
-  }
-
-  /* ---------------- QR modal ---------------- */
-  function openQr(title, href) {
-    $("#qrModalTitle").textContent = title;
-    $("#qrModalCode").innerHTML = qrSvg(href);
-    $("#qrModalLink").href = href;
-    $("#qrModal").classList.add("is-open");
-  }
-  function closeQr() { $("#qrModal").classList.remove("is-open"); }
-  function setupQr() {
-    const m = $("#qrModal");
-    $(".modal__close", m).addEventListener("click", closeQr);
-    m.addEventListener("click", (e) => { if (e.target === m) closeQr(); });
   }
 
   /* ---------------- Partage ---------------- */
@@ -574,7 +543,6 @@
     setupGuide();
     setupRail();
     setupLightbox();
-    setupQr();
 
     const finish = () => {
       document.body.classList.add("is-loaded");

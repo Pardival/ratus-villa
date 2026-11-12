@@ -544,7 +544,6 @@
     "surf": [
       {
         "name": "Gerupuk",
-        "place": "Gerupuk Beach, Lombok",
         "level": {
           "en": "All levels",
           "fr": "Tous niveaux",
@@ -562,7 +561,6 @@
       },
       {
         "name": "Selong Belanak",
-        "place": "Selong Belanak Beach, Lombok",
         "level": {
           "en": "Beginner",
           "fr": "Débutant",
@@ -580,7 +578,6 @@
       },
       {
         "name": "Mawi",
-        "place": "Mawi Beach, Lombok",
         "level": {
           "en": "Advanced",
           "fr": "Confirmé",
@@ -598,7 +595,6 @@
       },
       {
         "name": "Tanjung Aan",
-        "place": "Tanjung Aan Beach, Lombok",
         "level": {
           "en": "Beach & swim",
           "fr": "Plage & baignade",
@@ -619,7 +615,6 @@
       {
         "day": 1,
         "venue": "Surfers Bar",
-        "place": "Surfers Bar, Kuta, Lombok",
         "time": {
           "en": "After midnight",
           "fr": "Après minuit",
@@ -631,7 +626,6 @@
       {
         "day": 2,
         "venue": "The Local",
-        "place": "The Local, Kuta, Lombok",
         "time": {
           "en": "Busy from 9 pm",
           "fr": "Dès 21 h",
@@ -643,7 +637,6 @@
       {
         "day": 3,
         "venue": "Pizza Shack",
-        "place": "Pizza Shack, Kuta, Lombok",
         "time": {
           "en": "Busy from 9 pm",
           "fr": "Dès 21 h",
@@ -655,7 +648,6 @@
       {
         "day": 4,
         "venue": "The Local",
-        "place": "The Local, Kuta, Lombok",
         "time": {
           "en": "Busy from 9 pm",
           "fr": "Dès 21 h",
@@ -667,7 +659,6 @@
       {
         "day": 5,
         "venue": "Surfers Bar",
-        "place": "Surfers Bar, Kuta, Lombok",
         "time": {
           "en": "After midnight",
           "fr": "Après minuit",
@@ -679,7 +670,6 @@
       {
         "day": 6,
         "venue": "Rasta Bar",
-        "place": "Rasta Bar, Kuta, Lombok",
         "time": {
           "en": "After midnight",
           "fr": "Après minuit",
@@ -691,7 +681,6 @@
       {
         "day": 7,
         "venue": "The Local",
-        "place": "The Local, Kuta, Lombok",
         "time": {
           "en": "Busy from 9 pm",
           "fr": "Dès 21 h",
@@ -704,7 +693,6 @@
     "groceries": [
       {
         "name": "Pepito Market",
-        "place": "Pepito Market Kuta Lombok",
         "text": {
           "en": "Kuta's supermarket for all your grocery shopping: fresh produce, fruit and veg, meat, drinks, pantry and everyday essentials, both local and imported.",
           "fr": "Le supermarché de Kuta pour faire toutes vos courses : produits frais, fruits et légumes, viande, boissons, épicerie et produits du quotidien, locaux comme importés.",
