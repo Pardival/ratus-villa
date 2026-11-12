@@ -1,8 +1,7 @@
 /* ==========================================================================
    RATUS VILLA — Administration
-   Fonctionne avec deux "moteurs" d'enregistrement, détectés automatiquement :
-   - PHP (admin/api.php) : hébergeur classique, connexion par mot de passe ;
-   - GitHub : site sur GitHub Pages, connexion par clé d'accès GitHub.
+   Le site est hébergé sur GitHub Pages : les changements sont enregistrés
+   directement dans le dépôt GitHub (voir "ENREGISTREMENT SUR GITHUB").
    ========================================================================== */
 (() => {
   "use strict";
@@ -63,99 +62,140 @@
   }
 
   /* ==========================================================================
-     MOTEURS D'ENREGISTREMENT
+     ENREGISTREMENT SUR GITHUB
+     Le site est hébergé sur GitHub Pages. L'admin enregistre les changements
+     directement dans le dépôt via l'API GitHub. La clé d'accès GitHub est
+     chiffrée avec le mot de passe de l'admin et stockée dans admin/access.json :
+     l'équipe de la villa n'a besoin que du mot de passe.
      ========================================================================== */
   async function readJson(res) { const txt = await res.text(); try { return JSON.parse(txt); } catch (e) { return null; } }
+  const MAX_VIDEO = 45 * 1048576;
+  const MAX_IMAGE = 20 * 1048576;
+  const PBKDF2_ITER = 600000;
 
-  const Php = {
-    kind: "php", info: null,
-    async call(action, body, method) {
-      const opts = { method: method || (body !== undefined ? "POST" : "GET"), credentials: "same-origin", headers: { "X-Ratus-Admin": "1" } };
-      if (body instanceof FormData) opts.body = body;
-      else if (body !== undefined) { opts.headers["Content-Type"] = "application/json"; opts.body = JSON.stringify(body); }
-      let res; try { res = await fetch("api.php?action=" + action, opts); } catch (e) { throw new Error(T("networkError")); }
-      const data = await readJson(res);
-      if (!data) throw new Error(T("networkError"));
-      if (!data.ok) { const err = new Error(data.error || "error"); err.code = data.error; throw err; }
-      return data;
-    },
-    async detect() {
-      try { const res = await fetch("api.php?action=status", { credentials: "same-origin", cache: "no-store" }); const d = await readJson(res); if (d && d.ok && d.mode === "php") { this.info = d; return true; } } catch (e) {}
-      return false;
-    },
-    async load() { return (await this.call("load")).content; },
-    maxUpload() { return (this.info && this.info.maxUpload) || 2 * 1048576; },
-    async publish(content, files, step) {
-      const map = {};
-      if (files.length) {
-        step("upload", 0, files.length);
-        for (let i = 0; i < files.length; i++) {
-          const f = files[i]; const fd = new FormData();
-          fd.append("file", f.blob, f.name); fd.append("name", f.name);
-          const r = await this.call("upload", fd);
-          map[f.path] = r.path; step("upload", i + 1, files.length);
-        }
-      }
-      const final = replacePaths(content, map);
-      step("save");
-      await this.call("save", { content: final });
-      return final;
-    }
-  };
+  function ghError(e) {
+    if (e && e.status === 401) return T("ghExpired");
+    if (e && e.status === 403) return T("ghNoWrite");
+    if (e && e.status === 404) return T("ghNotFound");
+    if (e && (e.status === 409 || e.status === 422)) return T("ghConflict");
+    return (e && e.message) || T("networkError");
+  }
 
   const Gh = {
     kind: "github", cfg: null,
     defaults() {
+      const meta = document.querySelector('meta[name="ratus-repo"]');
+      const m = meta && meta.content.trim().match(/^([\w.-]+)\/([\w.-]+)$/);
+      if (m) return { owner: m[1], repo: m[2], branch: "main", token: "" };
       const host = location.hostname, parts = location.pathname.split("/").filter(Boolean);
       const owner = host.endsWith(".github.io") ? host.split(".")[0] : "";
       const repo = host.endsWith(".github.io") && parts.length > 1 ? parts[0] : (owner ? owner + ".github.io" : "");
       return { owner, repo, branch: "main", token: "" };
     },
-    loadCfg() { try { this.cfg = Object.assign(this.defaults(), JSON.parse(store.get("ratus-admin-gh") || "{}")); } catch (e) { this.cfg = this.defaults(); } return this.cfg; },
-    saveCfg() { store.set("ratus-admin-gh", JSON.stringify(this.cfg)); },
+    loadSession() {
+      try { const raw = sessionStorage.getItem("ratus-admin-gh") || store.get("ratus-admin-gh"); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+    },
+    saveSession(remember) {
+      const raw = JSON.stringify(this.cfg);
+      try { sessionStorage.setItem("ratus-admin-gh", raw); } catch (e) {}
+      if (remember) store.set("ratus-admin-gh", raw); else store.del("ratus-admin-gh");
+    },
+    clearSession() { try { sessionStorage.removeItem("ratus-admin-gh"); } catch (e) {} store.del("ratus-admin-gh"); },
     async api(path, opts = {}) {
       let res;
       try {
-        res = await fetch("https://api.github.com" + path, Object.assign({}, opts, { headers: Object.assign({ Authorization: "Bearer " + this.cfg.token, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" }, opts.body ? { "Content-Type": "application/json" } : {}) }));
+        res = await fetch("https://api.github.com" + path, Object.assign({ cache: "no-store" }, opts, { headers: Object.assign({ Authorization: "Bearer " + this.cfg.token, Accept: "application/vnd.github+json" }, opts.body ? { "Content-Type": "application/json" } : {}) }));
       } catch (e) { throw new Error(T("networkError")); }
       const data = await readJson(res);
       if (!res.ok) { const err = new Error((data && data.message) || ("GitHub " + res.status)); err.status = res.status; throw err; }
       return data;
     },
     repoPath() { return `/repos/${encodeURIComponent(this.cfg.owner)}/${encodeURIComponent(this.cfg.repo)}`; },
-    async verify() { const r = await this.api(this.repoPath()); if (!r.permissions || !r.permissions.push) throw new Error(T("ghBadToken")); if (!this.cfg.branch) this.cfg.branch = r.default_branch; return r; },
-    maxUpload() { return 95 * 1048576; },
-    async load() {
-      const r = await this.api(`${this.repoPath()}/contents/content/content.json?ref=${encodeURIComponent(this.cfg.branch)}&t=${Date.now()}`);
+    // Vérifie que la clé ouvre bien le dépôt (le droit d'écriture est vérifié à la publication)
+    async verify() {
+      const r = await this.api(this.repoPath());
+      if (r.permissions && r.permissions.push === false) { const e = new Error(T("ghNoWrite")); e.status = 403; throw e; }
+      if (!this.cfg.branch) this.cfg.branch = r.default_branch || "main";
+      return r;
+    },
+    maxUpload(kind) { return kind === "video" ? MAX_VIDEO : MAX_IMAGE; },
+    async readFile(path, ref) {
+      const r = await this.api(`${this.repoPath()}/contents/${path}?ref=${encodeURIComponent(ref || this.cfg.branch)}&t=${Date.now()}`);
       let b64 = r.content;
-      if (!b64 && r.git_url) b64 = (await this.api(`${this.repoPath()}/git/blobs/${r.sha}`)).content;
+      if (!b64) b64 = (await this.api(`${this.repoPath()}/git/blobs/${r.sha}`)).content;
       const bin = atob(b64.replace(/\n/g, "")); const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
-      return JSON.parse(new TextDecoder().decode(bytes));
+      return new TextDecoder().decode(bytes);
+    },
+    async load(ref) { return JSON.parse(await this.readFile("content/content.json", ref)); },
+    // Crée un commit contenant plusieurs fichiers (texte ou binaire), avec une nouvelle tentative en cas de conflit
+    async commit(files, message, step) {
+      const P = this.repoPath(), br = encodeURIComponent(this.cfg.branch);
+      const blobs = [];
+      const bin = files.filter((f) => f.blob);
+      if (bin.length && step) step("upload", 0, bin.length);
+      let n = 0;
+      for (const f of files) {
+        const body = f.blob ? { content: await blobToBase64(f.blob), encoding: "base64" } : { content: f.text, encoding: "utf-8" };
+        if (!f.blob && step) step("save");
+        const blob = await this.api(`${P}/git/blobs`, { method: "POST", body: JSON.stringify(body) });
+        blobs.push({ path: f.path, mode: "100644", type: "blob", sha: blob.sha });
+        if (f.blob && step) step("upload", ++n, bin.length);
+      }
+      for (let attempt = 0; ; attempt++) {
+        const ref = await this.api(`${P}/git/ref/heads/${br}`);
+        const base = await this.api(`${P}/git/commits/${ref.object.sha}`);
+        const tree = await this.api(`${P}/git/trees`, { method: "POST", body: JSON.stringify({ base_tree: base.tree.sha, tree: blobs }) });
+        const commit = await this.api(`${P}/git/commits`, { method: "POST", body: JSON.stringify({ message, tree: tree.sha, parents: [ref.object.sha] }) });
+        try { await this.api(`${P}/git/refs/heads/${br}`, { method: "PATCH", body: JSON.stringify({ sha: commit.sha }) }); return commit.sha; }
+        catch (e) { if (attempt < 2 && (e.status === 409 || e.status === 422)) continue; throw e; }
+      }
     },
     async publish(content, files, step) {
-      const P = this.repoPath(), br = encodeURIComponent(this.cfg.branch);
-      const ref = await this.api(`${P}/git/ref/heads/${br}`);
-      const base = await this.api(`${P}/git/commits/${ref.object.sha}`);
-      const tree = [];
-      if (files.length) {
-        step("upload", 0, files.length);
-        for (let i = 0; i < files.length; i++) {
-          const f = files[i];
-          const blob = await this.api(`${P}/git/blobs`, { method: "POST", body: JSON.stringify({ content: await blobToBase64(f.blob), encoding: "base64" }) });
-          tree.push({ path: f.path, mode: "100644", type: "blob", sha: blob.sha });
-          step("upload", i + 1, files.length);
-        }
-      }
-      step("save");
-      const json = JSON.stringify(content, null, 2) + "\n";
-      const cblob = await this.api(`${P}/git/blobs`, { method: "POST", body: JSON.stringify({ content: json, encoding: "utf-8" }) });
-      tree.push({ path: "content/content.json", mode: "100644", type: "blob", sha: cblob.sha });
-      const newTree = await this.api(`${P}/git/trees`, { method: "POST", body: JSON.stringify({ base_tree: base.tree.sha, tree }) });
-      const commit = await this.api(`${P}/git/commits`, { method: "POST", body: JSON.stringify({ message: "Update site content (admin)", tree: newTree.sha, parents: [ref.object.sha] }) });
-      await this.api(`${P}/git/refs/heads/${br}`, { method: "PATCH", body: JSON.stringify({ sha: commit.sha }) });
+      const list = files.map((f) => ({ path: f.path, blob: f.blob }));
+      list.push({ path: "content/content.json", text: JSON.stringify(content, null, 2) + "\n" });
+      await this.commit(list, "Update site content (admin)", step);
       return content;
+    },
+    async history() {
+      return this.api(`${this.repoPath()}/commits?path=content/content.json&sha=${encodeURIComponent(this.cfg.branch)}&per_page=20`);
     }
   };
+  const backend = Gh;
+
+  /* ---------- Clé GitHub chiffrée par mot de passe (admin/access.json) ---------- */
+  const b64e = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf)));
+  const b64d = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+  async function deriveKey(password, salt, iter) {
+    const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveKey"]);
+    return crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations: iter, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+  }
+  async function sealAccess(token, password, cfg) {
+    const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+    const key = await deriveKey(password, salt, PBKDF2_ITER);
+    const data = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, new TextEncoder().encode(token));
+    return { v: 1, owner: cfg.owner, repo: cfg.repo, branch: cfg.branch, kdf: "PBKDF2-SHA256", iter: PBKDF2_ITER, salt: b64e(salt), iv: b64e(iv), data: b64e(data) };
+  }
+  async function openAccess(acc, password) {
+    const key = await deriveKey(password, b64d(acc.salt), acc.iter || PBKDF2_ITER);
+    try { return new TextDecoder().decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64d(acc.iv) }, key, b64d(acc.data))); }
+    catch (e) { const err = new Error(T("wrongPassword")); err.code = "wrong_password"; throw err; }
+  }
+  async function fetchAccess() {
+    try {
+      const local = store.get("ratus-admin-access");
+      const res = await fetch("access.json?t=" + Date.now(), { cache: "no-store" });
+      const remote = res.ok ? await readJson(res) : null;
+      // juste après une configuration, GitHub Pages peut servir l'ancienne version quelques minutes
+      if (local) { const l = JSON.parse(local); if (!remote || remote.data !== l.data) { if (remote && Date.now() - (l.savedAt || 0) > 15 * 60000) { store.del("ratus-admin-access"); return remote; } return l; } }
+      return remote && remote.data ? remote : null;
+    } catch (e) { return null; }
+  }
+  async function saveAccess(password, message) {
+    const acc = await sealAccess(Gh.cfg.token, password, Gh.cfg);
+    await Gh.commit([{ path: "admin/access.json", text: JSON.stringify(acc, null, 2) + "\n" }], message);
+    store.set("ratus-admin-access", JSON.stringify(Object.assign({ savedAt: Date.now() }, acc)));
+    return acc;
+  }
 
   function blobToBase64(blob) {
     return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(",")[1]); r.onerror = rej; r.readAsDataURL(blob); });
@@ -164,7 +204,6 @@
   /* ==========================================================================
      ÉTAT
      ========================================================================== */
-  let backend = null;
   let content = null;          // brouillon en cours
   let published = "";          // JSON de la version en ligne
   const pending = new Map();   // chemin -> { blob, url, name, path, type }
@@ -256,12 +295,12 @@
     let blob = await new Promise((r) => c.toBlob(r, "image/webp", 0.82));
     let ext = "webp";
     if (!blob || blob.type !== "image/webp") { blob = await new Promise((r) => c.toBlob(r, "image/jpeg", 0.85)); ext = "jpg"; }
-    if (blob.size > backend.maxUpload()) throw new Error(T("tooBig", { size: fmtSize(blob.size), max: fmtSize(backend.maxUpload()) }));
+    if (blob.size > backend.maxUpload("image")) throw new Error(T("tooBig", { size: fmtSize(blob.size), max: fmtSize(backend.maxUpload("image")) }));
     return addPending(blob, slug(file.name) + "-" + Date.now().toString(36) + "." + ext);
   }
   function processVideo(file) {
     if (!/^video\/(mp4|webm|quicktime)$/.test(file.type)) throw new Error(T("notVideo"));
-    if (file.size > backend.maxUpload()) throw new Error(T("tooBig", { size: fmtSize(file.size), max: fmtSize(backend.maxUpload()) }));
+    if (file.size > backend.maxUpload("video")) throw new Error(T("tooBig", { size: fmtSize(file.size), max: fmtSize(backend.maxUpload("video")) }));
     const ext = file.type === "video/webm" ? "webm" : file.type === "video/quicktime" ? "mov" : "mp4";
     return addPending(file, slug(file.name) + "-" + Date.now().toString(36) + "." + ext);
   }
@@ -590,35 +629,50 @@
     });
     out.push(card(T("translateMissing"), h("p", { class: "note" }, T("translateMissingSub")), trBtn));
 
-    if (backend.kind === "php") {
-      const cur = h("input", { class: "input", type: "password", autocomplete: "current-password" });
-      const nw = h("input", { class: "input", type: "password", autocomplete: "new-password" });
-      const btn = h("button", { class: "btn btn--dark" }, T("save"));
-      btn.addEventListener("click", async () => {
-        if (nw.value.length < 8) { toast(T("pwShort"), "err"); return; }
-        try { await Php.call("password", { current: cur.value, password: nw.value }); cur.value = nw.value = ""; toast(T("passwordChanged"), "ok"); }
-        catch (e) { toast(e.code === "wrong_password" ? T("wrongPassword") : e.message, "err"); }
-      });
-      out.push(card(T("changePassword"), fieldWrap(T("currentPassword"), cur), fieldWrap(T("newPassword"), nw, { hint: T("pwShort") }), btn));
+    // Accès : mot de passe et clé GitHub
+    const np1 = h("input", { class: "input", type: "password", autocomplete: "new-password" });
+    const np2 = h("input", { class: "input", type: "password", autocomplete: "new-password" });
+    const pwBtn = h("button", { class: "btn btn--dark" }, T("save"));
+    pwBtn.addEventListener("click", async () => {
+      if (np1.value.length < 10) return toast(T("pwShort"), "err");
+      if (np1.value !== np2.value) return toast(T("pwMismatch"), "err");
+      pwBtn.disabled = true;
+      try { await saveAccess(np1.value, "Change admin password"); np1.value = np2.value = ""; toast(T("passwordChanged"), "ok"); }
+      catch (e) { toast(ghError(e), "err"); }
+      pwBtn.disabled = false;
+    });
+    out.push(card(T("changePassword"), fieldWrap(T("newPassword"), np1, { hint: T("pwShort") }), fieldWrap(T("passwordRepeat"), np2), pwBtn));
 
-      const bl = h("div", { class: "rowlist" }, T("loading"));
-      Php.call("backups").then((r) => {
-        bl.innerHTML = "";
-        if (!r.backups.length) bl.append(h("div", { class: "field__hint" }, T("noBackups")));
-        r.backups.forEach((b) => {
-          const m = b.name.match(/(\d{4})(\d{2})(\d{2})-(\d{2})(\d{2})/);
-          bl.append(h("div", { class: "rowlist__item" }, m ? `${m[3]}/${m[2]}/${m[1]} ${m[4]}:${m[5]}` : b.name,
-            h("button", { class: "btn btn--soft btn--sm", onclick: async () => {
-              if (!(await confirmBox(T("restoreConfirm"), T("restore")))) return;
-              await Php.call("restore", { name: b.name }); content = await backend.load(); published = JSON.stringify(content); store.del("ratus-admin-draft"); render(); toast(T("restored"), "ok");
-            } }, T("restore"))));
-        });
-      }).catch(() => (bl.textContent = T("networkError")));
-      out.push(card(T("backups"), h("p", { class: "note" }, T("backupsSub")), bl));
-    } else {
-      out.push(card(T("ghConnected"), h("p", { class: "note" }, `${Gh.cfg.owner}/${Gh.cfg.repo} · ${Gh.cfg.branch}`),
-        h("button", { class: "btn btn--danger", onclick: async () => { if (await confirmBox(T("disconnect") + " ?", T("yes"), true)) { Gh.cfg.token = ""; Gh.saveCfg(); location.reload(); } } }, svg("a-out"), T("disconnect"))));
-    }
+    const nk = h("input", { class: "input", type: "password", autocomplete: "off", placeholder: "github_pat_…" });
+    const kp = h("input", { class: "input", type: "password", autocomplete: "current-password" });
+    const kBtn = h("button", { class: "btn btn--dark" }, T("save"));
+    kBtn.addEventListener("click", async () => {
+      if (!nk.value.trim()) return;
+      if (kp.value.length < 10) return toast(T("pwShort"), "err");
+      kBtn.disabled = true;
+      const old = Gh.cfg.token;
+      try { Gh.cfg.token = nk.value.trim(); await Gh.verify(); await saveAccess(kp.value, "Replace admin GitHub key"); Gh.saveSession(!!store.get("ratus-admin-gh")); nk.value = kp.value = ""; toast(T("keyChanged"), "ok"); }
+      catch (e) { Gh.cfg.token = old; toast(ghError(e), "err"); }
+      kBtn.disabled = false;
+    });
+    out.push(card(T("changeKey"), h("p", { class: "note" }, T("changeKeySub")), fieldWrap(T("newKey"), nk), fieldWrap(T("password"), kp, { hint: T("keyPwHint") }), kBtn));
+
+    // Versions précédentes (historique GitHub)
+    const bl = h("div", { class: "rowlist" }, T("loading"));
+    Gh.history().then((list) => {
+      bl.innerHTML = "";
+      if (!list.length) bl.append(h("div", { class: "field__hint" }, T("noBackups")));
+      list.forEach((c, i) => {
+        const d = new Date(c.commit.author.date);
+        const label = d.toLocaleDateString(ui) + " " + d.toLocaleTimeString(ui, { hour: "2-digit", minute: "2-digit" });
+        bl.append(h("div", { class: "rowlist__item" }, h("span", null, label, i === 0 ? h("small", { style: "color:var(--ok);font-weight:700;margin-left:8px" }, "● " + T("allSaved")) : null),
+          i === 0 ? null : h("button", { class: "btn btn--soft btn--sm", onclick: async () => {
+            if (!(await confirmBox(T("restoreConfirm"), T("restore")))) return;
+            try { content = await Gh.load(c.sha); changed(); render(); toast(T("restoredDraft"), "ok"); } catch (e) { toast(ghError(e), "err"); }
+          } }, T("restore"))));
+      });
+    }).catch((e) => (bl.textContent = ghError(e)));
+    out.push(card(T("backups"), h("p", { class: "note" }, T("backupsSub")), bl));
 
     const exp = h("button", { class: "btn btn--ghost", onclick: () => {
       const a = h("a", { href: URL.createObjectURL(new Blob([JSON.stringify(content, null, 2)], { type: "application/json" })), download: "ratus-villa-content-" + new Date().toISOString().slice(0, 10) + ".json" });
@@ -754,13 +808,13 @@
         store.del("ratus-admin-draft");
         box.innerHTML = "";
         box.append(h("div", { class: "big-ok" }, svg("a-check")), h("h3", { style: "text-align:center" }, T("published")),
-          h("p", { style: "text-align:center" }, backend.kind === "github" ? T("publishedGh") : T("publishedPhp")),
+          h("p", { style: "text-align:center" }, T("publishedGh")),
           h("div", { class: "modal__btns", style: "justify-content:center" },
             h("a", { class: "btn btn--ghost", href: "../", target: "_blank" }, svg("a-ext"), T("openSite")),
             h("button", { class: "btn btn--dark", onclick: () => { close(); render(); } }, T("close"))));
       } catch (e) {
         [sUp, sSave].forEach((s) => { if (s.classList.contains("is-run")) { s.className = "step is-err"; s.firstChild.textContent = "!"; } });
-        box.append(h("p", { style: "color:var(--danger)" }, T("publishError") + " : " + e.message),
+        box.append(h("p", { style: "color:var(--danger)" }, T("publishError") + " : " + ghError(e)),
           h("div", { class: "modal__btns" }, h("button", { class: "btn btn--dark", onclick: close }, T("close"))));
       }
     });
@@ -768,8 +822,7 @@
 
   async function logout() {
     if (isDirty() && !(await confirmBox(T("leaveWarning") + " " + T("logout") + " ?", T("logout"), true))) return;
-    if (backend.kind === "php") { try { await Php.call("logout", {}); } catch (e) {} }
-    else { Gh.cfg.token = ""; Gh.saveCfg(); }
+    Gh.clearSession();
     location.reload();
   }
 
@@ -784,53 +837,66 @@
     const f = $("input", form); if (f) setTimeout(() => f.focus(), 300);
   }
 
-  function phpSetupScreen() {
+  // Première configuration (par le propriétaire du site) : clé GitHub + mot de passe de l'équipe
+  function setupScreen(msg, isReset) {
+    const d = Gh.defaults();
+    const tok = h("input", { class: "input", type: "password", autocomplete: "off", placeholder: "github_pat_…" });
     const p1 = h("input", { class: "input", type: "password", autocomplete: "new-password" });
     const p2 = h("input", { class: "input", type: "password", autocomplete: "new-password" });
-    const err = h("p", { class: "err" });
-    const form = h("form", null, fieldWrap(T("password"), p1, { hint: T("pwShort") }), fieldWrap(T("passwordRepeat"), p2), err, h("button", { class: "btn btn--primary btn--block", type: "submit" }, T("createPassword")));
+    const owner = h("input", { class: "input", value: d.owner }), repo = h("input", { class: "input", value: d.repo }), branch = h("input", { class: "input", value: d.branch });
+    const err = h("p", { class: "err" }, msg || "");
+    const btn = h("button", { class: "btn btn--primary btn--block", type: "submit" }, T("setupBtn"));
+    const form = h("form", null,
+      fieldWrap(T("ghToken"), tok, { hint: T("ghKeyHint") }),
+      h("details", null, h("summary", null, T("ghHelp")), h("p", null, T("ghHelpText"))),
+      fieldWrap(T("password"), p1, { hint: T("pwShort") }), fieldWrap(T("passwordRepeat"), p2),
+      h("details", { open: !d.owner || null }, h("summary", null, T("ghAdvanced")), fieldWrap(T("ghOwner"), owner), fieldWrap(T("ghRepo"), repo), fieldWrap(T("ghBranch"), branch)),
+      err, btn,
+      isReset ? h("button", { type: "button", class: "btn btn--ghost btn--block", style: "margin-top:4px", onclick: () => loginScreen() }, T("cancel")) : null);
     form.addEventListener("submit", async (e) => {
       e.preventDefault(); err.textContent = "";
-      if (p1.value.length < 8) return (err.textContent = T("pwShort"));
+      if (!tok.value.trim()) return (err.textContent = T("ghToken") + " ?");
+      if (p1.value.length < 10) return (err.textContent = T("pwShort"));
       if (p1.value !== p2.value) return (err.textContent = T("pwMismatch"));
-      try { await Php.call("setup", { password: p1.value }); start(); } catch (ex) { err.textContent = ex.message; }
+      btn.disabled = true; btn.textContent = T("loading");
+      Gh.cfg = { owner: owner.value.trim(), repo: repo.value.trim(), branch: branch.value.trim() || "main", token: tok.value.trim() };
+      try {
+        await Gh.verify();
+        await saveAccess(p1.value, "Set up admin access");   // premier enregistrement = test du droit d'écriture
+        Gh.saveSession(true);
+        await new Promise((res) => modal((card, close) => {
+          card.append(h("div", { class: "big-ok" }, svg("a-check")), h("h3", { style: "text-align:center" }, T("setupDoneTitle")), h("p", { style: "text-align:center" }, T("setupDone")),
+            h("div", { class: "modal__btns", style: "justify-content:center" }, h("button", { class: "btn btn--dark", onclick: () => { close(); res(); } }, T("ok"))));
+        }));
+        start();
+      } catch (ex) { err.textContent = ghError(ex); }
+      btn.disabled = false; btn.textContent = T("setupBtn");
     });
     loginShell(T("setupTitle"), T("setupSub"), form);
   }
 
-  function phpLoginScreen() {
+  // Connexion de l'équipe : mot de passe seulement
+  let ACCESS = null;
+  function loginScreen(msg) {
     const pw = h("input", { class: "input", type: "password", autocomplete: "current-password" });
     const rem = h("input", { type: "checkbox", checked: true });
-    const err = h("p", { class: "err" });
+    const err = h("p", { class: "err" }, msg || "");
     const btn = h("button", { class: "btn btn--primary btn--block", type: "submit" }, T("signIn"));
-    const form = h("form", null, fieldWrap(T("password"), pw), h("label", { class: "check" }, rem, T("rememberMe")), err, btn);
+    const form = h("form", null, fieldWrap(T("password"), pw), h("label", { class: "check" }, rem, T("rememberMe")), err, btn,
+      h("details", { style: "margin-top:6px" }, h("summary", null, T("ownerZone")), h("p", null, T("ownerZoneText")),
+        h("button", { type: "button", class: "btn btn--ghost btn--sm", onclick: () => setupScreen("", true) }, T("reconfigure"))));
     form.addEventListener("submit", async (e) => {
-      e.preventDefault(); err.textContent = ""; btn.disabled = true;
-      try { await Php.call("login", { password: pw.value, remember: rem.checked }); start(); }
-      catch (ex) { err.textContent = ex.code === "wrong_password" ? T("wrongPassword") : ex.code === "too_many_attempts" ? T("tooMany") : ex.message; pw.select(); }
-      btn.disabled = false;
+      e.preventDefault(); err.textContent = ""; btn.disabled = true; btn.textContent = T("loading");
+      try {
+        const token = await openAccess(ACCESS, pw.value);
+        Gh.cfg = Object.assign(Gh.defaults(), { owner: ACCESS.owner, repo: ACCESS.repo, branch: ACCESS.branch || "main", token });
+        await Gh.verify();
+        Gh.saveSession(rem.checked);
+        start();
+      } catch (ex) { err.textContent = ex.code === "wrong_password" ? T("wrongPassword") : ghError(ex); pw.select(); }
+      btn.disabled = false; btn.textContent = T("signIn");
     });
     loginShell(T("loginTitle"), T("loginSub"), form);
-  }
-
-  function ghLoginScreen(msg) {
-    const c = Gh.loadCfg();
-    const tok = h("input", { class: "input", type: "password", autocomplete: "off", placeholder: "github_pat_…", value: c.token || "" });
-    const owner = h("input", { class: "input", value: c.owner }), repo = h("input", { class: "input", value: c.repo }), branch = h("input", { class: "input", value: c.branch });
-    const err = h("p", { class: "err" }, msg || "");
-    const btn = h("button", { class: "btn btn--primary btn--block", type: "submit" }, T("ghConnect"));
-    const form = h("form", null, fieldWrap(T("ghToken"), tok),
-      h("details", null, h("summary", null, T("ghHelp")), h("p", null, T("ghHelpText"))),
-      h("details", { open: !c.owner || null }, h("summary", null, T("ghAdvanced")), fieldWrap(T("ghOwner"), owner), fieldWrap(T("ghRepo"), repo), fieldWrap(T("ghBranch"), branch)),
-      err, btn);
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault(); err.textContent = ""; btn.disabled = true;
-      Gh.cfg = { owner: owner.value.trim(), repo: repo.value.trim(), branch: branch.value.trim() || "main", token: tok.value.trim() };
-      try { await Gh.verify(); Gh.saveCfg(); start(); }
-      catch (ex) { err.textContent = ex.status === 401 || ex.status === 404 || ex.message === T("ghBadToken") ? T("ghBadToken") : ex.message; }
-      btn.disabled = false;
-    });
-    loginShell(T("ghTitle"), T("ghSub"), form);
   }
 
   async function loadIcons() {
@@ -847,9 +913,8 @@
     app().className = "app-loading"; app().innerHTML = '<div class="splash"><span class="splash__mark">R</span><span class="splash__bar"></span></div>';
     try { content = await backend.load(); }
     catch (e) {
-      if (backend.kind === "github") return ghLoginScreen(e.status === 401 ? T("ghBadToken") : e.message);
-      if (e.code === "not_logged_in") return phpLoginScreen();
-      toast(e.message, "err"); return;
+      Gh.clearSession();
+      return ACCESS ? loginScreen(ghError(e)) : setupScreen(ghError(e));
     }
     published = JSON.stringify(content);
     content.hero = content.hero || {};
@@ -876,16 +941,14 @@
   async function boot() {
     document.documentElement.lang = ui;
     if (!SITE_ICONS.length) await loadIcons();
-    if (!backend) backend = (await Php.detect()) ? Php : Gh;
-    if (backend.kind === "php") {
-      const s = Php.info;
-      if (!s.hasPassword) return phpSetupScreen();
-      if (!s.loggedIn) return phpLoginScreen();
-      return start();
+    if (!window.crypto || !crypto.subtle) { app().className = ""; app().innerHTML = ""; app().append(h("p", { style: "padding:24px" }, "HTTPS required.")); return; }
+    ACCESS = await fetchAccess();
+    const saved = Gh.loadSession();
+    if (saved && saved.token) {
+      Gh.cfg = Object.assign(Gh.defaults(), saved);
+      try { await Gh.verify(); return start(); } catch (e) { Gh.clearSession(); if (e.status !== 401 && ACCESS) return loginScreen(ghError(e)); }
     }
-    const c = Gh.loadCfg();
-    if (!c.token) return ghLoginScreen();
-    try { await Gh.verify(); start(); } catch (e) { ghLoginScreen(e.status === 401 ? T("ghBadToken") : e.message); }
+    return ACCESS ? loginScreen() : setupScreen();
   }
 
   window.addEventListener("beforeunload", (e) => { if (content && isDirty()) { e.preventDefault(); e.returnValue = T("leaveWarning"); } });

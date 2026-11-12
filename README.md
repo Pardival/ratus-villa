@@ -37,45 +37,43 @@ L'interface de l'admin existe en anglais, français, espagnol et indonésien (bo
 
 ---
 
-## 2. Hébergement
+## 2. Hébergement : GitHub Pages
 
-L'admin choisit automatiquement le bon mode d'enregistrement.
+Le site est hébergé sur GitHub Pages. La page `/admin` enregistre les modifications directement
+dans ce dépôt GitHub ; GitHub Pages remet le site à jour environ 1 minute après chaque publication.
 
-### A. Hébergeur classique avec PHP (recommandé pour la suite — ex. Niagahoster, Hostinger, Rumahweb, cPanel)
+### Mise en service (une seule fois, par le propriétaire du site)
 
-1. Copier **tous les fichiers** du site dans le dossier public de l'hébergement (`public_html`).
-2. Ouvrir `https://<domaine>/admin/` → l'admin demande de **créer le mot de passe** (1re visite).
-3. Donner au client : l'adresse `/admin` + ce mot de passe. C'est tout.
+1. **Créer une clé GitHub** — github.com → *Settings* → *Developer settings* →
+   *Personal access tokens* → **Fine-grained tokens** → *Generate new token* :
+   - *Expiration* : la plus longue possible ;
+   - *Repository access* : **Only select repositories** → `ratus-villa` ;
+   - *Permissions* → *Repository permissions* → **Contents : Read and write** ;
+   - copier la clé (`github_pat_…`).
+2. Ouvrir **`https://pardival.github.io/ratus-villa/admin/`** → écran *Première configuration* :
+   coller la clé, choisir le **mot de passe** de l'équipe (10 caractères minimum).
+3. Donner à l'équipe de la villa **l'adresse `/admin` et le mot de passe**. C'est tout :
+   ils n'ont jamais à voir la clé GitHub.
 
-- PHP 7.4 ou plus récent requis (standard chez tous les hébergeurs).
-- Les dossiers `content/` et `assets/uploads/` doivent être modifiables par PHP (c'est le cas par défaut).
-- À chaque publication, une copie de l'ancienne version est gardée (`content/backups/`, 30 dernières)
-  et restaurable depuis *Réglages*.
-- **Mot de passe oublié** : dans le gestionnaire de fichiers de l'hébergeur, supprimer
-  `admin/data/auth.php`, puis retourner sur `/admin` pour en créer un nouveau.
-- Taille maximale des fichiers envoyés : fixée par l'hébergeur (`upload_max_filesize`). Les photos
-  sont automatiquement redimensionnées et compressées avant l'envoi.
+La clé est enregistrée **chiffrée avec le mot de passe** (AES-256, PBKDF2 600 000 itérations)
+dans `admin/access.json`. Sans le mot de passe, ce fichier est inutilisable — choisir un mot de
+passe long et non devinable.
 
-### B. GitHub Pages (hébergement actuel)
+### Quand la clé expire (ou mot de passe perdu)
 
-GitHub Pages n'exécute pas de PHP : l'admin enregistre directement dans le dépôt GitHub, avec une
-**clé d'accès** collée une seule fois sur l'appareil du client.
+L'admin affiche « La clé GitHub a expiré ». Créer une nouvelle clé (étape 1), puis sur la page de
+connexion : *Propriétaire du site* → *Refaire la configuration*. Si l'équipe est encore connectée,
+*Réglages* → *Remplacer la clé GitHub* permet aussi de la changer sans changer le mot de passe.
 
-Créer la clé (une fois, par le propriétaire du dépôt) :
-1. github.com → *Settings* → *Developer settings* → *Personal access tokens* → **Fine-grained tokens** → *Generate new token*.
-2. *Repository access* : **Only select repositories** → `ratus-villa`.
-3. *Permissions* → *Repository permissions* → **Contents : Read and write**.
-4. Expiration : la plus longue possible (ou « No expiration »).
-5. Copier la clé (`github_pat_…`) et la donner au client avec l'adresse `/admin`.
+### Bon à savoir
 
-Le site se met à jour environ 1 minute après chaque publication.
-
-### Déménager de GitHub vers un hébergeur PHP
-
-Copier tous les fichiers du dépôt sur le nouvel hébergement (A). Le contenu, les photos et les
-textes suivent tels quels.
-
----
+- Photos : redimensionnées et compressées automatiquement (WebP, 2000 px max).
+- Vidéos : MP4, **45 Mo maximum** par fichier (limite liée à GitHub) — compresser les vidéos plus
+  lourdes avant (ex. HandBrake, ou l'export « 720p » du téléphone).
+- *Réglages* → *Versions précédentes* : chaque publication est conservée par GitHub et peut être
+  rechargée puis republiée.
+- Si le site passe un jour sur un nom de domaine personnalisé, rien à changer : le dépôt est
+  indiqué dans `admin/index.html` (`<meta name="ratus-repo">`).
 
 ## 3. Structure
 
@@ -88,8 +86,7 @@ assets/villa/            Photos d'origine
 assets/uploads/          Photos et vidéos ajoutées depuis /admin
 admin/                   Page d'administration
   index.html, admin.js, admin.css, admin-i18n.js
-  api.php                Enregistrement sur hébergeur PHP
-  data/                  Mot de passe (privé, protégé)
+  access.json            Clé GitHub chiffrée par le mot de passe (créé à la 1re configuration)
 js/vendor/qrcode.js      Générateur de QR code (MIT, Kazuhiko Arase)
 ```
 
