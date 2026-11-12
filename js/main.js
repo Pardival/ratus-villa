@@ -116,7 +116,7 @@
           </div>
         </div>
         <div class="villa__info">
-          <span class="tag">${L(v.tagline)}</span>
+          ${pick(v.tagline).trim() ? `<span class="tag">${L(v.tagline)}</span>` : ""}
           <h3 class="villa__name">${esc(v.name)}</h3>
           <p class="villa__desc">${L(v.description)}</p>
           <p class="villa__per">${esc(tPlain("villa.per"))}</p>
@@ -129,26 +129,61 @@
           <ul class="amenities">
             ${(v.amenities || []).map((a) => `<li>${ico(a.icon)}${L(a.label)}</li>`).join("")}
           </ul>
-          <div class="formula">
+          ${(+v.count || 1) > 1 ? `<div class="formula">
             <div class="formula__item"><b>${esc(tPlain("villa.one"))}</b><span>${esc(tPlain("villa.upto").replace("{n}", s.guests))}</span></div>
             <div class="formula__plus">+</div>
             <div class="formula__item formula__item--hl"><b>${esc(tPlain("villa.both"))}</b><span>${esc(tPlain("villa.upto").replace("{n}", (+s.guests || 0) * (+v.count || 1)))}</span></div>
-          </div>
-          <p class="villa__note">${L(v.groupNote)}</p>
+          </div>` : ""}
+          ${pick(v.groupNote).trim() ? `<p class="villa__note">${L(v.groupNote)}</p>` : ""}
           <div class="villa__foot">
-            <a class="btn btn--dark js-wa-booking" href="#" target="_blank" rel="noopener">${icon("i-whatsapp")}<span>${esc(tPlain("villa.book"))}</span></a>
+            <a class="btn btn--dark js-wa-villa" href="${esc(waLink(C.booking.whatsapp, pick(C.booking.message) + (villas().length > 1 ? " (" + (v.name || "") + ")" : "")))}" target="_blank" rel="noopener">${icon("i-whatsapp")}<span>${esc(tPlain("villa.book"))}</span></a>
           </div>
         </div>
       </article>`;
   }
 
-  function mountVilla() {
+  // Une ou plusieurs villas (onglets quand il y en a plusieurs)
+  const villas = () => (Array.isArray(C.villas) && C.villas.length ? C.villas : (C.villa ? [C.villa] : []));
+  let currentVilla = PREVIEW ? (+params.get("villa") || 0) : 0;
+
+  function renderVillaTabs() {
+    const tabs = $("#villaTabs"), list = villas();
+    if (currentVilla >= list.length) currentVilla = 0;
+    if (list.length < 2) { tabs.hidden = true; tabs.innerHTML = ""; return; }
+    tabs.hidden = false;
+    tabs.innerHTML = list.map((v, i) => `<button class="tab ${i === currentVilla ? "is-active" : ""}" role="tab" type="button" data-i="${i}">${esc(v.name || "Villa " + (i + 1))}</button>`).join("") + `<span class="tabs__pill"></span>`;
+    $$(".tab", tabs).forEach((b) => b.addEventListener("click", () => switchVilla(+b.dataset.i)));
+    requestAnimationFrame(movePill);
+  }
+  function movePill() {
+    const active = $("#villaTabs .tab.is-active"), pill = $("#villaTabs .tabs__pill");
+    if (!active || !pill) return;
+    pill.style.width = active.offsetWidth + "px";
+    pill.style.transform = `translateX(${active.offsetLeft}px)`;
+  }
+  function switchVilla(i) {
+    if (i === currentVilla) return;
+    currentVilla = i;
+    $$("#villaTabs .tab").forEach((b) => b.classList.toggle("is-active", +b.dataset.i === i));
+    movePill();
+    const stage = $("#villaStage"), old = $(".villa", stage);
+    stage.style.minHeight = stage.offsetHeight + "px";
+    if (old) old.classList.add("is-leaving");
+    setTimeout(() => { mountVilla(true); setTimeout(() => (stage.style.minHeight = ""), 900); }, 380);
+  }
+  window.addEventListener("resize", () => movePill());
+
+  function mountVilla(animate) {
     const stage = $("#villaStage");
-    const v = C.villa;
+    const list = villas();
+    if (!list.length) { stage.innerHTML = ""; return; }
+    const v = list[currentVilla] || list[0];
+    v.stats = v.stats || {};
     if (!v.photos || !v.photos.length) v.photos = [{ src: "" }];
     stage.innerHTML = villaHTML(v);
     const el = $(".villa", stage);
     hydrateAll(el);
+    if (animate) { el.classList.add("is-entering"); setTimeout(() => el.classList.remove("is-entering"), 1400); }
 
     const main = $(".villa__main", el), counter = $(".villa__count span", el);
     let idx = 0;
@@ -251,6 +286,7 @@
 
   function renderAll(animate) {
     applyI18n();
+    renderVillaTabs();
     mountVilla();
     bindBooking();
     renderStats();

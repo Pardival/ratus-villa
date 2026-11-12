@@ -210,6 +210,7 @@
   let editLang = store.get("ratus-admin-edit") || "en";
   if (!LANGS.includes(editLang)) editLang = "en";
   let section = store.get("ratus-admin-section") || "home";
+  let villaIdx = +store.get("ratus-admin-villa") || 0;
   let previewOpen = false;
 
   const isDirty = () => JSON.stringify(content) !== published;
@@ -242,6 +243,8 @@
     else store.del("ratus-admin-draft");
   }, 600);
   function changed() {
+    const vc = document.querySelector(".vchip.is-on span");
+    if (vc && content.villas && content.villas[villaIdx]) vc.textContent = content.villas[villaIdx].name || T("newVillaName") + " " + (villaIdx + 1);
     updateStatus();
     saveDraft();
     refreshPreview();
@@ -495,6 +498,32 @@
     return box;
   }
 
+  /* ---------- villas ---------- */
+  const VP = (...k) => ["villas", villaIdx, ...k];
+  const newVilla = (n) => ({ name: T("newVillaName") + " " + n, count: 1, tagline: ml0(), description: ml0(), groupNote: ml0(), stats: { bedrooms: 1, bathrooms: 1, guests: 2, size: "" }, amenities: [], photos: [] });
+  function villaBar() {
+    const list = content.villas;
+    if (villaIdx >= list.length) villaIdx = Math.max(0, list.length - 1);
+    const pickV = (i) => { villaIdx = i; store.set("ratus-admin-villa", String(i)); render(); if (previewOpen) refreshPreview(true); };
+    const moveV = (a, b) => { const [x] = list.splice(a, 1); list.splice(b, 0, x); changed(); pickV(b); };
+    const cur = list[villaIdx] || {};
+    return h("section", { class: "card vcard" },
+      h("h3", { class: "card__title" }, T("villasTitle")),
+      h("div", { class: "vbar" },
+        list.map((v, i) => h("button", { type: "button", class: "vchip" + (i === villaIdx ? " is-on" : ""), onclick: () => pickV(i) }, svg("a-villa"), h("span", null, v.name || T("newVillaName") + " " + (i + 1)))),
+        h("button", { type: "button", class: "vchip vchip--add", onclick: () => { list.push(newVilla(list.length + 1)); changed(); pickV(list.length - 1); toast(T("villaAdded"), "ok"); } }, svg("a-plus"), h("span", null, T("villaAdd")))),
+      h("div", { class: "vtools" },
+        h("p", { class: "field__hint" }, list.length > 1 ? T("villasHint") : T("villasHint1")),
+        h("div", { class: "item__tools" },
+          h("button", { type: "button", class: "iconbtn", title: T("moveUp"), "aria-label": T("moveUp"), disabled: villaIdx === 0 || null, onclick: () => moveV(villaIdx, villaIdx - 1) }, svg("a-left")),
+          h("button", { type: "button", class: "iconbtn", title: T("moveDown"), "aria-label": T("moveDown"), disabled: villaIdx >= list.length - 1 || null, onclick: () => moveV(villaIdx, villaIdx + 1) }, svg("a-right")),
+          h("button", { type: "button", class: "iconbtn", title: T("villaDup"), "aria-label": T("villaDup"), onclick: () => { const c = clone(cur); c.name = (cur.name || "") + " (2)"; list.splice(villaIdx + 1, 0, c); changed(); pickV(villaIdx + 1); } }, svg("a-copy")),
+          h("button", { type: "button", class: "iconbtn iconbtn--danger", title: T("villaDelete"), "aria-label": T("villaDelete"), disabled: list.length < 2 || null, onclick: async () => {
+            if (!(await confirmBox(T("villaDeleteConfirm", { name: cur.name || "" }), T("delete"), true))) return;
+            list.splice(villaIdx, 1); changed(); pickV(Math.max(0, villaIdx - 1));
+          } }, svg("a-trash")))));
+  }
+
   const card = (title, ...kids) => h("section", { class: "card" }, title ? h("h3", { class: "card__title" }, title) : null, kids);
   const tx = (key, label, opts) => ML(["texts", key], label, opts);
   const ml0 = () => ({ en: "", fr: "", es: "", id: "" });
@@ -527,16 +556,17 @@
     ] },
     { id: "villa", icon: "a-villa", anchor: "#villas", render: () => [
       card(T("title"), tx("villas.eyebrow", T("eyebrow")), tx("villas.title", T("title"), { multiline: true, rows: 2, md: true })),
-      card(T("description"), TXT(["villa", "name"], T("villaName")), ML(["villa", "tagline"], T("tagline")),
-        ML(["villa", "description"], T("description"), { multiline: true, rows: 5 }), ML(["villa", "groupNote"], T("groupNote"), { multiline: true })),
+      villaBar(),
+      card(T("description"), TXT(VP("name"), T("villaName")), ML(VP("tagline"), T("tagline")),
+        ML(VP("description"), T("description"), { multiline: true, rows: 5 }), ML(VP("groupNote"), T("groupNote"), { multiline: true })),
       card(T("perVilla"),
         h("div", { class: "grid4" },
-          TXT(["villa", "stats", "bedrooms"], T("bedrooms"), { type: "number", inputmode: "numeric" }),
-          TXT(["villa", "stats", "bathrooms"], T("bathrooms"), { type: "number", inputmode: "numeric" }),
-          TXT(["villa", "stats", "guests"], T("guests"), { type: "number", inputmode: "numeric" }),
-          TXT(["villa", "stats", "size"], T("size"), { placeholder: "120 m²" })),
-        TXT(["villa", "count"], T("villaCount"), { type: "number", inputmode: "numeric" })),
-      card(T("amenities"), LIST(["villa", "amenities"], {
+          TXT(VP("stats", "bedrooms"), T("bedrooms"), { type: "number", inputmode: "numeric" }),
+          TXT(VP("stats", "bathrooms"), T("bathrooms"), { type: "number", inputmode: "numeric" }),
+          TXT(VP("stats", "guests"), T("guests"), { type: "number", inputmode: "numeric" }),
+          TXT(VP("stats", "size"), T("size"), { placeholder: "120 m²" })),
+        TXT(VP("count"), T("villaCount"), { type: "number", inputmode: "numeric", hint: T("villaCountHint") })),
+      card(T("amenities"), LIST(VP("amenities"), {
         itemName: T("amenity"), icon: (a) => "i-" + (a.icon || "wave"), title: (a) => [first(a.label)],
         create: () => ({ icon: "pool", label: ml0() }),
         render: (p) => [ICON([...p, "icon"], T("icon")), ML([...p, "label"], T("label"))]
@@ -547,7 +577,7 @@
         h("div", { class: "grid2" }, tx("villa.one", "1 villa"), tx("villa.both", "2 villas")),
         tx("villa.upto", T("guests"), { hint: "{n} = " + T("guests") }), tx("villa.book", T("button")))
     ] },
-    { id: "photos", icon: "a-images", anchor: "#villas", render: () => [card(null, PHOTOS(["villa", "photos"]))] },
+    { id: "photos", icon: "a-images", anchor: "#villas", render: () => [villaBar(), card(null, PHOTOS(VP("photos")))] },
     { id: "gallery", icon: "a-grid", anchor: "#gallery", render: () => [
       card(null, PHOTOS(["gallery"])),
       card(T("text"), tx("gallery.eyebrow", T("eyebrow")), tx("gallery.title", T("title"), { md: true }), tx("gallery.aside", T("subtitle")))
@@ -629,50 +659,57 @@
     });
     out.push(card(T("translateMissing"), h("p", { class: "note" }, T("translateMissingSub")), trBtn));
 
-    // Accès : mot de passe et clé GitHub
-    const np1 = h("input", { class: "input", type: "password", autocomplete: "new-password" });
-    const np2 = h("input", { class: "input", type: "password", autocomplete: "new-password" });
-    const pwBtn = h("button", { class: "btn btn--dark" }, T("save"));
-    pwBtn.addEventListener("click", async () => {
-      if (np1.value.length < 10) return toast(T("pwShort"), "err");
-      if (np1.value !== np2.value) return toast(T("pwMismatch"), "err");
-      pwBtn.disabled = true;
-      try { await saveAccess(np1.value, "Change admin password"); np1.value = np2.value = ""; toast(T("passwordChanged"), "ok"); }
-      catch (e) { toast(ghError(e), "err"); }
-      pwBtn.disabled = false;
-    });
-    out.push(card(T("changePassword"), fieldWrap(T("newPassword"), np1, { hint: T("pwShort") }), fieldWrap(T("passwordRepeat"), np2), pwBtn));
-
-    const nk = h("input", { class: "input", type: "password", autocomplete: "off", placeholder: "github_pat_…" });
-    const kp = h("input", { class: "input", type: "password", autocomplete: "current-password" });
-    const kBtn = h("button", { class: "btn btn--dark" }, T("save"));
-    kBtn.addEventListener("click", async () => {
-      if (!nk.value.trim()) return;
-      if (kp.value.length < 10) return toast(T("pwShort"), "err");
-      kBtn.disabled = true;
-      const old = Gh.cfg.token;
-      try { Gh.cfg.token = nk.value.trim(); await Gh.verify(); await saveAccess(kp.value, "Replace admin GitHub key"); Gh.saveSession(!!store.get("ratus-admin-gh")); nk.value = kp.value = ""; toast(T("keyChanged"), "ok"); }
-      catch (e) { Gh.cfg.token = old; toast(ghError(e), "err"); }
-      kBtn.disabled = false;
-    });
-    out.push(card(T("changeKey"), h("p", { class: "note" }, T("changeKeySub")), fieldWrap(T("newKey"), nk), fieldWrap(T("password"), kp, { hint: T("keyPwHint") }), kBtn));
-
-    // Versions précédentes (historique GitHub)
-    const bl = h("div", { class: "rowlist" }, T("loading"));
-    Gh.history().then((list) => {
-      bl.innerHTML = "";
-      if (!list.length) bl.append(h("div", { class: "field__hint" }, T("noBackups")));
-      list.forEach((c, i) => {
-        const d = new Date(c.commit.author.date);
-        const label = d.toLocaleDateString(ui) + " " + d.toLocaleTimeString(ui, { hour: "2-digit", minute: "2-digit" });
-        bl.append(h("div", { class: "rowlist__item" }, h("span", null, label, i === 0 ? h("small", { style: "color:var(--ok);font-weight:700;margin-left:8px" }, "● " + T("allSaved")) : null),
-          i === 0 ? null : h("button", { class: "btn btn--soft btn--sm", onclick: async () => {
-            if (!(await confirmBox(T("restoreConfirm"), T("restore")))) return;
-            try { content = await Gh.load(c.sha); changed(); render(); toast(T("restoredDraft"), "ok"); } catch (e) { toast(ghError(e), "err"); }
-          } }, T("restore"))));
+    if (!authed()) {
+      out.push(card(T("ghAccessTitle"), h("p", { class: "note" }, T("ghAccessSub")),
+        h("button", { class: "btn btn--dark", onclick: async () => { if (await ensureAuth()) render(); } }, svg("a-rocket"), T("connect"))));
+    } else {
+      // Accès : mot de passe et clé GitHub
+      const np1 = h("input", { class: "input", type: "password", autocomplete: "new-password" });
+      const np2 = h("input", { class: "input", type: "password", autocomplete: "new-password" });
+      const pwBtn = h("button", { class: "btn btn--dark" }, T("save"));
+      pwBtn.addEventListener("click", async () => {
+        if (np1.value.length < 10) return toast(T("pwShort"), "err");
+        if (np1.value !== np2.value) return toast(T("pwMismatch"), "err");
+        pwBtn.disabled = true;
+        try { await saveAccess(np1.value, "Change admin password"); np1.value = np2.value = ""; toast(T("passwordChanged"), "ok"); }
+        catch (e) { toast(ghError(e), "err"); }
+        pwBtn.disabled = false;
       });
-    }).catch((e) => (bl.textContent = ghError(e)));
-    out.push(card(T("backups"), h("p", { class: "note" }, T("backupsSub")), bl));
+      out.push(card(T("changePassword"), fieldWrap(T("newPassword"), np1, { hint: T("pwShort") }), fieldWrap(T("passwordRepeat"), np2), pwBtn));
+
+      const nk = h("input", { class: "input", type: "password", autocomplete: "off", placeholder: "github_pat_…" });
+      const kp = h("input", { class: "input", type: "password", autocomplete: "current-password" });
+      const kBtn = h("button", { class: "btn btn--dark" }, T("save"));
+      kBtn.addEventListener("click", async () => {
+        if (!nk.value.trim()) return;
+        if (kp.value.length < 10) return toast(T("pwShort"), "err");
+        kBtn.disabled = true;
+        const old = Gh.cfg.token;
+        try { Gh.cfg.token = nk.value.trim(); await Gh.verify(); await saveAccess(kp.value, "Replace admin GitHub key"); Gh.saveSession(!!store.get("ratus-admin-gh")); nk.value = kp.value = ""; toast(T("keyChanged"), "ok"); }
+        catch (e) { Gh.cfg.token = old; toast(ghError(e), "err"); }
+        kBtn.disabled = false;
+      });
+      out.push(card(T("changeKey"), h("p", { class: "note" }, T("changeKeySub")), fieldWrap(T("newKey"), nk), fieldWrap(T("password"), kp, { hint: T("keyPwHint") }), kBtn));
+
+      // Versions précédentes (historique GitHub)
+      const bl = h("div", { class: "rowlist" }, T("loading"));
+      Gh.history().then((list) => {
+        bl.innerHTML = "";
+        if (!list.length) bl.append(h("div", { class: "field__hint" }, T("noBackups")));
+        list.forEach((c, i) => {
+          const d = new Date(c.commit.author.date);
+          const label = d.toLocaleDateString(ui) + " " + d.toLocaleTimeString(ui, { hour: "2-digit", minute: "2-digit" });
+          bl.append(h("div", { class: "rowlist__item" }, h("span", null, label, i === 0 ? h("small", { style: "color:var(--ok);font-weight:700;margin-left:8px" }, "● " + T("allSaved")) : null),
+            i === 0 ? null : h("button", { class: "btn btn--soft btn--sm", onclick: async () => {
+              if (!(await confirmBox(T("restoreConfirm"), T("restore")))) return;
+              try { content = await Gh.load(c.sha); changed(); render(); toast(T("restoredDraft"), "ok"); } catch (e) { toast(ghError(e), "err"); }
+            } }, T("restore"))));
+        });
+      }).catch((e) => (bl.textContent = ghError(e)));
+      out.push(card(T("backups"), h("p", { class: "note" }, T("backupsSub")), bl));
+      out.push(card(T("ghConnected"), h("p", { class: "note" }, T("ghConnectedSub")),
+        h("button", { class: "btn btn--danger", onclick: logout }, svg("a-out"), T("logoutGh"))));
+    }
 
     const exp = h("button", { class: "btn btn--ghost", onclick: () => {
       const a = h("a", { href: URL.createObjectURL(new Blob([JSON.stringify(content, null, 2)], { type: "application/json" })), download: "ratus-villa-content-" + new Date().toISOString().slice(0, 10) + ".json" });
@@ -680,7 +717,7 @@
     } }, svg("a-down"), T("exportBtn"));
     const imp = h("button", { class: "btn btn--ghost", onclick: async () => {
       const [f] = await pickFiles("application/json,.json"); if (!f) return;
-      try { const c = JSON.parse(await f.text()); if (!c || !c.texts || !c.villa) throw 0; content = c; changed(); render(); toast(T("imported"), "ok"); }
+      try { const c = normalize(JSON.parse(await f.text())); if (!c || !c.texts || !c.villas) throw 0; content = c; changed(); render(); toast(T("imported"), "ok"); }
       catch (e) { toast(T("badFile"), "err"); }
     } }, svg("a-upload"), T("importBtn"));
     out.push(card(T("exportTitle"), h("p", { class: "note" }, T("exportSub")), h("div", { class: "media-field__btns" }, exp, imp)));
@@ -728,7 +765,7 @@
       h("div", { class: "nav__foot" },
         h("a", { class: "btn btn--ghost btn--sm", href: "../", target: "_blank" }, svg("a-ext"), T("openSite")),
         h("div", { class: "media-field__btns" }, LANGS.map((l) => h("button", { class: "btn btn--sm " + (l === ui ? "btn--dark" : "btn--soft"), onclick: () => { ui = l; store.set("ratus-admin-ui", l); render(); } }, l.toUpperCase()))),
-        h("button", { class: "btn btn--soft btn--sm", onclick: logout }, svg("a-out"), T("logout"))));
+        authed() ? h("button", { class: "btn btn--soft btn--sm", onclick: logout }, svg("a-out"), T("logoutGh")) : null));
     const main = h("main", { class: "main" },
       h("div", { class: "sec-head" }, h("h2", null, T("s_" + sec.id)), h("p", null, T("d_" + sec.id))),
       sec.render());
@@ -784,12 +821,18 @@
     store.set("ratus-draft", JSON.stringify(draft));
     const fr = $("#previewFrame"); if (!fr) return;
     const sec = SECTIONS.find((s) => s.id === section) || SECTIONS[0];
-    fr.src = "../index.html?preview=1&lang=" + editLang + "&t=" + Date.now() + sec.anchor;
+    fr.src = "../index.html?preview=1&lang=" + editLang + "&villa=" + villaIdx + "&t=" + Date.now() + sec.anchor;
   }, 900);
 
   /* ---------------- Publication ---------------- */
   async function publish() {
     if (!isDirty()) { toast(T("nothingToPublish")); return; }
+    if (!(await ensureAuth())) return;
+    // le site a-t-il été modifié ailleurs depuis l'ouverture de l'admin ?
+    try {
+      const remote = JSON.stringify(normalize(await Gh.load()));
+      if (remote !== published && !(await confirmBox(T("remoteChanged"), T("publish"), true))) return;
+    } catch (e) { toast(ghError(e), "err"); return; }
     const files = usedPendingFiles();
     modal(async (box, close) => {
       box.append(h("h3", null, T("publishing")));
@@ -821,38 +864,74 @@
   }
 
   async function logout() {
-    if (isDirty() && !(await confirmBox(T("leaveWarning") + " " + T("logout") + " ?", T("logout"), true))) return;
-    Gh.clearSession();
-    location.reload();
+    if (!(await confirmBox(T("logoutGh") + " ?", T("yes"), true))) return;
+    Gh.clearSession(); Gh.cfg = null; render();
   }
 
   /* ==========================================================================
-     CONNEXION
+     CONNEXION — demandée uniquement pour publier (une fois par appareil)
      ========================================================================== */
-  function loginShell(title, sub, form) {
-    app().className = ""; app().innerHTML = "";
-    app().append(h("div", { class: "login" }, h("div", { class: "login__card" },
-      h("div", { class: "login__mark" }, "R"), h("h1", null, title), h("p", { class: "sub" }, sub), form,
-      h("div", { class: "login__langs" }, LANGS.map((l) => h("button", { class: l === ui ? "is-on" : "", onclick: () => { ui = l; store.set("ratus-admin-ui", l); boot(); } }, l.toUpperCase()))))));
-    const f = $("input", form); if (f) setTimeout(() => f.focus(), 300);
+  let ACCESS = null;
+  const authed = () => !!(Gh.cfg && Gh.cfg.token);
+
+  async function ensureAuth() {
+    if (authed()) return true;
+    if (!window.crypto || !crypto.subtle) { toast("HTTPS required", "err"); return false; }
+    ACCESS = await fetchAccess();
+    return new Promise((res) => modal((box, close) => {
+      const done = (ok) => { close(); res(ok); };
+      ACCESS ? loginForm(box, done) : setupForm(box, done);
+    }));
   }
 
-  // Première configuration (par le propriétaire du site) : clé GitHub + mot de passe de l'équipe
-  function setupScreen(msg, isReset) {
+  function formHead(box, title, sub) {
+    box.innerHTML = "";
+    box.append(h("div", { class: "login__mark" }, "R"), h("h3", null, title), h("p", null, sub));
+  }
+
+  // Mot de passe de l'équipe
+  function loginForm(box, done, msg) {
+    formHead(box, T("publishLoginTitle"), T("publishLoginSub"));
+    const pw = h("input", { class: "input", type: "password", autocomplete: "current-password" });
+    const rem = h("input", { type: "checkbox", checked: true });
+    const err = h("p", { class: "err" }, msg || "");
+    const btn = h("button", { class: "btn btn--primary", type: "submit" }, T("signIn"));
+    const form = h("form", { class: "authform" }, fieldWrap(T("password"), pw), h("label", { class: "check" }, rem, T("rememberMe")), err,
+      h("div", { class: "modal__btns" }, h("button", { type: "button", class: "btn btn--ghost", onclick: () => done(false) }, T("cancel")), btn),
+      h("details", null, h("summary", null, T("ownerZone")), h("p", null, T("ownerZoneText")),
+        h("button", { type: "button", class: "btn btn--ghost btn--sm", onclick: () => setupForm(box, done, "", true) }, T("reconfigure"))));
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault(); err.textContent = ""; btn.disabled = true; btn.textContent = T("loading");
+      try {
+        const token = await openAccess(ACCESS, pw.value);
+        Gh.cfg = Object.assign(Gh.defaults(), { owner: ACCESS.owner, repo: ACCESS.repo, branch: ACCESS.branch || "main", token });
+        await Gh.verify();
+        Gh.saveSession(rem.checked);
+        done(true); return;
+      } catch (ex) { Gh.cfg = null; err.textContent = ex.code === "wrong_password" ? T("wrongPassword") : ghError(ex); pw.select(); }
+      btn.disabled = false; btn.textContent = T("signIn");
+    });
+    box.append(form);
+    setTimeout(() => pw.focus(), 250);
+  }
+
+  // Première configuration par le propriétaire : clé GitHub + mot de passe de l'équipe
+  function setupForm(box, done, msg, isReset) {
+    formHead(box, T("setupTitle"), T("setupSub"));
     const d = Gh.defaults();
     const tok = h("input", { class: "input", type: "password", autocomplete: "off", placeholder: "github_pat_…" });
     const p1 = h("input", { class: "input", type: "password", autocomplete: "new-password" });
     const p2 = h("input", { class: "input", type: "password", autocomplete: "new-password" });
     const owner = h("input", { class: "input", value: d.owner }), repo = h("input", { class: "input", value: d.repo }), branch = h("input", { class: "input", value: d.branch });
     const err = h("p", { class: "err" }, msg || "");
-    const btn = h("button", { class: "btn btn--primary btn--block", type: "submit" }, T("setupBtn"));
-    const form = h("form", null,
+    const btn = h("button", { class: "btn btn--primary", type: "submit" }, T("setupBtn"));
+    const form = h("form", { class: "authform" },
       fieldWrap(T("ghToken"), tok, { hint: T("ghKeyHint") }),
       h("details", null, h("summary", null, T("ghHelp")), h("p", null, T("ghHelpText"))),
       fieldWrap(T("password"), p1, { hint: T("pwShort") }), fieldWrap(T("passwordRepeat"), p2),
       h("details", { open: !d.owner || null }, h("summary", null, T("ghAdvanced")), fieldWrap(T("ghOwner"), owner), fieldWrap(T("ghRepo"), repo), fieldWrap(T("ghBranch"), branch)),
-      err, btn,
-      isReset ? h("button", { type: "button", class: "btn btn--ghost btn--block", style: "margin-top:4px", onclick: () => loginScreen() }, T("cancel")) : null);
+      err,
+      h("div", { class: "modal__btns" }, h("button", { type: "button", class: "btn btn--ghost", onclick: () => (isReset && ACCESS ? loginForm(box, done) : done(false)) }, T("cancel")), btn));
     form.addEventListener("submit", async (e) => {
       e.preventDefault(); err.textContent = "";
       if (!tok.value.trim()) return (err.textContent = T("ghToken") + " ?");
@@ -862,41 +941,27 @@
       Gh.cfg = { owner: owner.value.trim(), repo: repo.value.trim(), branch: branch.value.trim() || "main", token: tok.value.trim() };
       try {
         await Gh.verify();
-        await saveAccess(p1.value, "Set up admin access");   // premier enregistrement = test du droit d'écriture
+        ACCESS = await saveAccess(p1.value, "Set up admin access");   // premier enregistrement = test du droit d'écriture
         Gh.saveSession(true);
-        await new Promise((res) => modal((card, close) => {
-          card.append(h("div", { class: "big-ok" }, svg("a-check")), h("h3", { style: "text-align:center" }, T("setupDoneTitle")), h("p", { style: "text-align:center" }, T("setupDone")),
-            h("div", { class: "modal__btns", style: "justify-content:center" }, h("button", { class: "btn btn--dark", onclick: () => { close(); res(); } }, T("ok"))));
-        }));
-        start();
-      } catch (ex) { err.textContent = ghError(ex); }
+        box.innerHTML = "";
+        box.append(h("div", { class: "big-ok" }, svg("a-check")), h("h3", { style: "text-align:center" }, T("setupDoneTitle")), h("p", { style: "text-align:center" }, T("setupDone")),
+          h("div", { class: "modal__btns", style: "justify-content:center" }, h("button", { class: "btn btn--dark", onclick: () => done(true) }, T("ok"))));
+        return;
+      } catch (ex) { Gh.cfg = null; err.textContent = ghError(ex); }
       btn.disabled = false; btn.textContent = T("setupBtn");
     });
-    loginShell(T("setupTitle"), T("setupSub"), form);
+    box.append(form);
+    setTimeout(() => tok.focus(), 250);
   }
 
-  // Connexion de l'équipe : mot de passe seulement
-  let ACCESS = null;
-  function loginScreen(msg) {
-    const pw = h("input", { class: "input", type: "password", autocomplete: "current-password" });
-    const rem = h("input", { type: "checkbox", checked: true });
-    const err = h("p", { class: "err" }, msg || "");
-    const btn = h("button", { class: "btn btn--primary btn--block", type: "submit" }, T("signIn"));
-    const form = h("form", null, fieldWrap(T("password"), pw), h("label", { class: "check" }, rem, T("rememberMe")), err, btn,
-      h("details", { style: "margin-top:6px" }, h("summary", null, T("ownerZone")), h("p", null, T("ownerZoneText")),
-        h("button", { type: "button", class: "btn btn--ghost btn--sm", onclick: () => setupScreen("", true) }, T("reconfigure"))));
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault(); err.textContent = ""; btn.disabled = true; btn.textContent = T("loading");
-      try {
-        const token = await openAccess(ACCESS, pw.value);
-        Gh.cfg = Object.assign(Gh.defaults(), { owner: ACCESS.owner, repo: ACCESS.repo, branch: ACCESS.branch || "main", token });
-        await Gh.verify();
-        Gh.saveSession(rem.checked);
-        start();
-      } catch (ex) { err.textContent = ex.code === "wrong_password" ? T("wrongPassword") : ghError(ex); pw.select(); }
-      btn.disabled = false; btn.textContent = T("signIn");
-    });
-    loginShell(T("loginTitle"), T("loginSub"), form);
+  // Anciennes versions du contenu (une seule villa) -> liste de villas
+  function normalize(c) {
+    if (!c || typeof c !== "object") return c;
+    if (!Array.isArray(c.villas)) c.villas = c.villa ? [c.villa] : [];
+    delete c.villa;
+    c.hero = c.hero || {};
+    if (c.hero.titleA == null) { c.hero.titleA = "Ratus"; c.hero.titleB = "Villa"; }
+    return c;
   }
 
   async function loadIcons() {
@@ -911,14 +976,14 @@
 
   async function start() {
     app().className = "app-loading"; app().innerHTML = '<div class="splash"><span class="splash__mark">R</span><span class="splash__bar"></span></div>';
-    try { content = await backend.load(); }
-    catch (e) {
-      Gh.clearSession();
-      return ACCESS ? loginScreen(ghError(e)) : setupScreen(ghError(e));
+    content = null;
+    if (authed()) { try { content = await Gh.load(); } catch (e) { Gh.clearSession(); Gh.cfg = null; } }
+    if (!content) {
+      try { content = await (await fetch("../content/content.json?t=" + Date.now(), { cache: "no-store" })).json(); }
+      catch (e) { app().className = ""; app().innerHTML = ""; app().append(h("p", { style: "padding:24px" }, T("networkError"))); return; }
     }
+    content = normalize(content);
     published = JSON.stringify(content);
-    content.hero = content.hero || {};
-    if (content.hero.titleA == null) { content.hero.titleA = "Ratus"; content.hero.titleB = "Villa"; published = JSON.stringify(content); }
     // brouillon d'une visite précédente ?
     try {
       const d = JSON.parse(store.get("ratus-admin-draft") || "null");
@@ -931,7 +996,8 @@
         if (resume) {
           // les fichiers non envoyés de la dernière visite sont perdus : on retire leurs références
           content = walk(d.content, (v) => (typeof v === "string" && v.startsWith("assets/uploads/") && !published.includes(JSON.stringify(v)) ? "" : v));
-          ["villa.photos", "gallery"].forEach((k) => { const arr = k === "gallery" ? content.gallery : content.villa && content.villa.photos; if (Array.isArray(arr)) for (let i = arr.length - 1; i >= 0; i--) if (!arr[i].src) arr.splice(i, 1); });
+          content = normalize(content);
+          [content.gallery, ...content.villas.map((v) => v.photos)].forEach((arr) => { if (Array.isArray(arr)) for (let i = arr.length - 1; i >= 0; i--) if (!arr[i].src) arr.splice(i, 1); });
         } else store.del("ratus-admin-draft");
       }
     } catch (e) {}
@@ -941,14 +1007,13 @@
   async function boot() {
     document.documentElement.lang = ui;
     if (!SITE_ICONS.length) await loadIcons();
-    if (!window.crypto || !crypto.subtle) { app().className = ""; app().innerHTML = ""; app().append(h("p", { style: "padding:24px" }, "HTTPS required.")); return; }
-    ACCESS = await fetchAccess();
+    // pas de mot de passe pour ouvrir l'admin : il est demandé seulement au moment de publier
     const saved = Gh.loadSession();
     if (saved && saved.token) {
       Gh.cfg = Object.assign(Gh.defaults(), saved);
-      try { await Gh.verify(); return start(); } catch (e) { Gh.clearSession(); if (e.status !== 401 && ACCESS) return loginScreen(ghError(e)); }
+      try { await Gh.verify(); } catch (e) { Gh.clearSession(); Gh.cfg = null; }
     }
-    return ACCESS ? loginScreen() : setupScreen();
+    start();
   }
 
   window.addEventListener("beforeunload", (e) => { if (content && isDirty()) { e.preventDefault(); e.returnValue = T("leaveWarning"); } });

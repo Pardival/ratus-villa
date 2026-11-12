@@ -775,3 +775,9 @@ body:not(.is-loaded) .hero .reveal { opacity: 0; transform: translateY(40px); }
 .hero__shade { background: linear-gradient(180deg, rgba(10,30,34,.5) 0%, rgba(10,30,34,.3) 28%, rgba(10,30,34,.55) 55%, rgba(10,30,34,.88) 100%); }
 /* QR des services : seulement sur ordinateur */
 @media (max-width: 860px) { .btn-qr { display: none !important; } }
+
+/* Onglets des villas (quand il y en a plusieurs) */
+.tabs-wrap { overflow-x: auto; scrollbar-width: none; margin: 0 calc(var(--gutter) * -1) 6px; padding: 4px var(--gutter) 10px; }
+.tabs-wrap::-webkit-scrollbar { display: none; }
+.tabs { margin-bottom: 30px; }
+@media (max-width: 600px) { .tabs { display: inline-flex; width: auto; } .tab { flex: none; padding: .8em 1.2em; } }

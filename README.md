@@ -15,8 +15,8 @@ Tout le contenu se modifie depuis cette page :
 |---|---|
 | Accueil | Photo et vidéo de fond, titre, sous-titre, boutons |
 | Bienvenue | Texte de présentation, photo, chiffres clés |
-| La villa | Description, chambres / sdb / voyageurs / surface, équipements |
-| Photos de la villa · Galerie | Ajouter, supprimer, réordonner (glisser ou flèches), décrire les photos |
+| La villa | **Une ou plusieurs villas** (ajouter, dupliquer, supprimer, réordonner) : description, chambres / sdb / voyageurs / surface, équipements. Avec 2 villas ou plus, le site affiche des onglets. |
+| Photos de la villa (par villa) · Galerie | Ajouter, supprimer, réordonner (glisser ou flèches), décrire les photos |
 | Services | Surf, scooter, chauffeur, massage… avec leur numéro WhatsApp (ajout/suppression libres) |
 | Surf & plages · Soirées · Courses | Le guide local, avec le lieu utilisé par le bouton « Y aller » |
 | Localisation | Image de la carte, adresse pour l'itinéraire, temps de trajet |
@@ -42,6 +42,12 @@ L'interface de l'admin existe en anglais, français, espagnol et indonésien (bo
 Le site est hébergé sur GitHub Pages. La page `/admin` enregistre les modifications directement
 dans ce dépôt GitHub ; GitHub Pages remet le site à jour environ 1 minute après chaque publication.
 
+### Ouverture et publication
+
+`/admin` s'ouvre **sans mot de passe** : tout le monde peut y modifier et prévisualiser, mais rien
+ne change sur le site tant qu'on n'a pas publié. Le mot de passe est demandé **uniquement au moment
+de « Publier »**, une seule fois par appareil.
+
 ### Mise en service (une seule fois, par le propriétaire du site)
 
 1. **Créer une clé GitHub** — github.com → *Settings* → *Developer settings* →
@@ -50,10 +56,10 @@ dans ce dépôt GitHub ; GitHub Pages remet le site à jour environ 1 minute apr
    - *Repository access* : **Only select repositories** → `ratus-villa` ;
    - *Permissions* → *Repository permissions* → **Contents : Read and write** ;
    - copier la clé (`github_pat_…`).
-2. Ouvrir **`https://pardival.github.io/ratus-villa/admin/`** → écran *Première configuration* :
-   coller la clé, choisir le **mot de passe** de l'équipe (10 caractères minimum).
-3. Donner à l'équipe de la villa **l'adresse `/admin` et le mot de passe**. C'est tout :
-   ils n'ont jamais à voir la clé GitHub.
+2. Ouvrir **`https://pardival.github.io/ratus-villa/admin/`**, faire une petite modification et
+   cliquer sur **Publier** → fenêtre *Première configuration* : coller la clé, choisir le
+   **mot de passe** de l'équipe (10 caractères minimum).
+3. Donner à l'équipe de la villa **l'adresse `/admin` et le mot de passe**.
 
 La clé est enregistrée **chiffrée avec le mot de passe** (AES-256, PBKDF2 600 000 itérations)
 dans `admin/access.json`. Sans le mot de passe, ce fichier est inutilisable — choisir un mot de
